@@ -9,10 +9,6 @@ export const MovieDetails = () => {
   const { movies, loading } = useSelector((state: RootState) => state.movies);
   const [movie, setMovie] = useState<Movie>();
 
-  console.log("TITLE: ", title);
-  console.log("MOVIES: ", movies);
-  console.log("MOVIE: ", movie);
-
   useEffect(() => {
     const filtered = movies.find((movie) => movie.Title === title);
     setMovie(filtered);

@@ -2,9 +2,8 @@ import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/tool
 import axios from 'axios';
 import type { Movie, MoviesState } from './types';
 import { formatTitle } from '../../utils/helpers';
-import { MOVIES } from './initialData';
 
-const API_KEY = 'YOUR_OMDB_API_KEY';
+const API_KEY = 'b573b702';
 
 export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
@@ -19,7 +18,7 @@ export const fetchMovies = createAsyncThunk(
 );
 
 const initialState: MoviesState = {
-  movies: [...MOVIES],
+  movies: [],
   loading: false,
 };
 
