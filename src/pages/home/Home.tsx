@@ -8,15 +8,15 @@ import {
   deleteMovie,
   toggleFavorite,
 } from "../../features/movies/moviesSlice";
-import { MovieCard } from "../../components/MovieCard";
+import { MovieCard } from "../../components/movie-card/MovieCard";
 import MovieFormModal from "../../components/MovieFormModal";
-import { SearchBar } from "../../components/SearchBar";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
 import type { Movie } from "../../features/movies/types";
 
 import styles from "./home.module.scss";
 import { Header } from "../../ui-components/header/Header";
 import { Input } from "../../ui-components/input/Input";
+import { Button } from "../../ui-components/button/Button";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,33 +66,32 @@ export const Home: React.FC = () => {
         title="Cinema"
         content={
           <div className={styles.headerContent}>
-            <Input value={searchMovie} handleChange={handleChange} />
+            <Input
+              value={searchMovie}
+              handleChange={handleChange}
+              label="Movie"
+              size="s"
+            />
+            <div className={styles.buttonsContainer}>
+              <Button
+                onClick={() => {
+                  setEditingMovie(null);
+                  setShowModal(true);
+                }}
+                size="s"
+              >
+                + Add Movie
+              </Button>
+              <ToggleFavorites
+                showFavorites={showFavorites}
+                setShowFavorites={setShowFavorites}
+              />
+            </div>
           </div>
         }
       />
-      <div className={styles.searchFilm}>
-        {/* <SearchBar searchQuery={searchMovie} setSearchQuery={setSearchMovie} /> */}
-        <ToggleFavorites
-          showFavorites={showFavorites}
-          setShowFavorites={setShowFavorites}
-        />
-        <button
-          onClick={() => {
-            setEditingMovie(null);
-            setShowModal(true);
-          }}
-        >
-          + Add Movie
-        </button>
-      </div>
       {loading && <p>Loading...</p>}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill,minmax(250px,1fr))",
-          gap: 10,
-        }}
-      >
+      <div className={styles.cardsContainer}>
         {filteredMovies.map((m, index) => (
           <MovieCard
             key={index}

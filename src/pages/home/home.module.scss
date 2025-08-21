@@ -1,10 +1,45 @@
 .home {
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .searchFilm {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.headerContent {
+  display: flex;
+  gap: 10px;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.cardsContainer {
+  width: 80%;
+  display: flex;
+  gap: 10px;
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .headerContent {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+  }
 }

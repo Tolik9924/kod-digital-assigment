@@ -9,7 +9,7 @@ import {
   Variant,
   type SizeType,
   type VariantType,
-} from "../../shared/parameters/paramters";
+} from "../../shared/parameters/parameters";
 
 import styles from "./input.module.scss";
 

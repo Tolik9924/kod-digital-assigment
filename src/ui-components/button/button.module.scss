@@ -1,0 +1,101 @@
+ .button{
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    font-family: var(--roboto-sans-serif);
+    border-radius: 1px;
+    letter-spacing: 0.02857em;
+ }
+ .button:hover {
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    box-shadow: var(--box-shadow-button-hover);
+}
+
+.primary{
+        border: 0px;
+        transition: var(--transition-button);
+        color: var(--color-withe-text);
+        background-color: var(--color-primary);
+        box-shadow: var(--box-shadow-button);
+}
+.primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+ .secondary {
+    border: 0px;
+    background-color: transparent;
+    transition: var(--transition-button);
+    color: var(--color-withe-text);
+    background-color: var(--color-secondary);
+    box-shadow: var(--box-shadow-button);
+}
+.secondary:hover {
+    background-color: var(--color-secondary-hover);
+}
+.success{
+    border: 0px;
+    transition: var(--transition-button);
+    color: var(--color-withe-text);
+    background-color: var(--color-success);
+    box-shadow: var(--box-shadow-button);
+}
+.success:hover {
+    background-color: var(--color-success-hover);
+}
+.error{
+    border: 0px;
+    transition: var(--transition-button);
+    color: var(--color-withe-text);
+    background-color: var(--color-error);
+    box-shadow: var(--box-shadow-button);
+}
+.error:hover {
+    background-color: var(--color-error-hover);
+}
+
+.xs {
+    padding-left: 10px;
+    padding-right: 10px;
+    height:   calc(var(--custom-xs-height-size) - 1px);
+    font-size:  var(--font-size-xs);
+  }
+  
+  .s {
+    padding-left: 10px;
+    padding-right: 10px;
+    height:   calc(var(--custom-s-height-size) - 1px);
+    font-size:  var(--font-size-s);
+  }
+  
+   .m {
+    padding-left: 15px;
+    padding-right: 15px;
+    height:   calc(var(--custom-m-height-size) - 1px);
+    font-size:  var(--font-size-m);
+  }
+  
+  .l {
+    padding-left: 15px;
+    padding-right: 15px;
+    height:   calc(var(--custom-l-height-size) - 1px);
+    font-size:  var(--font-size-l);
+  }
+  .xl {
+    padding-left: 20px;
+    padding-right: 20px;
+    height:   calc(var(--custom-xl-height-size) - 1px);
+    font-size:  var(--font-size-xl);
+  }

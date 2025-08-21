@@ -5,6 +5,15 @@ import { formatTitle } from '../../utils/helpers';
 
 const API_KEY = 'b573b702';
 
+const initialMovie = {
+  Title: '',
+  Year: '',
+  Runtime: '',
+  Genre: '',
+  Director: '',
+  isFavorite: false,
+};
+
 export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
   async (query: string) => {
@@ -17,7 +26,16 @@ export const fetchMovies = createAsyncThunk(
   }
 );
 
+export const fetchMovie = createAsyncThunk(
+  'movies/fetchMovie',
+  async (query: string) => {
+    const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${query}`);
+    return res.data;
+  }
+);
+
 const initialState: MoviesState = {
+  movie: initialMovie,
   movies: [],
   loading: false,
 };
@@ -50,6 +68,17 @@ const moviesSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(fetchMovies.rejected, (state) => {
+      state.loading = false;
+    });
+
+    builder.addCase(fetchMovie.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchMovie.fulfilled, (state, action: PayloadAction<Movie>) => {
+      state.movie = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(fetchMovie.rejected, (state) => {
       state.loading = false;
     });
   }
