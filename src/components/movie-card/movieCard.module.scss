@@ -13,7 +13,10 @@
   padding-bottom: 1rem;
   margin: .25rem 0;
   box-sizing: border-box;
-  width: 12%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .imgContainer {
@@ -27,19 +30,67 @@
   border-radius: 12px 12px 0 0;
 }
 
+.titleContainer {
+  display: flex;
+  align-items: center;
+  padding: 0px 0.5rem;
+  box-sizing: border-box;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .movieTitle {
-  padding: 0.5rem;
   box-sizing: border-box;
   cursor: pointer;
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   letter-spacing: .03125em;
   text-transform: none;
   -webkit-font-smoothing: auto;
   line-height: 1.25rem;
   color: #000;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 0.5rem;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: .03125em;
+  text-transform: none;
+  -webkit-font-smoothing: auto;
+  line-height: 1.25rem;
+  color: #000;
+}
+
+.editContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 0px 0.5rem;
+  box-sizing: border-box;
+}
+
+.editTitle {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 1024px) {
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 480px) {
+
 }
