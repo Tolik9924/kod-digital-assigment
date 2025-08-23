@@ -8,15 +8,16 @@ import {
   deleteMovie,
   toggleFavorite,
 } from "../../features/movies/moviesSlice";
+import { Header } from "../../ui-components/header/Header";
+import { Input } from "../../ui-components/input/Input";
+import { Button } from "../../ui-components/button/Button";
 import { MovieCard } from "../../components/movie-card/MovieCard";
-import MovieFormModal from "../../components/MovieFormModal";
+import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
 import type { Movie } from "../../features/movies/types";
 
 import styles from "./home.module.scss";
-import { Header } from "../../ui-components/header/Header";
-import { Input } from "../../ui-components/input/Input";
-import { Button } from "../../ui-components/button/Button";
+import { Modal } from "../../components/modal/Modal";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,8 +41,7 @@ export const Home: React.FC = () => {
     : movies;
 
   const onSave = (m: Movie) => {
-    if (editingMovie) dispatch(editMovie(m));
-    else dispatch(addMovie(m));
+    dispatch(editMovie(m));
     setShowModal(false);
   };
 
@@ -102,14 +102,14 @@ export const Home: React.FC = () => {
           />
         ))}
       </div>
-      {showModal && (
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <MovieFormModal
-          movie={editingMovie || undefined}
+          movieData={editingMovie || undefined}
           onSave={onSave}
           onCancel={() => setShowModal(false)}
           existingTitles={movies.map((m) => m.Title.toLocaleLowerCase())}
         />
-      )}
+      </Modal>
     </div>
   );
 };

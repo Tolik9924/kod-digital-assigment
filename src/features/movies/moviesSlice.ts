@@ -6,11 +6,14 @@ import { formatTitle } from '../../utils/helpers';
 const API_KEY = 'b573b702';
 
 const initialMovie = {
+  Id: '',
+  Poster: '',
   Title: '',
   Year: '',
   Runtime: '',
   Genre: '',
   Director: '',
+  Type: '',
   isFavorite: false,
 };
 
@@ -20,6 +23,7 @@ export const fetchMovies = createAsyncThunk(
     const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
     return (res.data.Search || []).map((movie: any) => ({
       ...movie,
+      Id: movie.Title,
       Title: formatTitle(movie.Title),
       isFavorite: false,
     }));
@@ -30,7 +34,7 @@ export const fetchMovie = createAsyncThunk(
   'movies/fetchMovie',
   async (query: string) => {
     const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&t=${query}`);
-    return res.data;
+    return {Id: res.data.Title, ...res.data};
   }
 );
 
@@ -48,7 +52,7 @@ const moviesSlice = createSlice({
       state.movies.push({ ...action.payload, isFavorite: false });
     },
     editMovie: (state, action: PayloadAction<Movie>) => {
-      state.movies = state.movies.map(m => m.Title === action.payload.Title ? action.payload : m);
+      state.movies = state.movies.map(m => m.Id === action.payload.Id ? action.payload : m);
     },
     deleteMovie: (state, action: PayloadAction<string>) => {
       state.movies = state.movies.filter(m => m.Title !== action.payload);
