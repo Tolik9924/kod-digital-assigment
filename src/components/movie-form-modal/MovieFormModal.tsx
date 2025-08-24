@@ -1,26 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 import type { AppDispatch, RootState } from "../../app/store";
 import type { Movie } from "../../features/movies/types";
-import { fetchMovie } from "../../features/movies/moviesSlice";
-import styled from "styled-components";
-
-import styles from "./movieFormModal.module.scss";
+import { fetchMovie, showLocalMovie } from "../../features/movies/moviesSlice";
 import { Input } from "../../ui-components/input/Input";
 import { Dropdown } from "../dropdown/Dropdown";
 
+import styles from "./movieFormModal.module.scss";
+
 interface Props {
   movieData?: Movie;
-  onSave: (movie: Movie, saveOrEdit: string, oldTitle: string) => void;
+  onSave: (movie: Movie, saveOrEdit: string) => void;
   onCancel: () => void;
 }
 
-const INITIAL_VALUES = {
+type Values = {
+  Title: string;
+  Year: number;
+  Runtime: string;
+  Genre: string[];
+  Director: string;
+};
+
+const INITIAL_VALUES: Values = {
   Title: "",
-  Year: "",
+  Year: 0,
   Runtime: "",
-  Genre: "",
+  Genre: [],
   Director: "",
 };
 
@@ -66,36 +73,52 @@ const MovieFormModal: React.FC<Props> = ({ movieData, onSave, onCancel }) => {
     (state: RootState) => state.movies
   );
 
+  const movieFormData: Values = {
+    ...movie,
+    Title: movie.Title,
+    Runtime: movie.Runtime || "",
+    Year: Number(movie.Year),
+    Genre: movie.Genre ? movie.Genre.split(", ") : [],
+    Director: movie.Director || "",
+  };
+
   console.log("MOVIE: ", movie);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Movie>({
-    values: movieData
-      ? { ...movie, Genre: movie.Genre.split(", ") }
-      : INITIAL_VALUES,
+  const { control, handleSubmit } = useForm<Values>({
+    values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
   useEffect(() => {
     if (movieData) {
-      getMovieData(movieData.Title);
+      getMovieData(movieData.imdbID);
     }
   }, [movie.Title, movieData?.Title]);
 
-  const getMovieData = (query: string) => {
-    dispatch(fetchMovie(query));
+  const getMovieData = async (query: string) => {
+    const result = await dispatch(fetchMovie(query));
+    console.log("RESULT: ", result);
+    if (result?.error) {
+      const foundMovie = movies.find(
+        (movie) => movie.imdbID === movieData?.imdbID
+      );
+      dispatch(showLocalMovie(foundMovie));
+      console.log("FOUND MOVIE: ", foundMovie);
+    }
   };
 
-  const submit = (data: Movie) => {
+  const submit = (data: Values) => {
     console.log("DATA: ", data);
     const saveOrEdit = movieData ? "edit" : "save";
     const result = {
       ...data,
+      imdbID: movieData ? movieData.imdbID : data.Title,
       Year: `${data.Year}`,
+      Genre: data.Genre,
     };
-    onSave(result, saveOrEdit, movie.Title);
+
+    console.log("RESULT: ", result);
+
+    onSave(result, saveOrEdit);
   };
 
   return (
@@ -111,6 +134,7 @@ const MovieFormModal: React.FC<Props> = ({ movieData, onSave, onCancel }) => {
               validate: (value) => {
                 const sameMovie = movies.find(
                   (item) =>
+                    movie.Title !== value &&
                     value.toLocaleLowerCase() === item.Title.toLocaleLowerCase()
                 );
 

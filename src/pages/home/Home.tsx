@@ -34,10 +34,6 @@ export const Home: React.FC = () => {
     dispatch(fetchMovies(searchMovie));
   }, [searchMovie]);
 
-  const getMoviesData = (query: string) => {
-    dispatch(fetchMovies(query));
-  };
-
   const filteredMovies = showFavorites
     ? movies.filter((m) => m.isFavorite)
     : movies;

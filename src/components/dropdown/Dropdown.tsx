@@ -39,7 +39,6 @@ export const Dropdown = ({
 }: DropdownProps & MarginProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const titleSize = `${size}Title`;
-  const arrowSize = `${size}Arrow`;
 
   const [selectedItems, setSelectedItems] = useState<DropdownItem[]>(
     isMultiple && selectedIds?.length
@@ -48,8 +47,6 @@ export const Dropdown = ({
       ? options?.filter((item) => item.id === selectedId) || []
       : []
   );
-
-  console.log("SELECTED IDS: ", selectedIds);
 
   const handleChange = (item: DropdownItem) => {
     const sameItem = !selectedItems.find((selected) => selected.id === item.id);
