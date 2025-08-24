@@ -16,6 +16,7 @@ import styles from "./input.module.scss";
 export type Props = {
   value: string;
   handleChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
   id?: string;
   label?: string;
   isDisabled?: boolean;
@@ -37,6 +38,7 @@ export const Input = ({
   error,
   handleChange,
   value,
+  type = "text",
   ...rest
 }: Props & MarginProps) => {
   return (
@@ -57,7 +59,7 @@ export const Input = ({
         autoComplete="off"
         disabled={isDisabled}
         id={id}
-        type="text"
+        type={type}
         onChange={handleChange}
         value={value}
         {...rest}

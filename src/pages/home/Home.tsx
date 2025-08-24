@@ -28,8 +28,10 @@ export const Home: React.FC = () => {
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
 
+  console.log("MOVIES: ", movies);
+
   useEffect(() => {
-    getMoviesData(searchMovie);
+    dispatch(fetchMovies(searchMovie));
   }, [searchMovie]);
 
   const getMoviesData = (query: string) => {
@@ -40,8 +42,15 @@ export const Home: React.FC = () => {
     ? movies.filter((m) => m.isFavorite)
     : movies;
 
-  const onSave = (m: Movie) => {
-    dispatch(editMovie(m));
+  const onSave = (m: Movie, saveOrEdit: string) => {
+    if (saveOrEdit === "edit") {
+      dispatch(editMovie(m));
+    }
+
+    if (saveOrEdit === "save") {
+      dispatch(addMovie(m));
+    }
+
     setShowModal(false);
   };
 
@@ -107,7 +116,6 @@ export const Home: React.FC = () => {
           movieData={editingMovie || undefined}
           onSave={onSave}
           onCancel={() => setShowModal(false)}
-          existingTitles={movies.map((m) => m.Title.toLocaleLowerCase())}
         />
       </Modal>
     </div>
