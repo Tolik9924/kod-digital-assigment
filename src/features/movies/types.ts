@@ -30,6 +30,11 @@ export interface Movie {
   imdbVotes?: string;
 }
 
+export type Error = {
+  Response: string;
+  Error: string;
+};
+
 export interface MoviesState {
   movie: Movie,
   movies: Movie[];

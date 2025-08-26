@@ -1,3 +1,4 @@
+import { CloseIcon } from "../../assets/CloseIcon";
 import { Button } from "../../ui-components/button/Button";
 import styles from "./modal.module.scss";
 
@@ -29,7 +30,7 @@ export const Modal = ({
             {hasCloseBtn && (
               <div className={styles.modalCloseButton}>
                 <Button onClick={handleCloseModal} size="xs">
-                  Close
+                  <CloseIcon width="6" height="11" />
                 </Button>
               </div>
             )}

@@ -14,7 +14,7 @@ import {
 import styles from "./input.module.scss";
 
 export type Props = {
-  value: string;
+  value: string | number;
   handleChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   id?: string;
@@ -44,7 +44,6 @@ export const Input = ({
   return (
     <div
       className={classes(styles.inputContainer, margin(rest), {
-        [styles[Size[size]]]: !!size,
         [styles.fullWidth]: fullWidth,
       })}
     >
@@ -53,6 +52,7 @@ export const Input = ({
           [styles[Variant[variant]]]: variant,
           [styles.disabled]: isDisabled,
           [styles.placeholder]: label,
+          [styles[Size[size]]]: !!size,
           [styles.errored]: error,
         })}
         placeholder={capitalizeFirstLetter(label)}
@@ -62,6 +62,7 @@ export const Input = ({
         type={type}
         onChange={handleChange}
         value={value}
+        min={0}
         {...rest}
       />
       {error && (

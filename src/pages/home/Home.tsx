@@ -14,21 +14,21 @@ import { Button } from "../../ui-components/button/Button";
 import { MovieCard } from "../../components/movie-card/MovieCard";
 import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
+import { Modal } from "../../components/modal/Modal";
 import type { Movie } from "../../features/movies/types";
 
 import styles from "./home.module.scss";
-import { Modal } from "../../components/modal/Modal";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { movies, loading } = useSelector((state: RootState) => state.movies);
 
+  console.log("MOVIES: ", movies);
+
   const [searchMovie, setSearchMovie] = useState("Batman");
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
-
-  console.log("MOVIES: ", movies);
 
   useEffect(() => {
     dispatch(fetchMovies(searchMovie));

@@ -16,16 +16,18 @@ import styles from "./button.module.scss";
 type Ref = HTMLButtonElement;
 type Props = {
   children: ReactNode;
+  type?: "button" | "submit" | "reset" | undefined;
   size?: SizeType;
   variant?: VariantType;
   fullWidth?: boolean;
   elementType?: "button" | "a";
-  onClick: (e: MouseEvent<HTMLElement>) => void;
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
 } & MarginProps;
 
 export const Button = forwardRef<Ref, Props>(function Button(props, ref) {
   const {
     elementType: ElementType = "button",
+    type,
     children,
     size = "m",
     variant = "primary",
@@ -41,6 +43,7 @@ export const Button = forwardRef<Ref, Props>(function Button(props, ref) {
         [styles[Variant[variant]]]: !!variant,
         [styles.fullWidth]: fullWidth,
       })}
+      type={type}
       onClick={onClick}
       {...rest}
       // @ts-expect-error - ref should refer to the same type of element as ElementType

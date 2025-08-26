@@ -1,1 +1,53 @@
-.movieFormModal {}
+.movieFormModal {
+  width: 400px;
+}
+
+.formTitle {
+  color: var(--main-text-color);
+  font-family: sans-serif;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--main-text-color);
+  font-size: 1rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
+.error {
+  color: var(--color-text-error);
+  margin: 3px 0px;
+  height: 1rem;
+  opacity: 0;
+  font-size: 0.875rem;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.showError {
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .movieFormModal {
+    width: 300px;
+  }
+}

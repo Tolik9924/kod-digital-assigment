@@ -7,6 +7,8 @@ import { classes } from "../../common_utils/classes/classes";
 import { Size, type SizeType } from "../../shared/parameters/parameters";
 
 import styles from "./dropdown.module.scss";
+import { CloseIcon } from "../../assets/CloseIcon";
+import { AngelDown } from "../../assets/AngelDown";
 
 export type DropdownItem = {
   id: string;
@@ -53,7 +55,6 @@ export const Dropdown = ({
     if (isMultiple && sameItem) {
       setSelectedItems((prev) => [item, ...prev]);
       onSelect([item.name, ...selectedItems.map((item) => item.name)]);
-      console.log("SELECTED ITEMS: ", selectedItems);
     }
 
     if (!isMultiple) {
@@ -91,13 +92,14 @@ export const Dropdown = ({
   return (
     <div
       className={classes(styles.dropdownContainer, margin(rest), {
-        [styles[Size[size]]]: !!size,
         [styles.fullWidth]: fullWidth,
       })}
       ref={dropdownRef}
     >
       <button
-        className={styles.button}
+        className={classes(styles.button, {
+          [styles[Size[size]]]: !!size,
+        })}
         id={id}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -112,27 +114,26 @@ export const Dropdown = ({
               {selectedItems[0]?.name || title}
             </span>
           )}
-          <div onClick={(e) => e.stopPropagation()}>
-            {isMultiple &&
-              selectedItems.map((item) => (
-                <span
-                  key={item.id}
-                  className={classes(styles.name, {
-                    [styles[titleSize]]: !!size,
-                  })}
-                  onClick={() => deleteItem(item)}
-                >
-                  {item.name}
-                </span>
+          {isMultiple && (
+            <div
+              className={styles.multipleTags}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {selectedItems.map((item) => (
+                <div key={item.id} className={classes(styles.nameTag)}>
+                  <span>{item.name}</span>
+                  <span
+                    className={styles.closeIcon}
+                    onClick={() => deleteItem(item)}
+                  >
+                    <CloseIcon width="6" height="11" />
+                  </span>
+                </div>
               ))}
-          </div>
+            </div>
+          )}
           <div className={styles.arrowDownContainer}>
-            {/* <DownOutlined
-              className={classes(styles.arrowDown, {
-                [styles[arrowSize]]: !!size,
-              })}
-            /> */}
-            A
+            <AngelDown />
           </div>
         </div>
       </button>
@@ -149,7 +150,9 @@ export const Dropdown = ({
               >
                 <span
                   className={classes(styles.itemLink, {
-                    [styles.selectedLink]: selectedItems?.id === item.id,
+                    [styles.selectedLink]: selectedItems.some(
+                      (selected) => selected.id === item.id
+                    ),
                   })}
                 >
                   <h5 className={styles.nameHeader}>{item.name}</h5>

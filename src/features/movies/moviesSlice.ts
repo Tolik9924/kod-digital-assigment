@@ -1,7 +1,8 @@
 import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import type { Movie, MoviesState } from './types';
-import { formatTitle } from '../../utils/helpers';
+import { formatTitle } from '../../utils/formatTitle';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 const API_KEY = 'b573b702';
 
@@ -32,8 +33,8 @@ export const fetchMovies = createAsyncThunk(
       Title: formatTitle(movie.Title),
       isFavorite: false,
     }));
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Something went wrong");
+    } catch (err) {
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -47,7 +48,6 @@ export const fetchMovie = createAsyncThunk(
         return rejectWithValue(res.data.Error); // <- тут помилка з OMDb
     }
 
-    console.log('RES: ', res);
     return res.data || res;
   }
 );
@@ -78,6 +78,7 @@ const moviesSlice = createSlice({
       );
     },
     showLocalMovie: (state, action: PayloadAction<Movie>) => {
+      console.log('SHOW LOCAL MOVIE: ', action.payload);
       state.movie = action.payload;
     }
   },
