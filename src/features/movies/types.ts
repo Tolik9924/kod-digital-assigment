@@ -40,4 +40,6 @@ export interface MoviesState {
   movies: Movie[];
   loading: boolean;
   error?: string;
+  loadingMovies: boolean;
+  loadingMovie: boolean;
 }

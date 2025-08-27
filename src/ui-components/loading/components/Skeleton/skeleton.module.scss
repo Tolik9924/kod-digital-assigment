@@ -1,0 +1,20 @@
+@keyframes lm-pulse {
+  0% { opacity: 1; }
+  50% { opacity: .45; }
+  100% { opacity: 1; }
+}
+
+.skeleton {
+  width: 100%;
+  display: block;
+  animation: lm-pulse 1.5s ease-in-out infinite;
+}
+.skeletonLine {
+  height: 16px;
+  border-radius: 12px;
+  background: var(--skeleton-color);
+  margin-bottom: 8px;
+}
+.short { width: 60%; }
+.medium { width: 80%; }
+.full { width: 100%; }

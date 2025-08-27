@@ -11,6 +11,7 @@ import {
 import { Header } from "../../ui-components/header/Header";
 import { Input } from "../../ui-components/input/Input";
 import { Button } from "../../ui-components/button/Button";
+import { Loading } from "../../ui-components/loading/Loading";
 import { MovieCard } from "../../components/movie-card/MovieCard";
 import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
@@ -21,9 +22,9 @@ import styles from "./home.module.scss";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movies, loading } = useSelector((state: RootState) => state.movies);
-
-  console.log("MOVIES: ", movies);
+  const { movies, loadingMovies } = useSelector(
+    (state: RootState) => state.movies
+  );
 
   const [searchMovie, setSearchMovie] = useState("Batman");
   const [showFavorites, setShowFavorites] = useState(false);
@@ -95,7 +96,15 @@ export const Home: React.FC = () => {
           </div>
         }
       />
-      {loading && <p>Loading...</p>}
+      {loadingMovies && (
+        <Loading variant="skeleton">
+          <div className={styles.cardsSkeletonContainer}>
+            {Array.from({ length: 18 }, (_, i) => i + 1).map((m, index) => (
+              <div key={index} className={styles.movieCardSkeleton}></div>
+            ))}
+          </div>
+        </Loading>
+      )}
       <div className={styles.cardsContainer}>
         {filteredMovies.map((m, index) => (
           <MovieCard

@@ -6,12 +6,13 @@ import type { Movie } from "../../features/movies/types";
 import type { Values } from "./types";
 import { fetchMovie, showLocalMovie } from "../../features/movies/moviesSlice";
 import { Input } from "../../ui-components/input/Input";
+import { Button } from "../../ui-components/button/Button";
+import { Loading } from "../../ui-components/loading/Loading";
+import { classes } from "../../common_utils/classes/classes";
 import { Dropdown } from "../dropdown/Dropdown";
 import { GENRES, INITIAL_VALUES } from "./constants";
 
 import styles from "./movieFormModal.module.scss";
-import { Button } from "../../ui-components/button/Button";
-import { classes } from "../../common_utils/classes/classes";
 
 const MovieFormModal = ({
   movieData,
@@ -23,11 +24,9 @@ const MovieFormModal = ({
   onCancel: () => void;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movie, movies, loading } = useSelector(
+  const { movie, movies, loadingMovie } = useSelector(
     (state: RootState) => state.movies
   );
-
-  console.log("MOVIE: ", movie.Runtime);
 
   const movieFormData: Values = {
     ...movie,
@@ -77,8 +76,10 @@ const MovieFormModal = ({
 
   return (
     <div className={styles.movieFormModal}>
-      {loading ? (
-        <div>loading...</div>
+      {loadingMovie ? (
+        <div className={styles.loadingContainer}>
+          <Loading variant="dots" />
+        </div>
       ) : (
         <div className={styles.content}>
           <h2 className={styles.formTitle}>

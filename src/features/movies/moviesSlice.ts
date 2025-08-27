@@ -55,6 +55,8 @@ export const fetchMovie = createAsyncThunk(
 const initialState: MoviesState = {
   movie: initialMovie,
   movies: [],
+  loadingMovies: false,
+  loadingMovie: false,
   loading: false,
 };
 
@@ -84,25 +86,25 @@ const moviesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchMovies.pending, (state) => {
-      state.loading = true;
+      state.loadingMovies = true;
     });
     builder.addCase(fetchMovies.fulfilled, (state, action: PayloadAction<Movie[]>) => {
       state.movies = action.payload;
-      state.loading = false;
+      state.loadingMovies = false;
     });
     builder.addCase(fetchMovies.rejected, (state) => {
-      state.loading = false;
+      state.loadingMovies = false;
     });
 
     builder.addCase(fetchMovie.pending, (state) => {
-      state.loading = true;
+      state.loadingMovie = true;
     });
     builder.addCase(fetchMovie.fulfilled, (state, action: PayloadAction<Movie>) => {
       state.movie = action.payload;
-      state.loading = false;
+      state.loadingMovie = false;
     });
     builder.addCase(fetchMovie.rejected, (state) => {
-      state.loading = false;
+      state.loadingMovie = false;
     });
   }
 });

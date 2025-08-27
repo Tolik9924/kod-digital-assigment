@@ -1,0 +1,32 @@
+@keyframes lm-dots {
+  0% { transform: translateY(0); opacity: .35; }
+  50% { transform: translateY(-6px); opacity: 1; }
+  100% { transform: translateY(0); opacity: .35; }
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.loaderDots {
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  display: inline-block;
+  border-radius: 9999px;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  background: var(--accent);
+  opacity: .35;
+  animation: lm-dots .9s ease-in-out infinite;
+}
+
+.label:nth-child(1) { animation-delay: 0s; }
+.label:nth-child(2) { animation-delay: .15s; }
+.label:nth-child(3) { animation-delay: .30s; margin-right: 0; }
