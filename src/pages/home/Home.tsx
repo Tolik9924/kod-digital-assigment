@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type ChangeEvent } from "react";
+import React, { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../app/store";
 import {
@@ -30,10 +30,11 @@ export const Home: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     dispatch(fetchMovies(searchMovie));
-  }, [searchMovie]);
+  }, []);
 
   const filteredMovies = showFavorites
     ? movies.filter((m) => m.isFavorite)
@@ -63,7 +64,17 @@ export const Home: React.FC = () => {
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchMovie(event.target.value);
+    const value = event.target.value;
+    setSearchMovie(value);
+
+    if (timeoutRef.current) {
+      console.log("CURRENT: ", timeoutRef.current);
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      dispatch(fetchMovies(searchMovie));
+    }, 500);
   };
 
   return (
@@ -76,7 +87,7 @@ export const Home: React.FC = () => {
               value={searchMovie}
               handleChange={handleChange}
               label="Movie"
-              size="s"
+              size="m"
             />
             <div className={styles.buttonsContainer}>
               <Button
@@ -84,7 +95,7 @@ export const Home: React.FC = () => {
                   setEditingMovie(null);
                   setShowModal(true);
                 }}
-                size="s"
+                size="m"
               >
                 + Add Movie
               </Button>
@@ -99,7 +110,7 @@ export const Home: React.FC = () => {
       {loadingMovies && (
         <Loading variant="skeleton">
           <div className={styles.cardsSkeletonContainer}>
-            {Array.from({ length: 18 }, (_, i) => i + 1).map((m, index) => (
+            {Array.from({ length: 18 }, (_, i) => i + 1).map((_, index) => (
               <div key={index} className={styles.movieCardSkeleton}></div>
             ))}
           </div>

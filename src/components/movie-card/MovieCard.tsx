@@ -36,30 +36,32 @@ export const MovieCard: React.FC<Props> = ({
           onClick={goToDetails}
         />
       </div>
-      <div className={styles.titleContainer}>
-        <Link className={styles.movieTitle} to={`/movie/${movie.Title}`}>
-          {movie.Title}
-        </Link>
-        <Button onClick={onToggleFavorite} size="xs" variant="primary">
-          <StarIcon
-            width="12"
-            height="12"
-            stroke="#fff"
-            fill={movie.isFavorite ? "#fff" : "none"}
-          />
-        </Button>
-      </div>
-      <div className={styles.description}>
-        <span>Year: {movie.Year}</span>
-        <span>Type: {movie.Type}</span>
-      </div>
-      <div className={styles.editContainer}>
-        <Button onClick={onEdit} size="xs" variant="secondary">
-          <span className={styles.editTitle}>Edit</span>
-        </Button>
-        <Button onClick={onDelete} size="xs" variant="error">
-          <span className={styles.editTitle}>Delete</span>
-        </Button>
+      <div className={styles.cardContainer}>
+        <div className={styles.titleContainer}>
+          <Link className={styles.movieTitle} to={`/movie/${movie.Title}`}>
+            {movie.Title}
+          </Link>
+          <Button onClick={onToggleFavorite} size="xs" variant="primary">
+            <StarIcon
+              width="12"
+              height="12"
+              stroke="#fff"
+              fill={movie.isFavorite ? "#fff" : "none"}
+            />
+          </Button>
+        </div>
+        <div className={styles.description}>
+          <span>Year: {movie.Year}</span>
+          <span>Type: {movie.Type}</span>
+        </div>
+        <div className={styles.editContainer}>
+          <Button onClick={onEdit} size="xs" variant="secondary">
+            <span className={styles.editTitle}>Edit</span>
+          </Button>
+          <Button onClick={onDelete} size="xs" variant="error">
+            <span className={styles.editTitle}>Delete</span>
+          </Button>
+        </div>
       </div>
     </div>
   );

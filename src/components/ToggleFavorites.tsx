@@ -11,7 +11,7 @@ export const ToggleFavorites: React.FC<Props> = ({
 }) => (
   <Button
     onClick={() => setShowFavorites(!showFavorites)}
-    size="s"
+    size="m"
     variant="secondary"
   >
     {showFavorites ? "Show All" : "Favorites"}
