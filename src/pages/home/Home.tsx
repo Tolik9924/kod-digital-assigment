@@ -85,8 +85,6 @@ export const Home: React.FC = () => {
     }, 500);
   };
 
-  const loading = true;
-
   return (
     <div className={styles.home}>
       <Header

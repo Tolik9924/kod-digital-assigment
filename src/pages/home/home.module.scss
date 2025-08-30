@@ -94,11 +94,11 @@
   }
 
   .cardsContainer {
-    grid-template-columns: repeat(auto-fill, 35%); 
+    grid-template-columns: repeat(auto-fill, 45%); 
   }
 
   .cardsSkeletonContainer {
-    grid-template-columns: repeat(auto-fill, 35%);
+    grid-template-columns: repeat(auto-fill, 45%);
   }
 }
 
@@ -108,20 +108,22 @@
   }
 
   .cardsContainer {
-    grid-template-columns: repeat(auto-fill, 55%); 
+    grid-template-columns: repeat(auto-fill, 60%); 
   }
 
   .cardsSkeletonContainer {
-    grid-template-columns: repeat(auto-fill, 55%);
+    grid-template-columns: repeat(auto-fill, 60%);
   }
 }
 
 @media (max-width: 480px) {
   .cardsContainer {
+    margin-top: 150px;
     grid-template-columns: repeat(auto-fill, 100%);
   }
 
   .cardsSkeletonContainer {
+    margin-top: 150px;
     grid-template-columns: repeat(auto-fill, 100%);
   }
 }
