@@ -94,10 +94,12 @@
   }
 
   .cardsContainer {
+    margin-top: 150px;
     grid-template-columns: repeat(auto-fill, 45%); 
   }
 
   .cardsSkeletonContainer {
+    margin-top: 150px;
     grid-template-columns: repeat(auto-fill, 45%);
   }
 }
