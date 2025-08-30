@@ -14,26 +14,42 @@
   margin: .25rem 0;
   box-sizing: border-box;
   width: 100%;
-  height: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  height: 100%;
 }
 
 .imgContainer {
   cursor: pointer;
   margin-bottom: .5rem;
+  height: 75%;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  height: 25%;
+  justify-content: space-between;
 }
 
 .imgMovie {
-  width: 100%;
-  height: 100%;
   border-radius: 12px 12px 0 0;
+  object-position: center;
+  height: 100%;
+}
+
+.haveImg {
+  width: 100%;
+  object-fit: cover;
+}
+
+.haveNotImg {
+  width: 100%;
+  object-fit: contain;
 }
 
 .titleContainer {
   display: flex;
-  align-items: center;
   padding: 0px 0.5rem;
   box-sizing: border-box;
   justify-content: space-between;
@@ -48,12 +64,22 @@
   text-overflow: ellipsis;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: .03125em;
   text-transform: none;
   -webkit-font-smoothing: auto;
   line-height: 1.25rem;
   color: #000;
+  // width: 500px;            
+  white-space: nowrap;     /* keep text in one line */
+  overflow: hidden;        /* hide overflowing text */
+  text-overflow: ellipsis; /* show "…" at the end */
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .description {
@@ -82,16 +108,4 @@
 
 .editTitle {
   font-size: 0.7rem;
-}
-
-@media (max-width: 1024px) {
-
-}
-
-@media (max-width: 768px) {
-
-}
-
-@media (max-width: 480px) {
-
 }

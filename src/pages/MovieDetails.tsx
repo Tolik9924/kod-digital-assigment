@@ -24,7 +24,7 @@ export const MovieDetails = () => {
     <div>
       <div>Movie Details</div>
       {loading && <div>loading</div>}
-      <div>Title: {title}</div>
+      <div>Title: {movie.Title}</div>
       <div>Year: {movie.Year}</div>
       <div>Runtime: {movie.Runtime}</div>
       <div>Genre: {movie.Genre}</div>

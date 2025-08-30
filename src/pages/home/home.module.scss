@@ -24,19 +24,26 @@
 
 .cardsContainer {
   width: 80%;
-  margin: 50px 0;
+  margin: 100px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15%, 1fr)); 
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 18%);
   gap: 20px;
+}
+
+.loadingSkeletonContainer {
+  margin-top: 100px;
+  width: 100%;
 }
 
 .cardsSkeletonContainer {
   width: 80%;
-  margin: 50px 0;
+  height: 100%;
+  margin: 100px auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15%, 1fr)); 
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 18%); 
   gap: 20px;
-  margin: 20px auto;
 }
 
 .movieCardSkeleton {
@@ -45,12 +52,39 @@
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
   box-sizing: border-box;
   width: 100%;
-  height: 500px;
+  height: 600px;
+}
+
+.noData {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noDataText {
+  font-size: 35px;
+  color: var(--grey);
+}
+
+@media (max-width: 1440px) {
+  .cardsContainer {
+    grid-template-columns: repeat(auto-fill, 25%); 
+  }
+
+  .cardsSkeletonContainer {
+    grid-template-columns: repeat(auto-fill, 25%);
+  }
 }
 
 @media (max-width: 1200px) {
   .cardsContainer {
-    grid-template-columns: repeat(auto-fill, minmax(18%, 1fr)); 
+    grid-template-columns: repeat(auto-fill, 30%); 
+  }
+
+  .cardsSkeletonContainer {
+    grid-template-columns: repeat(auto-fill, 30%)
   }
 }
 
@@ -60,7 +94,11 @@
   }
 
   .cardsContainer {
-    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); 
+    grid-template-columns: repeat(auto-fill, 35%); 
+  }
+
+  .cardsSkeletonContainer {
+    grid-template-columns: repeat(auto-fill, 35%);
   }
 }
 
@@ -70,12 +108,20 @@
   }
 
   .cardsContainer {
-    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); 
+    grid-template-columns: repeat(auto-fill, 55%); 
+  }
+
+  .cardsSkeletonContainer {
+    grid-template-columns: repeat(auto-fill, 55%);
   }
 }
 
 @media (max-width: 480px) {
   .cardsContainer {
-    grid-template-columns: repeat(auto-fill, minmax(38%, 1fr)); 
+    grid-template-columns: repeat(auto-fill, 100%);
+  }
+
+  .cardsSkeletonContainer {
+    grid-template-columns: repeat(auto-fill, 100%);
   }
 }

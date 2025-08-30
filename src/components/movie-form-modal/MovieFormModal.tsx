@@ -66,7 +66,7 @@ const MovieFormModal = ({
       Year: `${data.Year}`,
       Genre: data.Genre.join(", "),
       isFavorite: movieData ? movie.isFavorite : false,
-      Poster: movieData ? movieData.Poster : "",
+      Poster: movieData ? movieData.Poster : "N/A",
       Runtime: `${data.Runtime} min.`,
       Type: "",
     };

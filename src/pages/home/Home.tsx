@@ -16,6 +16,7 @@ import { MovieCard } from "../../components/movie-card/MovieCard";
 import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
 import { Modal } from "../../components/modal/Modal";
+import { DeleteModal } from "../../components/delete-modal/DeleteModal";
 import type { Movie } from "../../features/movies/types";
 
 import styles from "./home.module.scss";
@@ -30,6 +31,10 @@ export const Home: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTitle, setDeleteTitle] = useState("");
+
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -52,10 +57,14 @@ export const Home: React.FC = () => {
     setShowModal(false);
   };
 
-  const onDelete = (title: string) => {
-    if (window.confirm("Delete this movie?")) {
-      dispatch(deleteMovie(title));
-    }
+  const onDelete = () => {
+    dispatch(deleteMovie(deleteTitle));
+    setShowDeleteModal(false);
+  };
+
+  const deleteMovieCard = (title: string) => {
+    setShowDeleteModal(true);
+    setDeleteTitle(title);
   };
 
   const onEdit = (movie: Movie) => {
@@ -68,14 +77,15 @@ export const Home: React.FC = () => {
     setSearchMovie(value);
 
     if (timeoutRef.current) {
-      console.log("CURRENT: ", timeoutRef.current);
       clearTimeout(timeoutRef.current);
     }
 
     timeoutRef.current = setTimeout(() => {
-      dispatch(fetchMovies(searchMovie));
+      dispatch(fetchMovies(value));
     }, 500);
   };
+
+  const loading = true;
 
   return (
     <div className={styles.home}>
@@ -116,17 +126,27 @@ export const Home: React.FC = () => {
           </div>
         </Loading>
       )}
-      <div className={styles.cardsContainer}>
-        {filteredMovies.map((m, index) => (
-          <MovieCard
-            key={index}
-            movie={m}
-            onEdit={() => onEdit(m)}
-            onDelete={() => onDelete(m.Title)}
-            onToggleFavorite={() => dispatch(toggleFavorite(m.Title))}
-          />
-        ))}
-      </div>
+      {filteredMovies.length > 0 && (
+        <div className={styles.cardsContainer}>
+          {filteredMovies.map((m, index) => (
+            <MovieCard
+              key={index}
+              movie={m}
+              onEdit={() => onEdit(m)}
+              onDelete={() => deleteMovieCard(m.Title)}
+              onToggleFavorite={() => dispatch(toggleFavorite(m.Title))}
+            />
+          ))}
+        </div>
+      )}
+      {filteredMovies.length === 0 && (
+        <div className={styles.noData}>
+          <span className={styles.noDataText}>No data available.</span>
+        </div>
+      )}
+      <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+        <DeleteModal handleDelete={onDelete} />
+      </Modal>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <MovieFormModal
           movieData={editingMovie || undefined}

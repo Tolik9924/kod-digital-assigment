@@ -25,7 +25,7 @@ export const fetchMovies = createAsyncThunk(
       const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
 
       if (res.data.Response === "False") {
-        return rejectWithValue(res.data.Error);
+        return [];
       }
 
       return (res.data.Search || []).map((movie: Movie) => ({
@@ -42,13 +42,17 @@ export const fetchMovies = createAsyncThunk(
 export const fetchMovie = createAsyncThunk(
   'movies/fetchMovie',
   async (query: string, { rejectWithValue  }) => {
-    const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${query}`);
+    try {
+      const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${query}`);
 
-    if (res.data.Response === "False") {
-        return rejectWithValue(res.data.Error); // <- тут помилка з OMDb
+      if (res.data.Response === "False") {
+        return rejectWithValue(res.data.Error); 
     }
 
     return res.data || res;
+    } catch (err) {
+      return rejectWithValue(getErrorMessage(err));
+    }
   }
 );
 
