@@ -94,35 +94,9 @@
   display: flex;
   gap: 8px;
   max-width: 90%;
-  white-space: nowrap;      /* keep text on one line */
+  white-space: nowrap;
   overflow: hidden;
   font-size: 10px;
-}
-
-.nameTag {
-  background: #dbeafe;
-  color: #1e40af;
-  border: 0.3px solid #3b82f6;
-  border-radius: 5px;
-  padding: 5px 5px;
-  box-sizing: border-box;
-  font-size: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  cursor: default;
-}
-
-.closeIcon {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  stroke: #3b82f6;
-  transition: stroke 0.2s ease-in-out;
-
-  &:hover {
-    stroke: #2563eb;
-  }
 }
 
 .selectedLink {

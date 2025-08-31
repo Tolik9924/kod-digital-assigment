@@ -23,6 +23,8 @@
     box-shadow: var(--box-shadow-button-hover);
 }
 
+// variants
+
 .primary{
         border: 0px;
         transition: var(--transition-button);
@@ -65,6 +67,8 @@
 .error:hover {
     background-color: var(--color-error-hover);
 }
+
+// sizes
 
 .xs {
     padding-left: 10px;

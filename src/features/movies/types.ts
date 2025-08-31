@@ -1,3 +1,8 @@
+type Rating = {
+  Source: string;
+  Value: string;
+}
+
 export interface Movie {
   imdbID: string;
   Poster: string;
@@ -15,6 +20,7 @@ export interface Movie {
   DVD?: string;
   Language?: string;
   Metascore?: string;
+  Ratings?: Rating[],
   Plot?: string;
   Production?: string;
   Rated?: string;

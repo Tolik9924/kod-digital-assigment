@@ -1,0 +1,75 @@
+.nameTag {
+  border-radius: 5px;
+  padding: 5px 5px;
+  box-sizing: border-box;
+  font-size: 11px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  cursor: default;
+}
+
+.closeIcon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: stroke 0.2s ease-in-out;
+}
+
+// variants
+
+.primary {
+  color: #1e40af;
+  stroke: #3b82f6;
+  background: #dbeafe;
+  border: 0.3px solid #3b82f6;
+
+  &:hover {
+    stroke: #2563eb;
+  }  
+}
+
+.success {
+  background: #D1FAE5; // soft green background
+  color: #065F46;     // deep green text
+  border: #A7F3D0;
+  stroke: #A7F3D0;
+  border: 0.3px solid #A7F3D0;
+
+  &:hover {
+    stroke: #6EE7B7;
+  } 
+}
+
+.error {
+  background: #FEE2E2; /* soft red background */
+  color: #991B1B;      /* deep red text */
+  border: 0.3px solid #FCA5A5;
+  stroke: #FCA5A5;
+
+  &:hover {
+    stroke: #F87171;   /* darker red */
+  }
+}
+
+.secondary {
+  background: #E5E7EB; /* light gray background */
+  color: #374151;      /* dark gray text */
+  border: 0.3px solid #D1D5DB;
+  stroke: #D1D5DB;
+
+  &:hover {
+    stroke: #9CA3AF;   /* darker gray */
+  }
+}
+
+.dark {
+  background: #1F2937; /* dark gray background */
+  color: #F9FAFB;      /* near white text */
+  border: 0.3px solid #374151;
+  stroke: #374151;
+
+  &:hover {
+    stroke: #4B5563;   /* lighter dark gray */
+  }
+}

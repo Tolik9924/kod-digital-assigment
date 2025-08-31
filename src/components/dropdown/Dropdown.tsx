@@ -7,8 +7,8 @@ import { classes } from "../../common_utils/classes/classes";
 import { Size, type SizeType } from "../../shared/parameters/parameters";
 
 import styles from "./dropdown.module.scss";
-import { CloseIcon } from "../../assets/CloseIcon";
 import { AngelDown } from "../../assets/AngelDown";
+import { Tag } from "../../ui-components/tag/Tag";
 
 export type DropdownItem = {
   id: string;
@@ -65,8 +65,8 @@ export const Dropdown = ({
     setIsOpen(false);
   };
 
-  const deleteItem = (item: DropdownItem) => {
-    const filtered = selectedItems.filter((select) => select.id !== item.id);
+  const deleteItem = (item: string) => {
+    const filtered = selectedItems.filter((select) => select.name !== item);
     setSelectedItems(filtered);
   };
 
@@ -120,15 +120,11 @@ export const Dropdown = ({
               onClick={(e) => e.stopPropagation()}
             >
               {selectedItems.map((item) => (
-                <div key={item.id} className={classes(styles.nameTag)}>
-                  <span>{item.name}</span>
-                  <span
-                    className={styles.closeIcon}
-                    onClick={() => deleteItem(item)}
-                  >
-                    <CloseIcon width="6" height="11" />
-                  </span>
-                </div>
+                <Tag
+                  label={item.name}
+                  onRemove={deleteItem}
+                  variant="primary"
+                />
               ))}
             </div>
           )}
