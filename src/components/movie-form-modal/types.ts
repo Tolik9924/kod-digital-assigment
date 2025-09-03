@@ -1,6 +1,6 @@
 export type Values = {
   Title: string;
-  Year: number;
+  Year: string;
   Runtime: number;
   Genre: string[];
   Director: string;

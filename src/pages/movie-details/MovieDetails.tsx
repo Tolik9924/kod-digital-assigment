@@ -8,12 +8,13 @@ import noPhoto from "../../assets/no-photo-available.png";
 
 import styles from "./movieDetails.module.scss";
 import { Tag } from "../../ui-components/tag/Tag";
+import { Loading } from "../../ui-components/loading/Loading";
 
 export const MovieDetails = () => {
   const [errorImg, setErrorImg] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { title = "" } = useParams();
-  const { movie, loadingMovie } = useSelector(
+  const { movie, movies, loadingMovie } = useSelector(
     (state: RootState) => state.movies
   );
 
@@ -26,11 +27,17 @@ export const MovieDetails = () => {
     dispatch(fetchMovie(query));
   };
 
-  console.log("MOVIE: ", movie);
-
   if (loadingMovie) {
-    return <div>loading</div>;
+    return (
+      <Loading variant="skeleton">
+        <div className={styles.detailsPage}>
+          <div className={styles.detailsContainerSkeleton}></div>
+        </div>
+      </Loading>
+    );
   }
+
+  console.log('MOVIE: ', movie);
 
   return (
     <div className={styles.detailsPage}>

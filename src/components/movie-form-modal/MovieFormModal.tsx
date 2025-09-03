@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 import type { AppDispatch, RootState } from "../../app/store";
@@ -13,6 +13,11 @@ import { Dropdown } from "../dropdown/Dropdown";
 import { GENRES, INITIAL_VALUES } from "./constants";
 
 import styles from "./movieFormModal.module.scss";
+import { useMovie } from "../../hooks/useMovie";
+
+const INITIAL_ADD_INFO = {
+
+};
 
 const MovieFormModal = ({
   movieData,
@@ -32,7 +37,7 @@ const MovieFormModal = ({
     ...movie,
     Title: movie.Title,
     Runtime: Number(movie.Runtime && movie.Runtime.split(" ")[0]),
-    Year: Number(movie.Year),
+    Year: movie.Year,
     Genre: movie?.Genre ? movie.Genre?.split(", ") : [],
     Director: movie.Director || "",
   };
@@ -41,22 +46,14 @@ const MovieFormModal = ({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
+  const loading = useMovie(movieData?.imdbID, movieData);
+
   useEffect(() => {
     if (movieData) {
-      getMovieData(movieData.imdbID);
+      //getMovie();
+      // here must be function
     }
   }, [movie.Title, movieData?.Title]);
-
-  const getMovieData = async (query: string) => {
-    const result = await dispatch(fetchMovie(query));
-
-    if (result.type.endsWith("/rejected")) {
-      const foundMovie = movies.find((m) => m.imdbID === movieData?.imdbID);
-      if (foundMovie) {
-        dispatch(showLocalMovie(foundMovie));
-      }
-    }
-  };
 
   const submit = (data: Values) => {
     const saveOrEdit = movieData ? "edit" : "save";
@@ -68,7 +65,7 @@ const MovieFormModal = ({
       isFavorite: movieData ? movie.isFavorite : false,
       Poster: movieData ? movieData.Poster : "N/A",
       Runtime: `${data.Runtime} min.`,
-      Type: "",
+      Type: "N/A",
     };
 
     onSave(result, saveOrEdit);
@@ -76,7 +73,7 @@ const MovieFormModal = ({
 
   return (
     <div className={styles.movieFormModal}>
-      {loadingMovie ? (
+      {loading ? (
         <div className={styles.loadingContainer}>
           <Loading variant="dots" />
         </div>
@@ -95,7 +92,7 @@ const MovieFormModal = ({
                     (item) =>
                       movie.Title !== value &&
                       value.toLocaleLowerCase() ===
-                        item.Title.toLocaleLowerCase()
+                      item.Title.toLocaleLowerCase()
                   );
 
                   if (sameMovie) {
@@ -122,26 +119,32 @@ const MovieFormModal = ({
               name="Year"
               control={control}
               rules={{
-                required: "Year is required",
-                min: {
-                  value: 1880,
-                  message: "Year must be later than 1880",
-                },
-                max: {
-                  value: new Date().getFullYear() + 1,
-                  message: `Year cannot be later than ${
-                    new Date().getFullYear() + 1
-                  }`,
-                },
+                required: "Year(s) is required",
+                validate: (value) => {
+                  const regex = /^(?:\d{4}|\d{4}\s*-\s*\d{4})$/;
+                  const minYear = 1880;
+
+                  if (!regex.test(value)) {
+                    return "Enter a valid year or range";
+                  }
+
+                  if (value.includes("-")) {
+                    const [start, end] = value.split("-").map((s) => parseInt(s.trim(), 10));
+                    if (start < minYear) return "First movie was released in 1880";
+                    if (start > end) return "Start year must be before end year";
+                  }
+
+                  return true;
+                }
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>
                   <label className={styles.label}>Year</label>
                   <Input
-                    type="number"
-                    label="1990"
+                    type="text"
+                    label="1990 or 1990 - 2000"
                     value={field.value ?? ""}
-                    handleChange={(e) => field.onChange(Number(e.target.value))}
+                    handleChange={(e) => field.onChange(e.target.value)}
                   />
                   <p className={classes(styles.error, styles.showError)}>
                     {fieldState.error?.message || ""}

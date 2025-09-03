@@ -2,7 +2,7 @@ import type { Values } from "./types";
 
 export const INITIAL_VALUES: Values = {
   Title: "",
-  Year: 1,
+  Year: "",
   Runtime: 1,
   Genre: [],
   Director: "",

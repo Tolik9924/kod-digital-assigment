@@ -18,6 +18,17 @@
   box-sizing: border-box;
 }
 
+.detailsContainerSkeleton {
+  width: 80%;
+  height: 300px;
+  background: #fff;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+  border-radius: 15px;
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
+}
+
 .baseInfo {
   border-right: 1px solid var(--checkbox-disabled-background);
   padding-right: 15px;
@@ -128,6 +139,12 @@
     flex-direction: row;
     padding: 15px;
     margin: 3% 0;
+  }
+
+  .detailsContainerSkeleton {
+    margin: 3% 0;
+    width: 80%;
+    height: 700px;
   }
 
   .baseInfo {
