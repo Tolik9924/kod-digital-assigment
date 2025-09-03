@@ -59,6 +59,7 @@
   line-height: 1;
   display: flex;
   gap: 5px;
+  font-size: 15px;
 }
 
 .itemTitle {
@@ -116,7 +117,7 @@
 @media (max-width: 1440px) {
   .detailsPage {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,6 +126,8 @@
   .detailsContainer {
     width: 80%;
     flex-direction: row;
+    padding: 15px;
+    margin: 3% 0;
   }
 
   .baseInfo {
@@ -133,6 +136,7 @@
     border-bottom: none;
     padding-right: 0;
     padding-bottom: 15px;
+    font-size: 15px;
   }
 
   .posterContainer {
@@ -144,11 +148,11 @@
   }
 
   .addInfoTitle {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .addInfoItem {
-    font-size: 17px;
+    font-size: 15px;
   }
 }
 
@@ -246,6 +250,8 @@
   .detailsContainer {
     width: 100%;
     flex-direction: column;
+    margin: 0;
+    border-radius: 0px;
   }
 
   .baseInfo {
@@ -265,9 +271,8 @@
   }
 
   .posterContainer {
-    width: 80%;
-    height: 400px;
-    overflow: hidden;
+    margin: 0 auto;
+    width: 250px;
   }
 
   .haveImg {
@@ -279,11 +284,11 @@
   }
 
   .addInfoTitle {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .addInfoItem {
-    font-size: 17px;
+    font-size: 15px;
   }
 }
 
@@ -299,6 +304,8 @@
   .detailsContainer {
     width: 100%;
     flex-direction: column;
+    margin: 0;
+    border-radius: 0px;
   }
 
   .baseInfo {
@@ -307,6 +314,11 @@
     border-bottom: 1px solid var(--checkbox-disabled-background);
     padding-right: 0;
     padding-bottom: 15px;
+  }
+
+  .posterContainer {
+    margin: 0 auto;
+    width: 250px;
   }
 
   .imgMovie {
@@ -318,10 +330,10 @@
   }
 
   .addInfoTitle {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .addInfoItem {
-    font-size: 17px;
+    font-size: 15px;
   }
 }

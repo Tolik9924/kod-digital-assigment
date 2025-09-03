@@ -53,7 +53,7 @@ export const MovieDetails = () => {
           <div className={styles.info}>
             <div className={styles.infoItem}>
               <span className={styles.itemTitle}>Title:</span>{" "}
-              <span>{movie.Title}</span>
+              <span className={styles.itemBase}>{movie.Title}</span>
             </div>
             <div className={styles.infoItem}>
               <span className={styles.itemTitle}>Released:</span>{" "}
@@ -125,7 +125,7 @@ export const MovieDetails = () => {
             ))}
           </div>
           <div className={styles.imdbRating}>
-            <span className={styles.addInfoTitle}>IMDB Rating:</span>
+            <span className={styles.addInfoTitle}>IMDB Rating:</span>{" "}
             <span className={styles.addInfoItem}>{movie.imdbRating}</span>
           </div>
           <div className={styles.imdbVotes}>
