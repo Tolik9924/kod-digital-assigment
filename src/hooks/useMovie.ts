@@ -1,10 +1,9 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
 import { fetchMovie, showLocalMovie } from "../features/movies/moviesSlice";
-import type { Movie } from "../features/movies/types";
-import { useEffect } from "react";
 
-export const useMovie = (query: string, movieData: Movie) => {
+export const useMovie = (query: string) => {
     const dispatch = useDispatch<AppDispatch>();
     const { movie, movies, loadingMovie } = useSelector(
         (state: RootState) => state.movies
@@ -12,13 +11,14 @@ export const useMovie = (query: string, movieData: Movie) => {
 
     useEffect(() => {
         getMovieData();
-    }, [movie.Title, movieData?.Title]);
+    }, [movie.Title]);
 
     const getMovieData = async () => {
+        console.log('WOR');
         const result = await dispatch(fetchMovie(query));
 
     if (result.type.endsWith("/rejected")) {
-        const foundMovie = movies.find((m) => m.imdbID === movieData?.imdbID);
+        const foundMovie = movies.find((m) => m.imdbID === query);
         if (foundMovie) {
             dispatch(showLocalMovie(foundMovie));
         }

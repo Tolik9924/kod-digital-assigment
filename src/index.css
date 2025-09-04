@@ -95,7 +95,8 @@
     --skeleton-color-dark: rgba(31,41,55,1);
 }
 
-body {
+html, body {
   margin: 0px;
   background: #F3F4F6;
+  height: 100%;
 }

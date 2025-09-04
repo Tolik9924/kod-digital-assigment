@@ -85,7 +85,7 @@ export const Home: React.FC = () => {
     }, 500);
   };
 
-  console.log('MOVIES: ', movies);
+  console.log("MOVIES: ", movies);
 
   return (
     <div className={styles.home}>

@@ -1,9 +1,15 @@
 .detailsPage {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.backButtonContainer {
+  position: fixed;
+  top: 3%;
+  left: 3%;
 }
 
 .detailsContainer {
@@ -16,17 +22,19 @@
   border-radius: 15px;
   padding: 30px;
   box-sizing: border-box;
+  margin: 3% 0;
 }
 
 .detailsContainerSkeleton {
-  width: 80%;
-  height: 300px;
+  width: 1200px;
+  height: 700px;
   background: #fff;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
   border-radius: 15px;
   display: flex;
   align-self: center;
   margin: 0 auto;
+  margin: 3% 0;
 }
 
 .baseInfo {
@@ -128,17 +136,12 @@
 @media (max-width: 1440px) {
   .detailsPage {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .detailsContainer {
     width: 80%;
     flex-direction: row;
     padding: 15px;
-    margin: 3% 0;
   }
 
   .detailsContainerSkeleton {
@@ -149,11 +152,6 @@
 
   .baseInfo {
     width: 30%;
-    border-right: 1px solid var(--checkbox-disabled-background);
-    border-bottom: none;
-    padding-right: 0;
-    padding-bottom: 15px;
-    font-size: 15px;
   }
 
   .posterContainer {
@@ -176,10 +174,6 @@
 @media (max-width: 1200px) {
   .detailsPage {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .detailsContainer {
@@ -189,10 +183,6 @@
 
   .baseInfo {
     width: 30%;
-    border-right: 1px solid var(--checkbox-disabled-background);
-    border-bottom: none;
-    padding-right: 0;
-    padding-bottom: 15px;
   }
 
   .imgMovie {
@@ -218,8 +208,6 @@
 
 @media (max-width: 1023px) {
   .detailsPage {
-    width: none;
-    height: none;
     display: flex;
     justify-content: start;
     align-items: start;
@@ -228,18 +216,29 @@
   .detailsContainer {
     width: 100%;
     flex-direction: column;
+    margin: 0;
+    border-radius: 0px;;
+    min-height: 100vh;
+  }
+
+  .detailsContainerSkeleton {
+    width: 100%;
+    height: 100%;
   }
 
   .baseInfo {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--checkbox-disabled-background);
-    padding-right: 0;
-    padding-bottom: 15px;
+  }
+
+  .posterContainer {
+    margin: 0 auto;
+    width: 250px;
   }
 
   .imgMovie {
-    width: 38%;
+    width: 100%;
   }
 
   .addInfo {
@@ -271,12 +270,15 @@
     border-radius: 0px;
   }
 
+  .detailsContainerSkeleton {
+    width: 100%;
+    height: 100%;
+  }
+
   .baseInfo {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--checkbox-disabled-background);
-    padding-right: 0;
-    padding-bottom: 15px;
   }
 
   .imgMovie {
@@ -323,6 +325,11 @@
     flex-direction: column;
     margin: 0;
     border-radius: 0px;
+  }
+
+  .detailsContainerSkeleton {
+    width: 100%;
+    height: 100%;
   }
 
   .baseInfo {

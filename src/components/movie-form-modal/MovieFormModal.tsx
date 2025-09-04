@@ -1,23 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
-import type { AppDispatch, RootState } from "../../app/store";
+import type { RootState } from "../../app/store";
 import type { Movie } from "../../features/movies/types";
 import type { Values } from "./types";
-import { fetchMovie, showLocalMovie } from "../../features/movies/moviesSlice";
 import { Input } from "../../ui-components/input/Input";
 import { Button } from "../../ui-components/button/Button";
 import { Loading } from "../../ui-components/loading/Loading";
 import { classes } from "../../common_utils/classes/classes";
 import { Dropdown } from "../dropdown/Dropdown";
-import { GENRES, INITIAL_VALUES } from "./constants";
-
-import styles from "./movieFormModal.module.scss";
+import { GENRES, INITIAL_ADD_DATA, INITIAL_VALUES } from "./constants";
 import { useMovie } from "../../hooks/useMovie";
 
-const INITIAL_ADD_INFO = {
-
-};
+import styles from "./movieFormModal.module.scss";
 
 const MovieFormModal = ({
   movieData,
@@ -28,10 +22,7 @@ const MovieFormModal = ({
   onSave: (movie: Movie, saveOrEdit: string) => void;
   onCancel: () => void;
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { movie, movies, loadingMovie } = useSelector(
-    (state: RootState) => state.movies
-  );
+  const { movie, movies } = useSelector((state: RootState) => state.movies);
 
   const movieFormData: Values = {
     ...movie,
@@ -46,26 +37,19 @@ const MovieFormModal = ({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
-  const loading = useMovie(movieData?.imdbID, movieData);
-
-  useEffect(() => {
-    if (movieData) {
-      //getMovie();
-      // here must be function
-    }
-  }, [movie.Title, movieData?.Title]);
+  const loading = useMovie(movieData?.imdbID ?? "");
 
   const submit = (data: Values) => {
     const saveOrEdit = movieData ? "edit" : "save";
     const result = {
       ...data,
       imdbID: movieData ? movieData.imdbID : data.Title,
-      Year: `${data.Year}`,
+      Year: `${data.Year.replace(/\s+/g, "")}`,
       Genre: data.Genre.join(", "),
       isFavorite: movieData ? movie.isFavorite : false,
       Poster: movieData ? movieData.Poster : "N/A",
       Runtime: `${data.Runtime} min.`,
-      Type: "N/A",
+      ...INITIAL_ADD_DATA,
     };
 
     onSave(result, saveOrEdit);
@@ -92,7 +76,7 @@ const MovieFormModal = ({
                     (item) =>
                       movie.Title !== value &&
                       value.toLocaleLowerCase() ===
-                      item.Title.toLocaleLowerCase()
+                        item.Title.toLocaleLowerCase()
                   );
 
                   if (sameMovie) {
@@ -121,7 +105,7 @@ const MovieFormModal = ({
               rules={{
                 required: "Year(s) is required",
                 validate: (value) => {
-                  const regex = /^(?:\d{4}|\d{4}\s*-\s*\d{4})$/;
+                  const regex = /^\d{4}(?:\s*[-–—]\s*\d{4})?$/;
                   const minYear = 1880;
 
                   if (!regex.test(value)) {
@@ -129,13 +113,17 @@ const MovieFormModal = ({
                   }
 
                   if (value.includes("-")) {
-                    const [start, end] = value.split("-").map((s) => parseInt(s.trim(), 10));
-                    if (start < minYear) return "First movie was released in 1880";
-                    if (start > end) return "Start year must be before end year";
+                    const [start, end] = value
+                      .split("-")
+                      .map((s) => parseInt(s.trim(), 10));
+                    if (start < minYear)
+                      return "First movie was released in 1880";
+                    if (start > end)
+                      return "Start year must be before end year";
                   }
 
                   return true;
-                }
+                },
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>

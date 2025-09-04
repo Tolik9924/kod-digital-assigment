@@ -43,3 +43,23 @@ export const GENRES = [
   { id: "survival", name: "Survival" },
   { id: "martial-arts", name: "Martial Arts" },
 ];
+
+export const INITIAL_ADD_DATA = {
+  Country: "N/A",
+  Type: "N/A",
+  Production: "N/A",
+  Metascore: "N/A",
+  Rated: "N/A",
+  Plot: "N/A",
+  Actors: "N/A",
+  Writer: "N/A",
+  Awards: "N/A",
+  Rating: [
+    { Source: "Internet Movie Database", Value: "N/A" },
+    { Source: "Rotten Tomatoes", Value: "N/A" },
+    { Source: "Metacritic", Value: "N/A" },
+  ],
+  imdbRating: "N/A",
+  imdbVotes: "N/A",
+  BoxOffice: "N/A",
+};

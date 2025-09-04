@@ -1,46 +1,44 @@
-import { useEffect, useState, type SyntheticEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import type { AppDispatch, RootState } from "../../app/store";
-import { fetchMovie } from "../../features/movies/moviesSlice";
+import { useState, type SyntheticEvent } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "../../ui-components/button/Button";
+import { Tag } from "../../ui-components/tag/Tag";
+import { Loading } from "../../ui-components/loading/Loading";
+import { useMovie } from "../../hooks/useMovie";
+import type { RootState } from "../../app/store";
 import { classes } from "../../common_utils/classes/classes";
 import noPhoto from "../../assets/no-photo-available.png";
 
 import styles from "./movieDetails.module.scss";
-import { Tag } from "../../ui-components/tag/Tag";
-import { Loading } from "../../ui-components/loading/Loading";
 
 export const MovieDetails = () => {
   const [errorImg, setErrorImg] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
   const { title = "" } = useParams();
-  const { movie, movies, loadingMovie } = useSelector(
-    (state: RootState) => state.movies
-  );
+  const { movie } = useSelector((state: RootState) => state.movies);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    getMovieData(title);
-  }, []);
+  const loading = useMovie(title);
 
-  const getMovieData = (query: string) => {
-    console.log("QUERY FUNC: ", query);
-    dispatch(fetchMovie(query));
-  };
-
-  if (loadingMovie) {
+  if (loading) {
     return (
-      <Loading variant="skeleton">
-        <div className={styles.detailsPage}>
-          <div className={styles.detailsContainerSkeleton}></div>
+      <div>
+        <div className={styles.backButtonContainer}>
+          <Button onClick={() => navigate(-1)}>Back</Button>
         </div>
-      </Loading>
+        <Loading variant="skeleton">
+          <div className={styles.detailsPage}>
+            <div className={styles.detailsContainerSkeleton}></div>
+          </div>
+        </Loading>
+      </div>
     );
   }
 
-  console.log('MOVIE: ', movie);
-
   return (
     <div className={styles.detailsPage}>
+      <div className={styles.backButtonContainer}>
+        <Button onClick={() => navigate(-1)}>Back</Button>
+      </div>
       <div className={styles.detailsContainer}>
         <div className={styles.baseInfo}>
           <div className={styles.posterContainer}>
