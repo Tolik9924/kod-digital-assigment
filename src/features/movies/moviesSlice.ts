@@ -72,7 +72,6 @@ const moviesSlice = createSlice({
       state.movies.push({ ...action.payload, isFavorite: false });
     },
     editMovie: (state, action: PayloadAction<Movie>) => {
-      console.log('ACTION PAYLOAD: ', action.payload);
       state.movies = state.movies.map(m => m.imdbID === action.payload.imdbID ? action.payload : m);
     },
     deleteMovie: (state, action: PayloadAction<string>) => {

@@ -27,7 +27,7 @@ export const Home: React.FC = () => {
     (state: RootState) => state.movies
   );
 
-  const [searchMovie, setSearchMovie] = useState("Batman");
+  const [searchMovie, setSearchMovie] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -85,8 +85,6 @@ export const Home: React.FC = () => {
     }, 500);
   };
 
-  console.log("MOVIES: ", movies);
-
   return (
     <div className={styles.home}>
       <Header
@@ -141,7 +139,11 @@ export const Home: React.FC = () => {
       )}
       {filteredMovies.length === 0 && (
         <div className={styles.noData}>
-          <span className={styles.noDataText}>No data available.</span>
+          <span className={styles.noDataText}>
+            {searchMovie === ""
+              ? "Enter the movie title to start searching."
+              : "No data available."}
+          </span>
         </div>
       )}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>

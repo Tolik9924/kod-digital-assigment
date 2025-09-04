@@ -1,11 +1,9 @@
 import { useState, type SyntheticEvent } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../ui-components/button/Button";
 import { Tag } from "../../ui-components/tag/Tag";
 import { Loading } from "../../ui-components/loading/Loading";
 import { useMovie } from "../../hooks/useMovie";
-import type { RootState } from "../../app/store";
 import { classes } from "../../common_utils/classes/classes";
 import noPhoto from "../../assets/no-photo-available.png";
 
@@ -14,12 +12,11 @@ import styles from "./movieDetails.module.scss";
 export const MovieDetails = () => {
   const [errorImg, setErrorImg] = useState(false);
   const { title = "" } = useParams();
-  const { movie } = useSelector((state: RootState) => state.movies);
   const navigate = useNavigate();
 
-  const loading = useMovie(title);
+  const { movie, loadingMovie } = useMovie(title);
 
-  if (loading) {
+  if (loadingMovie) {
     return (
       <div>
         <div className={styles.backButtonContainer}>

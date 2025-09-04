@@ -1,6 +1,4 @@
-import { useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
-import type { RootState } from "../../app/store";
 import type { Movie } from "../../features/movies/types";
 import type { Values } from "./types";
 import { Input } from "../../ui-components/input/Input";
@@ -10,6 +8,7 @@ import { classes } from "../../common_utils/classes/classes";
 import { Dropdown } from "../dropdown/Dropdown";
 import { GENRES, INITIAL_ADD_DATA, INITIAL_VALUES } from "./constants";
 import { useMovie } from "../../hooks/useMovie";
+import { formatTitle } from "../../utils/formatTitle";
 
 import styles from "./movieFormModal.module.scss";
 
@@ -22,7 +21,7 @@ const MovieFormModal = ({
   onSave: (movie: Movie, saveOrEdit: string) => void;
   onCancel: () => void;
 }) => {
-  const { movie, movies } = useSelector((state: RootState) => state.movies);
+  const { movie, movies, loadingMovie } = useMovie(movieData?.imdbID ?? "");
 
   const movieFormData: Values = {
     ...movie,
@@ -37,12 +36,13 @@ const MovieFormModal = ({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
-  const loading = useMovie(movieData?.imdbID ?? "");
-
   const submit = (data: Values) => {
     const saveOrEdit = movieData ? "edit" : "save";
+    const format = formatTitle(data.Title);
+
     const result = {
       ...data,
+      Title: format,
       imdbID: movieData ? movieData.imdbID : data.Title,
       Year: `${data.Year.replace(/\s+/g, "")}`,
       Genre: data.Genre.join(", "),
@@ -57,7 +57,7 @@ const MovieFormModal = ({
 
   return (
     <div className={styles.movieFormModal}>
-      {loading ? (
+      {loadingMovie ? (
         <div className={styles.loadingContainer}>
           <Loading variant="dots" />
         </div>
@@ -80,7 +80,7 @@ const MovieFormModal = ({
                   );
 
                   if (sameMovie) {
-                    return "SAME MOVIE";
+                    return "A movie with the same name already exists.";
                   }
                 },
                 required: "Title is required.",
