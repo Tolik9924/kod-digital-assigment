@@ -2,11 +2,8 @@ import React, { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../app/store";
 import {
-  fetchMovies,
   addMovie,
-  editMovie,
   deleteMovie,
-  addFavorites,
 } from "../../features/movies/moviesSlice";
 import { Header } from "../../ui-components/header/Header";
 import { Input } from "../../ui-components/input/Input";
@@ -20,6 +17,7 @@ import { DeleteModal } from "../../components/delete-modal/DeleteModal";
 import type { Movie } from "../../features/movies/types";
 
 import styles from "./home.module.scss";
+import { editMovie, fetchMovies } from "../../features/movies/moviesThunks";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -47,7 +45,8 @@ export const Home: React.FC = () => {
 
   const onSave = (m: Movie, saveOrEdit: string) => {
     if (saveOrEdit === "edit") {
-      dispatch(editMovie(m));
+      //dispatch(editMovie(m));
+      console.log('EDIT');
     }
 
     if (saveOrEdit === "save") {
@@ -83,6 +82,12 @@ export const Home: React.FC = () => {
     timeoutRef.current = setTimeout(() => {
       dispatch(fetchMovies(value));
     }, 500);
+  };
+
+  const handleEditMovie = (imdbID: string, data: Movie) => {
+    console.log('IMDB ID: ', imdbID);
+    console.log('DATA: ', data);
+    //dispatch(editMovie({imdbID, data}))
   };
 
   return (
@@ -132,7 +137,7 @@ export const Home: React.FC = () => {
               movie={m}
               onEdit={() => onEdit(m)}
               onDelete={() => deleteMovieCard(m.Title)}
-              onToggleFavorite={() => dispatch(addFavorites(m))}
+              onToggleFavorite={() => handleEditMovie(m.imdbID, m)}
             />
           ))}
         </div>

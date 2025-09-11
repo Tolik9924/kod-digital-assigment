@@ -22,15 +22,6 @@ export const movieService = {
     await api.delete(`/users/${imdbID}`);
   },
 
-  addFavorites: async (data: Partial<Movie>): Promise<Movie> => {
-    const res = await api.post("/favorites", data);
-    return res.data;
-  },
-
-  removeFavorites: async (imdbID: string): Promise<void> => {
-    await api.delete(`/favorites/${imdbID}`);
-  },
-
   getFavorites: async () => {
     const res = await api.get(`/favorites`);
     return res.data;

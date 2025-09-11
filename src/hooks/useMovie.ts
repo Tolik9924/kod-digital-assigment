@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../app/store";
-import { fetchMovie, showLocalMovie } from "../features/movies/moviesSlice";
+import { showLocalMovie } from "../features/movies/moviesSlice";
+import { fetchMovie } from "../features/movies/moviesThunks";
 
 export const useMovie = (query: string) => {
   const dispatch = useDispatch<AppDispatch>();
