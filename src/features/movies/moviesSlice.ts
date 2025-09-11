@@ -23,19 +23,11 @@ export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
   async (query: string, { rejectWithValue  }) => {
     try {
-      //const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
       const res = await movieService.search(query);
 
-      console.log('RES: ', res);
-
-      if (res.Response === "False") {
-        return [];
-      }
-
-      return (res.data.Search || []).map((movie: Movie) => ({
+      return (res || []).map((movie: Movie) => ({
       ...movie,
       Title: formatTitle(movie.Title),
-      isFavorite: false,
     }));
     } catch (err) {
       return rejectWithValue(getErrorMessage(err));
@@ -73,7 +65,7 @@ const moviesSlice = createSlice({
   initialState,
   reducers: {
     addMovie: (state, action: PayloadAction<Movie>) => {
-      state.movies.push({ ...action.payload, isFavorite: false });
+      state.movies.push({ ...action.payload });
     },
     editMovie: (state, action: PayloadAction<Movie>) => {
       state.movies = state.movies.map(m => m.imdbID === action.payload.imdbID ? action.payload : m);
@@ -83,7 +75,7 @@ const moviesSlice = createSlice({
     },
     toggleFavorite: (state, action: PayloadAction<string>) => {
       state.movies = state.movies.map(m =>
-        m.Title === action.payload ? { ...m, isFavorite: !m.isFavorite } : m
+        m.Title === action.payload ? { ...m } : m
       );
     },
     showLocalMovie: (state, action: PayloadAction<Movie>) => {

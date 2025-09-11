@@ -38,12 +38,12 @@ export const Home: React.FC = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    dispatch(fetchMovies(searchMovie));
+    if (searchMovie !== "") {
+      dispatch(fetchMovies(searchMovie));
+    }
   }, []);
 
-  const filteredMovies = showFavorites
-    ? movies.filter((m) => m.isFavorite)
-    : movies;
+  const filteredMovies = movies;
 
   const onSave = (m: Movie, saveOrEdit: string) => {
     if (saveOrEdit === "edit") {
