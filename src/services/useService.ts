@@ -1,19 +1,19 @@
 import api from "./api";
-import type { Create, Search } from "./types";
+import type { Movie } from "./types";
 
 export const movieService = {
-  search: async (query: string): Promise<Search[]> => {
+  search: async (query: string): Promise<Movie[]> => {
     const res = await api.get(`/search?title=${query}`);
     console.log('RES SERVICE: ', res);
     return res.data;
   },
 
-  create: async (data: Create): Promise<Create> => {
+  create: async (data: Movie): Promise<Movie> => {
     const res = await api.post("/", data);
     return res.data;
   },
 
-  edit: async (imdbID: string, data: Partial<Create>): Promise<Create> => {
+  edit: async (imdbID: string, data: Partial<Movie>): Promise<Movie> => {
     const res = await api.patch(`/${imdbID}`, data);
     return res.data;
   },
@@ -22,7 +22,7 @@ export const movieService = {
     await api.delete(`/users/${imdbID}`);
   },
 
-  addFavorites: async (data: Partial<Create>): Promise<Create> => {
+  addFavorites: async (data: Partial<Movie>): Promise<Movie> => {
     const res = await api.post("/favorites", data);
     return res.data;
   },

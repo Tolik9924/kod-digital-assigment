@@ -52,6 +52,19 @@ export const fetchMovie = createAsyncThunk(
   }
 );
 
+export const addFavorites = createAsyncThunk(
+  'movies/addFavorite',
+  async (data: Movie, { rejectWithValue  }) => {
+    console.log('DATA: ', data);
+    try {
+      await movieService.addFavorites(data);
+    }
+    catch (err) {
+      return rejectWithValue(getErrorMessage(err));
+    } 
+  }
+);
+
 const initialState: MoviesState = {
   movie: initialMovie,
   movies: [],
@@ -73,17 +86,13 @@ const moviesSlice = createSlice({
     deleteMovie: (state, action: PayloadAction<string>) => {
       state.movies = state.movies.filter(m => m.Title !== action.payload);
     },
-    toggleFavorite: (state, action: PayloadAction<string>) => {
-      state.movies = state.movies.map(m =>
-        m.Title === action.payload ? { ...m } : m
-      );
-    },
     showLocalMovie: (state, action: PayloadAction<Movie>) => {
       console.log('SHOW LOCAL MOVIE: ', action.payload);
       state.movie = action.payload;
     }
   },
   extraReducers: (builder) => {
+    //fetch movies
     builder.addCase(fetchMovies.pending, (state) => {
       state.loadingMovies = true;
     });
@@ -95,6 +104,7 @@ const moviesSlice = createSlice({
       state.loadingMovies = false;
     });
 
+    // fetch movie
     builder.addCase(fetchMovie.pending, (state) => {
       state.loadingMovie = true;
     });
@@ -103,6 +113,18 @@ const moviesSlice = createSlice({
       state.loadingMovie = false;
     });
     builder.addCase(fetchMovie.rejected, (state) => {
+      state.loadingMovie = false;
+    });
+
+    // add favorites
+    builder.addCase(addFavorites.pending, (state) => {
+      state.loadingMovie = true;
+    });
+    builder.addCase(addFavorites.fulfilled, (state, action: PayloadAction<Movie>) => {
+      state.movie = action.payload;
+      state.loadingMovie = false;
+    });
+    builder.addCase(addFavorites.rejected, (state) => {
       state.loadingMovie = false;
     });
   }

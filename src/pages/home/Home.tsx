@@ -6,7 +6,7 @@ import {
   addMovie,
   editMovie,
   deleteMovie,
-  toggleFavorite,
+  addFavorites,
 } from "../../features/movies/moviesSlice";
 import { Header } from "../../ui-components/header/Header";
 import { Input } from "../../ui-components/input/Input";
@@ -132,7 +132,7 @@ export const Home: React.FC = () => {
               movie={m}
               onEdit={() => onEdit(m)}
               onDelete={() => deleteMovieCard(m.Title)}
-              onToggleFavorite={() => dispatch(toggleFavorite(m.Title))}
+              onToggleFavorite={() => dispatch(addFavorites(m))}
             />
           ))}
         </div>
