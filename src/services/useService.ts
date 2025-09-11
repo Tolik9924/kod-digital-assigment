@@ -1,24 +1,10 @@
 import api from "./api";
-
-type Search = {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
-};
-
-type Create = {
-  imdb_id: string;
-  Title: string;
-  Year: string;
-  Type: string;
-  Poster: string;
-};
+import type { Create, Search } from "./types";
 
 export const movieService = {
   search: async (query: string): Promise<Search[]> => {
     const res = await api.get(`/search?title=${query}`);
+    console.log('RES SERVICE: ', res);
     return res.data;
   },
 

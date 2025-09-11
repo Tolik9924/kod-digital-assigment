@@ -3,6 +3,7 @@ import axios from 'axios';
 import type { Movie, MoviesState } from './types';
 import { formatTitle } from '../../utils/formatTitle';
 import { getErrorMessage } from '../../utils/getErrorMessage';
+import { movieService } from '../../services/useService';
 
 const API_KEY = 'b573b702';
 
@@ -22,9 +23,12 @@ export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
   async (query: string, { rejectWithValue  }) => {
     try {
-      const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+      //const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+      const res = await movieService.search(query);
 
-      if (res.data.Response === "False") {
+      console.log('RES: ', res);
+
+      if (res.Response === "False") {
         return [];
       }
 
