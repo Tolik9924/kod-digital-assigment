@@ -4,6 +4,7 @@ import type { Movie, MoviesState } from './types';
 import { formatTitle } from '../../utils/formatTitle';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { movieService } from '../../services/useService';
+import { addFavoritesExtra, fetchMovieExtra, fetchMoviesExtra } from './moviesExtraReducers';
 
 const API_KEY = 'b573b702';
 
@@ -92,43 +93,11 @@ const moviesSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    //fetch movies
-    builder.addCase(fetchMovies.pending, (state) => {
-      state.loadingMovies = true;
-    });
-    builder.addCase(fetchMovies.fulfilled, (state, action: PayloadAction<Movie[]>) => {
-      state.movies = action.payload;
-      state.loadingMovies = false;
-    });
-    builder.addCase(fetchMovies.rejected, (state) => {
-      state.loadingMovies = false;
-    });
-
-    // fetch movie
-    builder.addCase(fetchMovie.pending, (state) => {
-      state.loadingMovie = true;
-    });
-    builder.addCase(fetchMovie.fulfilled, (state, action: PayloadAction<Movie>) => {
-      state.movie = action.payload;
-      state.loadingMovie = false;
-    });
-    builder.addCase(fetchMovie.rejected, (state) => {
-      state.loadingMovie = false;
-    });
-
-    // add favorites
-    builder.addCase(addFavorites.pending, (state) => {
-      state.loadingMovie = true;
-    });
-    builder.addCase(addFavorites.fulfilled, (state, action: PayloadAction<Movie>) => {
-      state.movie = action.payload;
-      state.loadingMovie = false;
-    });
-    builder.addCase(addFavorites.rejected, (state) => {
-      state.loadingMovie = false;
-    });
+    fetchMoviesExtra(builder);
+    fetchMovieExtra(builder);
+    addFavoritesExtra(builder);
   }
 });
 
-export const { addMovie, editMovie, deleteMovie, toggleFavorite, showLocalMovie } = moviesSlice.actions;
+export const { addMovie, editMovie, deleteMovie, showLocalMovie } = moviesSlice.actions;
 export default moviesSlice.reducer;
