@@ -36,8 +36,14 @@ export const editMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) =>
       state.loadingMovie = true;
     })
     .addCase(editMovie.fulfilled, (state, action) => {
-      state.movie = action.payload;
-      state.loadingMovie = false;
+      const updatedMovie = action.payload;
+      console.log('UPDATED MOVIE: ', updatedMovie);
+      const index = state.movies.findIndex(m => m.imdbID === updatedMovie.imdbID);
+      if (index !== -1) {
+        state.movies[index] = updatedMovie;
+      }
+      //state.movie = action.payload;
+      //state.loadingMovie = false;
     })
     .addCase(editMovie.rejected, (state) => {
       state.loadingMovie = false;

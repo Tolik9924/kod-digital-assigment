@@ -19,7 +19,7 @@ export const Loading = ({
   dark,
 }: {
   variant?: "spinner" | "dots" | "skeleton" | "bar";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xs";
   label?: string;
   fullScreen?: boolean;
   overlay?: boolean;

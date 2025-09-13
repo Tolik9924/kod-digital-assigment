@@ -8,10 +8,12 @@ export const loadingSize = {
   sm: "sm",
   md: "md",
   lg: "lg",
+  xs: "xs",
 } as const;
 
 export const labelSize = {
   sm: "text-xs",
   md: "text-sm",
   lg: "text-base",
+  xs: "text-xs",
 } as const;

@@ -2,7 +2,11 @@ import { classes } from "../../../../common_utils/classes/classes";
 import { loadingSize } from "../../constants/constants";
 import styles from "./styles.module.scss";
 
-export const Spinner = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => {
+export const Spinner = ({
+  size = "md",
+}: {
+  size?: "sm" | "md" | "lg" | "xs";
+}) => {
   console.log("SIZE: ", size);
   return (
     <div

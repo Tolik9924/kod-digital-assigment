@@ -40,12 +40,12 @@ export const fetchMovie = createAsyncThunk(
   }
 );
 
-export const editMovie = createAsyncThunk<void, {imdbID: string, data: Movie}>(
+export const editMovie = createAsyncThunk<Movie, {imdbID: string, data: Movie}>(
   'movies/editMovie',
   async ({imdbID, data}, { rejectWithValue  }) => {
-    console.log('DATA: ', data);
     try {
-      await movieService.edit(imdbID, data);
+      const editData = await movieService.edit({imdbID, data});
+      return editData;
     }
     catch (err) {
       return rejectWithValue(getErrorMessage(err));

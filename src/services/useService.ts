@@ -4,7 +4,6 @@ import type { Movie } from "./types";
 export const movieService = {
   search: async (query: string): Promise<Movie[]> => {
     const res = await api.get(`/search?title=${query}`);
-    console.log('RES SERVICE: ', res);
     return res.data;
   },
 
@@ -13,7 +12,7 @@ export const movieService = {
     return res.data;
   },
 
-  edit: async (imdbID: string, data: Partial<Movie>): Promise<Movie> => {
+  edit: async ({imdbID, data}: {imdbID: string, data: Partial<Movie>}): Promise<Movie> => {
     const res = await api.patch(`/${imdbID}`, data);
     return res.data;
   },

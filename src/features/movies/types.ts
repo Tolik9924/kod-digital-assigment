@@ -9,7 +9,7 @@ export interface Movie {
   Title: string;
   Year: string;
   Type: string;
-  isFavorite: boolean;
+  isFavorite?: boolean;
   Runtime?: string;
   Director?: string;
   Genre?: string;

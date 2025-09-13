@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../app/store";
-import {
-  addMovie,
-  deleteMovie,
-} from "../../features/movies/moviesSlice";
+import { addMovie, deleteMovie } from "../../features/movies/moviesSlice";
 import { Header } from "../../ui-components/header/Header";
 import { Input } from "../../ui-components/input/Input";
 import { Button } from "../../ui-components/button/Button";
@@ -17,7 +14,11 @@ import { DeleteModal } from "../../components/delete-modal/DeleteModal";
 import type { Movie } from "../../features/movies/types";
 
 import styles from "./home.module.scss";
-import { editMovie, fetchMovies } from "../../features/movies/moviesThunks";
+import {
+  editMovie,
+  fetchMovie,
+  fetchMovies,
+} from "../../features/movies/moviesThunks";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +26,7 @@ export const Home: React.FC = () => {
     (state: RootState) => state.movies
   );
 
-  const [searchMovie, setSearchMovie] = useState("");
+  const [searchMovie, setSearchMovie] = useState("batman");
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -46,7 +47,7 @@ export const Home: React.FC = () => {
   const onSave = (m: Movie, saveOrEdit: string) => {
     if (saveOrEdit === "edit") {
       //dispatch(editMovie(m));
-      console.log('EDIT');
+      console.log("EDIT");
     }
 
     if (saveOrEdit === "save") {
@@ -84,10 +85,24 @@ export const Home: React.FC = () => {
     }, 500);
   };
 
-  const handleEditMovie = (imdbID: string, data: Movie) => {
-    console.log('IMDB ID: ', imdbID);
-    console.log('DATA: ', data);
-    //dispatch(editMovie({imdbID, data}))
+  const handleFavorite = async (imdbID: string, data: Movie) => {
+    const movie = await dispatch(fetchMovie(imdbID)).unwrap();
+    if (movie) {
+      const result: Movie = {
+        ...data,
+        Poster: movie.Poster,
+        Director: movie.Director,
+        Genre: movie.Genre,
+        Runtime: movie.Runtime,
+        isFavorite: !data.isFavorite,
+      };
+      console.log("RESULT: ", result);
+
+      const editData = await dispatch(editMovie({ imdbID, data: result }));
+      console.log("EDITED DATA: ", editData.payload);
+
+      return editData.payload;
+    }
   };
 
   return (
@@ -137,7 +152,7 @@ export const Home: React.FC = () => {
               movie={m}
               onEdit={() => onEdit(m)}
               onDelete={() => deleteMovieCard(m.Title)}
-              onToggleFavorite={() => handleEditMovie(m.imdbID, m)}
+              onToggleFavorite={() => handleFavorite(m.imdbID, m)}
             />
           ))}
         </div>

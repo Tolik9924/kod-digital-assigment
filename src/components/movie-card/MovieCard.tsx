@@ -8,6 +8,7 @@ import noPhoto from "../../assets/no-photo-available.png";
 
 import styles from "./movieCard.module.scss";
 import { classes } from "../../common_utils/classes/classes";
+import { Loading } from "../../ui-components/loading/Loading";
 
 interface Props {
   movie: Movie;
@@ -24,9 +25,19 @@ export const MovieCard: React.FC<Props> = ({
 }) => {
   const navigate = useNavigate();
   const [errorImg, setErrorImg] = useState(false);
+  const [loadingFavorite, setLoadingFavorite] = useState(false);
 
   const goToDetails = () => {
     navigate(`/movie/${encodeURIComponent(movie.imdbID)}`);
+  };
+
+  const handleFavorite = async () => {
+    try {
+      setLoadingFavorite(true);
+      await onToggleFavorite();
+    } finally {
+      setLoadingFavorite(false);
+    }
   };
 
   return (
@@ -52,13 +63,17 @@ export const MovieCard: React.FC<Props> = ({
             <Link className={styles.movieTitle} to={`/movie/${movie.imdbID}`}>
               {movie.Title}
             </Link>
-            <Button onClick={onToggleFavorite} size="xs" variant="primary">
-              <StarIcon
-                width="12"
-                height="12"
-                stroke="#fff"
-                fill={movie.isFavorite ? "#fff" : "none"}
-              />
+            <Button onClick={handleFavorite} size="xs" variant="primary">
+              {!loadingFavorite ? (
+                <StarIcon
+                  width="12"
+                  height="12"
+                  stroke="#fff"
+                  fill={movie.isFavorite ? "#fff" : "none"}
+                />
+              ) : (
+                <Loading size="xs" variant="spinner" />
+              )}
             </Button>
           </div>
           <div className={styles.description}>
