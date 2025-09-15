@@ -32,7 +32,7 @@ export const Dropdown = ({
   options,
   title = "Select",
   selectedId,
-  selectedIds,
+  selectedIds = [],
   fullWidth,
   size = "m",
   onSelect,
@@ -42,32 +42,28 @@ export const Dropdown = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const titleSize = `${size}Title`;
 
-  const [selectedItems, setSelectedItems] = useState<DropdownItem[]>(
-    isMultiple && selectedIds?.length
-      ? options?.filter((item) => selectedIds.includes(item.name)) || []
-      : selectedId
-      ? options?.filter((item) => item.id === selectedId) || []
-      : []
-  );
+  console.log("SELECTED IDS: ", selectedIds);
+
+  console.log("OPTIONS: ", options);
+  console.log("SELECTED ID: ", selectedId);
 
   const handleChange = (item: DropdownItem) => {
-    const sameItem = !selectedItems.find((selected) => selected.id === item.id);
+    const sameItem =
+      isMultiple && !selectedIds?.find((selected) => selected === item.name);
     if (isMultiple && sameItem) {
-      setSelectedItems((prev) => [item, ...prev]);
-      onSelect([item.name, ...selectedItems.map((item) => item.name)]);
+      onSelect([item.name, ...selectedIds]);
     }
 
     if (!isMultiple) {
-      setSelectedItems([item]);
-      onSelect(item.id);
+      onSelect(item.name);
     }
-
-    setIsOpen(false);
   };
 
-  const deleteItem = (item: string) => {
-    const filtered = selectedItems.filter((select) => select.name !== item);
-    setSelectedItems(filtered);
+  const deleteItem = (id: string) => {
+    if (isMultiple) {
+      const newSelection = selectedIds.filter((sid) => sid !== id) ?? [];
+      onSelect(newSelection);
+    }
   };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -96,12 +92,12 @@ export const Dropdown = ({
       })}
       ref={dropdownRef}
     >
-      <button
+      <div
         className={classes(styles.button, {
           [styles[Size[size]]]: !!size,
         })}
         id={id}
-        type="button"
+        //type="button"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className={styles.infoContainer}>
@@ -111,7 +107,7 @@ export const Dropdown = ({
                 [styles[titleSize]]: !!size,
               })}
             >
-              {selectedItems[0]?.name || title}
+              {selectedIds || title}
             </span>
           )}
           {isMultiple && (
@@ -119,10 +115,10 @@ export const Dropdown = ({
               className={styles.multipleTags}
               onClick={(e) => e.stopPropagation()}
             >
-              {selectedItems.map((item) => (
+              {selectedIds.map((item) => (
                 <Tag
-                  key={item.id}
-                  label={item.name}
+                  key={item}
+                  label={item}
                   onRemove={deleteItem}
                   variant="primary"
                 />
@@ -133,7 +129,7 @@ export const Dropdown = ({
             <AngelDown />
           </div>
         </div>
-      </button>
+      </div>
       {isOpen && (
         <div className={styles.menuContainer}>
           <ul className={styles.menu} role="menu">
@@ -147,8 +143,8 @@ export const Dropdown = ({
               >
                 <span
                   className={classes(styles.itemLink, {
-                    [styles.selectedLink]: selectedItems.some(
-                      (selected) => selected.id === item.id
+                    [styles.selectedLink]: selectedIds.some(
+                      (selected) => selected === item.name
                     ),
                   })}
                 >

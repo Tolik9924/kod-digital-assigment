@@ -92,9 +92,10 @@
 
 .multipleTags {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   max-width: 90%;
-  white-space: nowrap;
+  //white-space: nowrap;
   overflow: hidden;
   font-size: 10px;
 }
