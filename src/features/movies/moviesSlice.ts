@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction, } from '@reduxjs/toolkit';
 import type { Movie, MoviesState } from './types';
-import { editMovieExtra, fetchMovieExtra, fetchMoviesExtra } from './moviesExtraReducers';
+import { addMovieExtra, editMovieExtra, fetchMovieExtra, fetchMoviesExtra } from './moviesExtraReducers';
 
 const initialMovie = {
   imdbID: '',
@@ -20,18 +20,14 @@ const initialState: MoviesState = {
   loadingMovies: false,
   loadingMovie: false,
   loading: false,
+  loadingAdding: false,
+  deleteMovie: '',
 };
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    addMovie: (state, action: PayloadAction<Movie>) => {
-      state.movies.push({ ...action.payload });
-    },
-    deleteMovie: (state, action: PayloadAction<string>) => {
-      state.movies = state.movies.filter(m => m.Title !== action.payload);
-    },
     showLocalMovie: (state, action: PayloadAction<Movie>) => {
       state.movie = action.payload;
     }
@@ -40,8 +36,9 @@ const moviesSlice = createSlice({
     fetchMoviesExtra(builder);
     fetchMovieExtra(builder);
     editMovieExtra(builder);
+    addMovieExtra(builder);
   }
 });
 
-export const { addMovie, deleteMovie, showLocalMovie } = moviesSlice.actions;
+export const { showLocalMovie } = moviesSlice.actions;
 export default moviesSlice.reducer;

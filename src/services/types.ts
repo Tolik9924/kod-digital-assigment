@@ -4,4 +4,8 @@ export type Movie = {
   Year: string;
   Type: string;
   Poster: string;
+  Runtime?: string;
+  Genre?: string;
+  Director?: string;
+  isFavorite?: boolean;
 };

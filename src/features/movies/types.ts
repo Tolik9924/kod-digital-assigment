@@ -48,4 +48,6 @@ export interface MoviesState {
   error?: string;
   loadingMovies: boolean;
   loadingMovie: boolean;
+  deleteMovie: string;
+  loadingAdding: boolean;
 }

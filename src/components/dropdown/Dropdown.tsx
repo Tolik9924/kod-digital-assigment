@@ -121,6 +121,7 @@ export const Dropdown = ({
             >
               {selectedItems.map((item) => (
                 <Tag
+                  key={item.id}
                   label={item.name}
                   onRemove={deleteItem}
                   variant="primary"

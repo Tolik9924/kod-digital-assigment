@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../app/store";
-import { addMovie, deleteMovie } from "../../features/movies/moviesSlice";
 import { Header } from "../../ui-components/header/Header";
 import { Input } from "../../ui-components/input/Input";
 import { Button } from "../../ui-components/button/Button";
@@ -12,13 +11,15 @@ import { ToggleFavorites } from "../../components/ToggleFavorites";
 import { Modal } from "../../components/modal/Modal";
 import { DeleteModal } from "../../components/delete-modal/DeleteModal";
 import type { Movie } from "../../features/movies/types";
-
-import styles from "./home.module.scss";
 import {
+  addMovie,
+  deleteMovie,
   editMovie,
   fetchMovie,
   fetchMovies,
 } from "../../features/movies/moviesThunks";
+
+import styles from "./home.module.scss";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +33,10 @@ export const Home: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteTitle, setDeleteTitle] = useState("");
+  const [deleteCard, setDeleteCard] = useState<{
+    title: string;
+    imdbID: string;
+  }>({ title: "", imdbID: "" });
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -44,27 +48,35 @@ export const Home: React.FC = () => {
 
   const filteredMovies = movies;
 
-  const onSave = (m: Movie, saveOrEdit: string) => {
+  const onSave = async (m: Movie, saveOrEdit: string) => {
     if (saveOrEdit === "edit") {
       //dispatch(editMovie(m));
       console.log("EDIT");
+      setShowModal(false);
     }
 
     if (saveOrEdit === "save") {
-      dispatch(addMovie(m));
+      console.log("DATA TO ADD M: ", m);
+      const data = await dispatch(addMovie(m)).unwrap();
+      console.log("ADDING DATA: ", data);
     }
-
-    setShowModal(false);
   };
 
-  const onDelete = () => {
-    dispatch(deleteMovie(deleteTitle));
-    setShowDeleteModal(false);
+  const onDelete = async () => {
+    try {
+      const data = await dispatch(deleteMovie(deleteCard.imdbID)).unwrap();
+      if (data) {
+        await dispatch(fetchMovies(searchMovie));
+      }
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Failed to delete the movie: ", error);
+    }
   };
 
-  const deleteMovieCard = (title: string) => {
+  const deleteMovieCard = (title: string, imdbID: string) => {
     setShowDeleteModal(true);
-    setDeleteTitle(title);
+    setDeleteCard({ title, imdbID });
   };
 
   const onEdit = (movie: Movie) => {
@@ -96,12 +108,12 @@ export const Home: React.FC = () => {
         Runtime: movie.Runtime,
         isFavorite: !data.isFavorite,
       };
-      console.log("RESULT: ", result);
 
-      const editData = await dispatch(editMovie({ imdbID, data: result }));
-      console.log("EDITED DATA: ", editData.payload);
+      const editData = await dispatch(
+        editMovie({ imdbID, data: result })
+      ).unwrap();
 
-      return editData.payload;
+      return editData;
     }
   };
 
@@ -151,7 +163,7 @@ export const Home: React.FC = () => {
               key={index}
               movie={m}
               onEdit={() => onEdit(m)}
-              onDelete={() => deleteMovieCard(m.Title)}
+              onDelete={() => deleteMovieCard(m.Title, m.imdbID)}
               onToggleFavorite={() => handleFavorite(m.imdbID, m)}
             />
           ))}
@@ -167,7 +179,7 @@ export const Home: React.FC = () => {
         </div>
       )}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
-        <DeleteModal handleDelete={onDelete} />
+        <DeleteModal title={deleteCard.title} handleDelete={onDelete} />
       </Modal>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <MovieFormModal

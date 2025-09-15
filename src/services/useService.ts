@@ -8,7 +8,18 @@ export const movieService = {
   },
 
   create: async (data: Movie): Promise<Movie> => {
-    const res = await api.post("/", data);
+    const result = {
+      imdbID: data.imdbID,
+      Title: data.Title,
+      Year: data.Year,
+      Runtime: data.Runtime,
+      Genre: data.Genre,
+      Director: data.Director,
+      isFavorite: false,
+      Poster: "",
+    };
+    const res = await api.post("/", result);
+    console.log('RES DATA: ', res.data);
     return res.data;
   },
 
@@ -17,8 +28,9 @@ export const movieService = {
     return res.data;
   },
 
-  delete: async (imdbID: string): Promise<void> => {
-    await api.delete(`/users/${imdbID}`);
+  delete: async (imdbID: string): Promise<string> => {
+    const data = await api.delete(`/${imdbID}`);
+    return data.data;
   },
 
   getFavorites: async () => {

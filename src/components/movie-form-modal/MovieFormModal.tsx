@@ -32,7 +32,7 @@ const MovieFormModal = ({
     Director: movie.Director || "",
   };
 
-  const { control, handleSubmit } = useForm<Values>({
+  const { control, handleSubmit, reset, watch } = useForm<Values>({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
@@ -40,19 +40,25 @@ const MovieFormModal = ({
     const saveOrEdit = movieData ? "edit" : "save";
     const format = formatTitle(data.Title);
 
+    console.log("DATA TO SUBMIT: ", data);
+    console.log("WATCH DATA: ", watch("Genre"));
+
     const result = {
       ...data,
       Title: format,
-      imdbID: movieData ? movieData.imdbID : data.Title,
+      imdbID: movieData
+        ? movieData.imdbID
+        : data.Title.split(" ").join("_").toLocaleLowerCase(),
       Year: `${data.Year.replace(/\s+/g, "")}`,
       Genre: data.Genre.join(", "),
       isFavorite: movieData ? movie.isFavorite : false,
       Poster: movieData ? movieData.Poster : "N/A",
-      Runtime: `${data.Runtime} min.`,
+      Runtime: `${data.Runtime} min`,
       ...INITIAL_ADD_DATA,
     };
 
     onSave(result, saveOrEdit);
+    reset({ ...INITIAL_VALUES });
   };
 
   return (
@@ -105,11 +111,11 @@ const MovieFormModal = ({
               rules={{
                 required: "Year(s) is required",
                 validate: (value) => {
-                  const regex = /^\d{4}(?:\s*[-–—]\s*\d{4})?$/;
+                  const regex = /^\d{4}(?:[-–—]\d{4})?$/;
                   const minYear = 1880;
 
                   if (!regex.test(value)) {
-                    return "Enter a valid year or range";
+                    return "Year must be in the format 'YYYY' or 'YYYY-YYYY'.";
                   }
 
                   if (value.includes("-")) {
@@ -209,8 +215,12 @@ const MovieFormModal = ({
                   message: "Director name cannot exceed 50 characters",
                 },
                 validate: (value) => {
-                  if (!/^[a-zA-Z\s]+$/.test(value)) {
-                    return "Director name can only contain letters and spaces";
+                  if (
+                    !/^[A-Z][a-z]*(?:-[A-Z][a-z]*)*(?: [A-Z][a-z]*(?:-[A-Z][a-z]*)*)*$/.test(
+                      value
+                    )
+                  ) {
+                    return "Director name can only contain letters and spaces, each part starting with uppercase.";
                   }
                   return true;
                 },

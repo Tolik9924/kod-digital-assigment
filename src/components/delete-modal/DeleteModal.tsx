@@ -1,10 +1,16 @@
 import { Button } from "../../ui-components/button/Button";
 import styles from "./deleteModal.module.scss";
 
-export const DeleteModal = ({ handleDelete }: { handleDelete: () => void }) => {
+export const DeleteModal = ({
+  title,
+  handleDelete,
+}: {
+  title: string;
+  handleDelete: () => void;
+}) => {
   return (
     <div className={styles.delete}>
-      <h3>Delete Modal</h3>
+      <h3>Delete {title}?</h3>
       <div className={styles.buttonsContainer}>
         <Button onClick={handleDelete} size="s" variant="error">
           Delete

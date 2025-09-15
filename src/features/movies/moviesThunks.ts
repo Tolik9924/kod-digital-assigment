@@ -52,3 +52,29 @@ export const editMovie = createAsyncThunk<Movie, {imdbID: string, data: Movie}>(
     } 
   }
 );
+
+export const deleteMovie = createAsyncThunk<string, string>(
+  'movies/deleteMovie',
+  async (imdbID,  { rejectWithValue  }) => {
+    try {
+      const data = await movieService.delete(imdbID);
+      return data;
+    }
+    catch (err) {
+      return rejectWithValue(getErrorMessage(err));
+    } 
+  }
+);
+
+export const addMovie = createAsyncThunk<Movie, Movie>(
+  'movies/addMovie',
+  async (data, { rejectWithValue  }) => {
+    try {
+      const res = await movieService.create(data);
+      return res;
+    }
+    catch (err) {
+      return rejectWithValue(getErrorMessage(err)); 
+    }
+  }
+);
