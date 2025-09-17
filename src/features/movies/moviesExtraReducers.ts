@@ -5,35 +5,35 @@ import type { MoviesState } from "./types";
 export const fetchMoviesExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
   builder
     .addCase(fetchMovies.pending, (state) => {
-      state.loadingMovies = true;
+      state.loadings.loadingMovies = true;
     })
     .addCase(fetchMovies.fulfilled, (state, action) => {
       state.movies = action.payload;
-      state.loadingMovies = false;
+      state.loadings.loadingMovies = false;
     })
     .addCase(fetchMovies.rejected, (state) => {
-      state.loadingMovies = false;
+      state.loadings.loadingMovies = false;
     });
 };
 
 export const fetchMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
   builder
     .addCase(fetchMovie.pending, (state) => {
-      state.loadingMovie = true;
+      state.loadings.loadingMovie = true;
     })
     .addCase(fetchMovie.fulfilled, (state, action) => {
       state.movie = action.payload;
-      state.loadingMovie = false;
+      state.loadings.loadingMovie = false;
     })
     .addCase(fetchMovie.rejected, (state) => {
-      state.loadingMovie = false;
+      state.loadings.loadingMovie = false;
     });
 };
 
 export const editMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
   builder
     .addCase(editMovie.pending, (state) => {
-      state.loadingMovie = true;
+      state.loadings.loadingMovie = true;
     })
     .addCase(editMovie.fulfilled, (state, action) => {
       const updatedMovie = action.payload;
@@ -43,34 +43,34 @@ export const editMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) =>
       }
     })
     .addCase(editMovie.rejected, (state) => {
-      state.loadingMovie = false;
+      state.loadings.loadingMovie = false;
     });
 };
 
 export const deleteMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
   builder
     .addCase(deleteMovie.pending, (state) => {
-      state.loadingMovies = true;
+      state.loadings.loadingMovies = true;
     })
     .addCase(deleteMovie.fulfilled, (state, action) => {
       state.deleteMovie = action.payload;
-      state.loadingMovies = false;
+      state.loadings.loadingMovies = false;
     })
     .addCase(deleteMovie.rejected, (state) => {
-      state.loadingMovies = false;
+      state.loadings.loadingMovies = false;
     });
 };
 
 export const addMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
   builder
     .addCase(addMovie.pending, (state) => {
-      state.loadingAdding = true;
+      state.loadings.loadingAdding = true;
     })
     .addCase(addMovie.fulfilled, (state, action) => {
       state.movie = action.payload;
-      state.loadingAdding = false;
+      state.loadings.loadingAdding = false;
     })
     .addCase(addMovie.rejected, (state) => {
-      state.loadingAdding = false;
+      state.loadings.loadingAdding = false;
     });
 };

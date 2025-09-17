@@ -4,7 +4,7 @@ import {
   type MarginProps,
 } from "../../common_utils/design_atoms/margin/margin";
 import { classes } from "../../common_utils/classes/classes";
-import { Size, type SizeType } from "../../shared/parameters/parameters";
+import { type SizeType } from "../../shared/parameters/parameters";
 
 import styles from "./dropdown.module.scss";
 import { AngelDown } from "../../assets/AngelDown";
@@ -41,11 +41,6 @@ export const Dropdown = ({
 }: DropdownProps & MarginProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const titleSize = `${size}Title`;
-
-  console.log("SELECTED IDS: ", selectedIds);
-
-  console.log("OPTIONS: ", options);
-  console.log("SELECTED ID: ", selectedId);
 
   const handleChange = (item: DropdownItem) => {
     const sameItem =
@@ -92,15 +87,17 @@ export const Dropdown = ({
       })}
       ref={dropdownRef}
     >
-      <div
+      <button
         className={classes(styles.button, {
-          [styles[Size[size]]]: !!size,
+          [styles.emptyContainer]: selectedIds.length === 0,
         })}
-        id={id}
-        //type="button"
         onClick={() => setIsOpen(!isOpen)}
+        id={id}
       >
-        <div className={styles.infoContainer}>
+        <div
+          className={styles.infoContainer}
+          onClick={() => setIsOpen(!isOpen)}
+        >
           {!isMultiple && (
             <span
               className={classes(styles.name, {
@@ -111,10 +108,7 @@ export const Dropdown = ({
             </span>
           )}
           {isMultiple && (
-            <div
-              className={styles.multipleTags}
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className={styles.multipleTags}>
               {selectedIds.map((item) => (
                 <Tag
                   key={item}
@@ -129,7 +123,7 @@ export const Dropdown = ({
             <AngelDown />
           </div>
         </div>
-      </div>
+      </button>
       {isOpen && (
         <div className={styles.menuContainer}>
           <ul className={styles.menu} role="menu">

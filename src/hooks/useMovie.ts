@@ -6,7 +6,7 @@ import { fetchMovie } from "../features/movies/moviesThunks";
 
 export const useMovie = (query: string) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movie, movies, loadingMovie } = useSelector(
+  const { movie, movies, loadings } = useSelector(
     (state: RootState) => state.movies
   );
 
@@ -29,5 +29,5 @@ export const useMovie = (query: string) => {
     }
   }, [query, dispatch, movies]);
 
-  return { movie, movies, loadingMovie };
+  return { movie, movies, loadingMovie: loadings.loadingMovie };
 };

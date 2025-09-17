@@ -17,10 +17,12 @@ const initialMovie = {
 const initialState: MoviesState = {
   movie: initialMovie,
   movies: [],
-  loadingMovies: false,
-  loadingMovie: false,
-  loading: false,
-  loadingAdding: false,
+  loadings: {
+    loadingMovies: false,
+    loadingMovie: false,
+    loading: false,
+    loadingAdding: false,
+  },
   deleteMovie: '',
 };
 

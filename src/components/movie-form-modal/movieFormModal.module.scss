@@ -54,6 +54,26 @@
   align-items: center;
 }
 
+.loadingAdding {
+  height: 20px;
+  margin-top: 15px;
+}
+
+.creatingContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.warningText {
+  color: var(--color-warning);
+  font-size: 0.875rem;
+}
+
+.createdText {
+  color: var(--color-success);
+  font-size: 0.875rem;
+}
+
 @media (max-width: 480px) {
   .movieFormModal {
     width: 300px;

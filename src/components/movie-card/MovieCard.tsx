@@ -63,7 +63,12 @@ export const MovieCard: React.FC<Props> = ({
             <Link className={styles.movieTitle} to={`/movie/${movie.imdbID}`}>
               {movie.Title}
             </Link>
-            <Button onClick={handleFavorite} size="xs" variant="primary">
+            <Button
+              onClick={handleFavorite}
+              size="xs"
+              variant="primary"
+              disabled={loadingFavorite}
+            >
               {!loadingFavorite ? (
                 <StarIcon
                   width="12"
@@ -72,7 +77,7 @@ export const MovieCard: React.FC<Props> = ({
                   fill={movie.isFavorite ? "#fff" : "none"}
                 />
               ) : (
-                <Loading size="xs" variant="spinner" />
+                <Loading size="xs" variant="spinner" color="white" />
               )}
             </Button>
           </div>

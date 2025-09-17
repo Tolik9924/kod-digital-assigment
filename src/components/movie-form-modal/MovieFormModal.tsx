@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import type { RootState } from "@reduxjs/toolkit/query";
 import type { Movie } from "../../features/movies/types";
 import type { Values } from "./types";
 import { Input } from "../../ui-components/input/Input";
@@ -18,10 +21,12 @@ const MovieFormModal = ({
   onCancel,
 }: {
   movieData?: Movie;
-  onSave: (movie: Movie, saveOrEdit: string) => void;
+  onSave: (movie: Movie, saveOrEdit: string) => Values;
   onCancel: () => void;
 }) => {
   const { movie, movies, loadingMovie } = useMovie(movieData?.imdbID ?? "");
+  const { loadings } = useSelector((state: RootState) => state.movies);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const movieFormData: Values = {
     ...movie,
@@ -32,33 +37,41 @@ const MovieFormModal = ({
     Director: movie.Director || "",
   };
 
-  const { control, handleSubmit, reset, watch } = useForm<Values>({
+  const { control, handleSubmit, reset } = useForm<Values>({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
-  const submit = (data: Values) => {
-    const saveOrEdit = movieData ? "edit" : "save";
-    const format = formatTitle(data.Title);
+  const submit = async (data: Values) => {
+    try {
+      const saveOrEdit = movieData ? "edit" : "save";
+      const format = formatTitle(data.Title);
 
-    console.log("DATA TO SUBMIT: ", data);
-    console.log("WATCH DATA: ", watch("Genre"));
+      const result = {
+        ...data,
+        Title: format,
+        imdbID: movieData
+          ? movieData.imdbID
+          : data.Title.split(" ").join("_").toLocaleLowerCase(),
+        Year: `${data.Year.replace(/\s+/g, "")}`,
+        Genre: data.Genre.join(", "),
+        isFavorite: movieData ? movie.isFavorite : false,
+        Poster: movieData ? movieData.Poster : "N/A",
+        Runtime: `${data.Runtime} min`,
+        ...INITIAL_ADD_DATA,
+      };
 
-    const result = {
-      ...data,
-      Title: format,
-      imdbID: movieData
-        ? movieData.imdbID
-        : data.Title.split(" ").join("_").toLocaleLowerCase(),
-      Year: `${data.Year.replace(/\s+/g, "")}`,
-      Genre: data.Genre.join(", "),
-      isFavorite: movieData ? movie.isFavorite : false,
-      Poster: movieData ? movieData.Poster : "N/A",
-      Runtime: `${data.Runtime} min`,
-      ...INITIAL_ADD_DATA,
-    };
+      const submittedData = await onSave(result, saveOrEdit);
 
-    onSave(result, saveOrEdit);
-    reset({ ...INITIAL_VALUES });
+      if (submittedData && !loadings.loadingAdding) {
+        setIsSubmitted(true);
+        reset({ ...INITIAL_VALUES });
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 3000);
+      }
+    } catch (err) {
+      console.log("ERROR: ", err);
+    }
   };
 
   return (
@@ -240,8 +253,21 @@ const MovieFormModal = ({
                 </div>
               )}
             />
+            <div className={styles.loadingAdding}>
+              {loadings.loadingAdding && (
+                <div className={styles.creatingContainer}>
+                  <div>
+                    <Loading size="sm" variant="spinner" color="warning" />
+                  </div>
+                  <span className={styles.warningText}>Creating movie</span>
+                </div>
+              )}
+              {isSubmitted && !loadings.loadingAdding && (
+                <span className={styles.createdText}>✓ Movie is created</span>
+              )}
+            </div>
             <div className={styles.buttonsContainer}>
-              <Button type="submit" size="s">
+              <Button type="submit" size="s" disabled={loadings.loadingAdding}>
                 Save
               </Button>
               <Button type="button" onClick={onCancel} size="s">

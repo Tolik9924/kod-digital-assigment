@@ -17,8 +17,10 @@ export const Loading = ({
   skeletonLines = 3,
   children,
   dark,
+  color,
 }: {
   variant?: "spinner" | "dots" | "skeleton" | "bar";
+  color?: "white" | "black" | "warning";
   size?: "sm" | "md" | "lg" | "xs";
   label?: string;
   fullScreen?: boolean;
@@ -37,7 +39,7 @@ export const Loading = ({
       role="status"
       aria-live="polite"
     >
-      {variant === "spinner" && <Spinner size={size} />}
+      {variant === "spinner" && <Spinner size={size} color={color} />}
       {variant === "dots" && <Dots />}
       {variant === "bar" && <Bar />}
       {variant === "skeleton" && (

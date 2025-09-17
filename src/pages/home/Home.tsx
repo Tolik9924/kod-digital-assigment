@@ -23,9 +23,7 @@ import styles from "./home.module.scss";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movies, loadingMovies } = useSelector(
-    (state: RootState) => state.movies
-  );
+  const { movies, loadings } = useSelector((state: RootState) => state.movies);
 
   const [searchMovie, setSearchMovie] = useState("batman");
   const [showFavorites, setShowFavorites] = useState(false);
@@ -48,7 +46,7 @@ export const Home: React.FC = () => {
 
   const filteredMovies = movies;
 
-  const onSave = async (m: Movie, saveOrEdit: string) => {
+  const onSave = async (m: Movie, saveOrEdit: string): Movie => {
     if (saveOrEdit === "edit") {
       //dispatch(editMovie(m));
       console.log("EDIT");
@@ -59,6 +57,7 @@ export const Home: React.FC = () => {
       console.log("DATA TO ADD M: ", m);
       const data = await dispatch(addMovie(m)).unwrap();
       console.log("ADDING DATA: ", data);
+      return data;
     }
   };
 
@@ -147,7 +146,7 @@ export const Home: React.FC = () => {
           </div>
         }
       />
-      {loadingMovies && (
+      {loadings.loadingMovies && (
         <Loading variant="skeleton">
           <div className={styles.cardsSkeletonContainer}>
             {Array.from({ length: 18 }, (_, i) => i + 1).map((_, index) => (

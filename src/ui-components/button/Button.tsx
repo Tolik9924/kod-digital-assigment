@@ -21,6 +21,7 @@ type Props = {
   variant?: VariantType;
   fullWidth?: boolean;
   elementType?: "button" | "a";
+  disabled?: boolean;
   onClick?: (e: MouseEvent<HTMLElement>) => void;
 } & MarginProps;
 
@@ -32,6 +33,7 @@ export const Button = forwardRef<Ref, Props>(function Button(props, ref) {
     size = "m",
     variant = "primary",
     fullWidth = true,
+    disabled = false,
     onClick,
     ...rest
   } = props;
@@ -45,6 +47,7 @@ export const Button = forwardRef<Ref, Props>(function Button(props, ref) {
       })}
       type={type}
       onClick={onClick}
+      disabled={disabled}
       {...rest}
       // @ts-expect-error - ref should refer to the same type of element as ElementType
       ref={ref}

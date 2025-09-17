@@ -44,10 +44,12 @@ export type Error = {
 export interface MoviesState {
   movie: Movie,
   movies: Movie[];
-  loading: boolean;
+  loadings: {
+    loading: boolean;
+    loadingMovies: boolean;
+    loadingMovie: boolean;
+    loadingAdding: boolean;
+  },
   error?: string;
-  loadingMovies: boolean;
-  loadingMovie: boolean;
   deleteMovie: string;
-  loadingAdding: boolean;
 }
