@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import type { Movie } from "../../features/movies/types";
 import { Link } from "react-router-dom";
 import { Button } from "../../ui-components/button/Button";
+import { Loading } from "../../ui-components/loading/Loading";
 import { StarIcon } from "../../assets/StarIcon";
 import noPhoto from "../../assets/no-photo-available.png";
+import { classes } from "../../common_utils/classes/classes";
 
 import styles from "./movieCard.module.scss";
-import { classes } from "../../common_utils/classes/classes";
-import { Loading } from "../../ui-components/loading/Loading";
 
 interface Props {
   movie: Movie;
@@ -48,7 +48,13 @@ export const MovieCard: React.FC<Props> = ({
             [styles.haveImg]: movie.Poster !== "N/A" && !errorImg,
             [styles.haveNotImg]: movie.Poster === "N/A" || errorImg,
           })}
-          src={movie.Poster !== "N/A" ? movie.Poster : noPhoto}
+          src={
+            movie.Poster !== null &&
+            movie.Poster !== undefined &&
+            movie.Poster !== "N/A"
+              ? movie.Poster
+              : noPhoto
+          }
           alt="movie_img"
           onError={(error: SyntheticEvent<HTMLImageElement, Event>) => {
             setErrorImg(true);

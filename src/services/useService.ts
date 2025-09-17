@@ -8,18 +8,7 @@ export const movieService = {
   },
 
   create: async (data: Movie): Promise<Movie> => {
-    const result = {
-      imdbID: data.imdbID,
-      Title: data.Title,
-      Year: data.Year,
-      Runtime: data.Runtime,
-      Genre: data.Genre,
-      Director: data.Director,
-      isFavorite: false,
-      Poster: "",
-    };
-    const res = await api.post("/", result);
-    console.log('RES DATA: ', res.data);
+    const res = await api.post("/", data);
     return res.data;
   },
 

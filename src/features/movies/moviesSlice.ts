@@ -15,6 +15,7 @@ const initialMovie = {
 };
 
 const initialState: MoviesState = {
+  searchTitle: 'batman',
   movie: initialMovie,
   movies: [],
   loadings: {
@@ -30,6 +31,9 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
+    handleSearch: (state, action: PayloadAction<string>) => {
+      state.searchTitle = action.payload;
+    },
     showLocalMovie: (state, action: PayloadAction<Movie>) => {
       state.movie = action.payload;
     }
@@ -42,5 +46,5 @@ const moviesSlice = createSlice({
   }
 });
 
-export const { showLocalMovie } = moviesSlice.actions;
+export const { showLocalMovie, handleSearch } = moviesSlice.actions;
 export default moviesSlice.reducer;

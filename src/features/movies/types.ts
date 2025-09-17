@@ -42,7 +42,8 @@ export type Error = {
 };
 
 export interface MoviesState {
-  movie: Movie,
+  searchTitle: string;
+  movie: Movie;
   movies: Movie[];
   loadings: {
     loading: boolean;

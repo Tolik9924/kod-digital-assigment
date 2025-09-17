@@ -10,6 +10,7 @@ import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
 import { Modal } from "../../components/modal/Modal";
 import { DeleteModal } from "../../components/delete-modal/DeleteModal";
+import { handleSearch } from "../../features/movies/moviesSlice";
 import type { Movie } from "../../features/movies/types";
 import {
   addMovie,
@@ -23,9 +24,10 @@ import styles from "./home.module.scss";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movies, loadings } = useSelector((state: RootState) => state.movies);
+  const { searchTitle, movies, loadings } = useSelector(
+    (state: RootState) => state.movies
+  );
 
-  const [searchMovie, setSearchMovie] = useState("batman");
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -39,8 +41,8 @@ export const Home: React.FC = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (searchMovie !== "") {
-      dispatch(fetchMovies(searchMovie));
+    if (searchTitle !== "") {
+      dispatch(fetchMovies(searchTitle));
     }
   }, []);
 
@@ -56,7 +58,6 @@ export const Home: React.FC = () => {
     if (saveOrEdit === "save") {
       console.log("DATA TO ADD M: ", m);
       const data = await dispatch(addMovie(m)).unwrap();
-      console.log("ADDING DATA: ", data);
       return data;
     }
   };
@@ -65,7 +66,7 @@ export const Home: React.FC = () => {
     try {
       const data = await dispatch(deleteMovie(deleteCard.imdbID)).unwrap();
       if (data) {
-        await dispatch(fetchMovies(searchMovie));
+        await dispatch(fetchMovies(searchTitle));
       }
       setShowDeleteModal(false);
     } catch (error) {
@@ -85,7 +86,7 @@ export const Home: React.FC = () => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setSearchMovie(value);
+    dispatch(handleSearch(value));
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -123,7 +124,7 @@ export const Home: React.FC = () => {
         content={
           <div className={styles.headerContent}>
             <Input
-              value={searchMovie}
+              value={searchTitle}
               handleChange={handleChange}
               label="Movie"
               size="m"
@@ -171,7 +172,7 @@ export const Home: React.FC = () => {
       {filteredMovies.length === 0 && (
         <div className={styles.noData}>
           <span className={styles.noDataText}>
-            {searchMovie === ""
+            {searchTitle === ""
               ? "Enter the movie title to start searching."
               : "No data available."}
           </span>

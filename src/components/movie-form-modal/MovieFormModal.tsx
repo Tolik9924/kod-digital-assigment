@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import type { RootState } from "@reduxjs/toolkit/query";
+import { useDispatch, useSelector } from "react-redux";
 import type { Movie } from "../../features/movies/types";
 import type { Values } from "./types";
 import { Input } from "../../ui-components/input/Input";
@@ -12,6 +11,8 @@ import { Dropdown } from "../dropdown/Dropdown";
 import { GENRES, INITIAL_ADD_DATA, INITIAL_VALUES } from "./constants";
 import { useMovie } from "../../hooks/useMovie";
 import { formatTitle } from "../../utils/formatTitle";
+import type { AppDispatch, RootState } from "../../app/store";
+import { fetchMovies } from "../../features/movies/moviesThunks";
 
 import styles from "./movieFormModal.module.scss";
 
@@ -24,8 +25,11 @@ const MovieFormModal = ({
   onSave: (movie: Movie, saveOrEdit: string) => Values;
   onCancel: () => void;
 }) => {
-  const { movie, movies, loadingMovie } = useMovie(movieData?.imdbID ?? "");
-  const { loadings } = useSelector((state: RootState) => state.movies);
+  const { movie, loadingMovie } = useMovie(movieData?.imdbID ?? "");
+  const dispatch = useDispatch<AppDispatch>();
+  const { searchTitle, movies, loadings } = useSelector(
+    (state: RootState) => state.movies
+  );
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const movieFormData: Values = {
@@ -64,6 +68,13 @@ const MovieFormModal = ({
 
       if (submittedData && !loadings.loadingAdding) {
         setIsSubmitted(true);
+        if (
+          data.Title.toLocaleLowerCase()
+            .toLocaleLowerCase()
+            .includes(searchTitle)
+        ) {
+          await dispatch(fetchMovies(searchTitle));
+        }
         reset({ ...INITIAL_VALUES });
         setTimeout(() => {
           setIsSubmitted(false);
@@ -92,14 +103,13 @@ const MovieFormModal = ({
               rules={{
                 validate: (value) => {
                   const sameMovie = movies.find(
-                    (item) =>
-                      movie.Title !== value &&
-                      value.toLocaleLowerCase() ===
-                        item.Title.toLocaleLowerCase()
+                    (movie: Movie) =>
+                      movie.imdbID.toLocaleLowerCase() ===
+                      value.toLocaleLowerCase()
                   );
 
                   if (sameMovie) {
-                    return "A movie with the same name already exists.";
+                    return "That movie exist. Write another title.";
                   }
                 },
                 required: "Title is required.",
