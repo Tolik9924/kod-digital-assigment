@@ -48,17 +48,25 @@ export const Home: React.FC = () => {
 
   const filteredMovies = movies;
 
-  const onSave = async (m: Movie, saveOrEdit: string): Movie => {
-    if (saveOrEdit === "edit") {
-      //dispatch(editMovie(m));
-      console.log("EDIT");
-      setShowModal(false);
-    }
+  const onSave = async (m: Movie, saveOrEdit: string): Promise<Movie> => {
+    try {
+      if (saveOrEdit === "edit") {
+        const data = await dispatch(
+          editMovie({ imdbID: m.imdbID, data: m })
+        ).unwrap();
+        //setShowModal(false);
+        return data;
+      }
 
-    if (saveOrEdit === "save") {
-      console.log("DATA TO ADD M: ", m);
-      const data = await dispatch(addMovie(m)).unwrap();
-      return data;
+      if (saveOrEdit === "save") {
+        const data = await dispatch(addMovie(m)).unwrap();
+        return data;
+      }
+
+      throw new Error(`Invalid saveOrEdit option: ${saveOrEdit}`);
+    } catch (error) {
+      console.log("Failed to save movie:", error);
+      throw error;
     }
   };
 

@@ -22,10 +22,10 @@ const MovieFormModal = ({
   onCancel,
 }: {
   movieData?: Movie;
-  onSave: (movie: Movie, saveOrEdit: string) => Values;
+  onSave: (movie: Movie, saveOrEdit: string) => Promise<Movie>;
   onCancel: () => void;
 }) => {
-  const { movie, loadingMovie } = useMovie(movieData?.imdbID ?? "");
+  const movie = useMovie(movieData?.imdbID ?? "");
   const dispatch = useDispatch<AppDispatch>();
   const { searchTitle, movies, loadings } = useSelector(
     (state: RootState) => state.movies
@@ -60,6 +60,7 @@ const MovieFormModal = ({
         Genre: data.Genre.join(", "),
         isFavorite: movieData ? movie.isFavorite : false,
         Poster: movieData ? movieData.Poster : "N/A",
+        Type: movieData ? movieData.Type : "N/A",
         Runtime: `${data.Runtime} min`,
         ...INITIAL_ADD_DATA,
       };
@@ -75,7 +76,9 @@ const MovieFormModal = ({
         ) {
           await dispatch(fetchMovies(searchTitle));
         }
-        reset({ ...INITIAL_VALUES });
+        if (!movieData) {
+          reset({ ...INITIAL_VALUES });
+        }
         setTimeout(() => {
           setIsSubmitted(false);
         }, 3000);
@@ -87,7 +90,7 @@ const MovieFormModal = ({
 
   return (
     <div className={styles.movieFormModal}>
-      {loadingMovie ? (
+      {loadings.loadingMovie ? (
         <div className={styles.loadingContainer}>
           <Loading variant="dots" />
         </div>

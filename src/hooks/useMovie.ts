@@ -6,7 +6,7 @@ import { fetchMovie } from "../features/movies/moviesThunks";
 
 export const useMovie = (query: string) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movie, movies, loadings } = useSelector(
+  const { movie, movies } = useSelector(
     (state: RootState) => state.movies
   );
 
@@ -27,7 +27,7 @@ export const useMovie = (query: string) => {
         console.error("Error fetching movie data: ", err)
       );
     }
-  }, [query, dispatch, movies]);
+  }, [query]);
 
-  return { movie, movies, loadingMovie: loadings.loadingMovie };
+  return movie;
 };

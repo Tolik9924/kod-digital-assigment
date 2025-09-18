@@ -28,7 +28,7 @@ export const movieService = {
   },
 
   getMovieInfo: async (imdbID: string) => {
-    const res = await api.get(`"/movie-info/${imdbID}`);
+    const res = await api.get(`/movie-info/${imdbID}`);
     return res.data;
   },
 };

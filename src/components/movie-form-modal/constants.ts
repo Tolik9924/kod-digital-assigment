@@ -46,7 +46,6 @@ export const GENRES = [
 
 export const INITIAL_ADD_DATA = {
   Country: "N/A",
-  Type: "N/A",
   Production: "N/A",
   Metascore: "N/A",
   Rated: "N/A",

@@ -93,6 +93,7 @@ export const Dropdown = ({
         })}
         onClick={() => setIsOpen(!isOpen)}
         id={id}
+        type="button"
       >
         <div
           className={styles.infoContainer}

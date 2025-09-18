@@ -1,11 +1,8 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { formatTitle } from '../../utils/formatTitle';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { movieService } from '../../services/useService';
 import type { Movie } from './types';
-
-const API_KEY = 'b573b702';
 
 export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
@@ -27,13 +24,8 @@ export const fetchMovie = createAsyncThunk(
   'movies/fetchMovie',
   async (query: string, { rejectWithValue  }) => {
     try {
-      const res = await axios.get(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${query}`);
-
-      if (res.data.Response === "False") {
-        return rejectWithValue(res.data.Error); 
-    }
-
-    return res.data || res;
+      const res = await movieService.getMovieInfo(query);
+      return res;
     } catch (err) {
       return rejectWithValue(getErrorMessage(err));
     }
