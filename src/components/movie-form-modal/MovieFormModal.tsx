@@ -276,7 +276,9 @@ const MovieFormModal = ({
                 </div>
               )}
               {isSubmitted && !loadings.loadingAdding && (
-                <span className={styles.createdText}>✓ Movie is created</span>
+                <span className={styles.createdText}>
+                  {movieData ? "✓ Movie is edited" : "✓ Movie is created"}
+                </span>
               )}
             </div>
             <div className={styles.buttonsContainer}>

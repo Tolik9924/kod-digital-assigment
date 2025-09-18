@@ -18,6 +18,7 @@ import {
   editMovie,
   fetchMovie,
   fetchMovies,
+  getFavorites,
 } from "../../features/movies/moviesThunks";
 
 import styles from "./home.module.scss";
@@ -31,6 +32,7 @@ export const Home: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [lastSearch, setLastSearch] = useState(searchTitle);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteCard, setDeleteCard] = useState<{
@@ -41,12 +43,22 @@ export const Home: React.FC = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (searchTitle !== "") {
-      dispatch(fetchMovies(searchTitle));
-    }
-  }, []);
+    renderingMovies();
+  }, [showFavorites]);
 
   const filteredMovies = movies;
+
+  const renderingMovies = async () => {
+    if (searchTitle !== "" && !showFavorites) {
+      await dispatch(handleSearch(lastSearch));
+      await dispatch(fetchMovies(lastSearch));
+    }
+
+    if (searchTitle !== "" && showFavorites) {
+      setLastSearch(searchTitle);
+      await dispatch(getFavorites(searchTitle));
+    }
+  };
 
   const onSave = async (m: Movie, saveOrEdit: string): Promise<Movie> => {
     try {
@@ -101,7 +113,8 @@ export const Home: React.FC = () => {
     }
 
     timeoutRef.current = setTimeout(() => {
-      dispatch(fetchMovies(value));
+      if (!showFavorites) dispatch(fetchMovies(value));
+      if (showFavorites) dispatch(getFavorites(value));
     }, 500);
   };
 

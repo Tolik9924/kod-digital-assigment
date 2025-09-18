@@ -22,8 +22,8 @@ export const movieService = {
     return data.data;
   },
 
-  getFavorites: async () => {
-    const res = await api.get(`/favorites`);
+  getFavorites: async (query: string) => {
+    const res = await api.get(`/favorites?title=${query}`);
     return res.data;
   },
 

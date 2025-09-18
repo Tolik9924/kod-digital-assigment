@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import type { RootState } from "../../app/store";
 import { useState, type SyntheticEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../ui-components/button/Button";
@@ -12,11 +14,12 @@ import styles from "./movieDetails.module.scss";
 export const MovieDetails = () => {
   const [errorImg, setErrorImg] = useState(false);
   const { title = "" } = useParams();
+  const { loadings } = useSelector((state: RootState) => state.movies);
   const navigate = useNavigate();
 
-  const { movie, loadingMovie } = useMovie(title);
+  const movie = useMovie(title);
 
-  if (loadingMovie) {
+  if (loadings.loadingMovie) {
     return (
       <div>
         <div className={styles.backButtonContainer}>

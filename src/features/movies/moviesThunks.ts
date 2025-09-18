@@ -25,6 +25,7 @@ export const fetchMovie = createAsyncThunk(
   async (query: string, { rejectWithValue  }) => {
     try {
       const res = await movieService.getMovieInfo(query);
+      console.log('RES: ', res);
       return res;
     } catch (err) {
       return rejectWithValue(getErrorMessage(err));
@@ -63,6 +64,19 @@ export const addMovie = createAsyncThunk<Movie, Movie>(
   async (data, { rejectWithValue  }) => {
     try {
       const res = await movieService.create(data);
+      return res;
+    }
+    catch (err) {
+      return rejectWithValue(getErrorMessage(err)); 
+    }
+  }
+);
+
+export const getFavorites = createAsyncThunk(
+  'movies/getFavorites',
+  async (query: string, { rejectWithValue  }) => {
+    try {
+      const res = await movieService.getFavorites(query);
       return res;
     }
     catch (err) {

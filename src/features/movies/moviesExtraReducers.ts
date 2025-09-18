@@ -1,5 +1,5 @@
 import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { fetchMovies, fetchMovie, editMovie, deleteMovie, addMovie } from "./moviesThunks";
+import { fetchMovies, fetchMovie, editMovie, deleteMovie, addMovie, getFavorites } from "./moviesThunks";
 import type { MoviesState } from "./types";
 
 export const fetchMoviesExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
@@ -73,5 +73,19 @@ export const addMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => 
     })
     .addCase(addMovie.rejected, (state) => {
       state.loadings.loadingAdding = false;
+    });
+};
+
+export const getFavoritesExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+  builder
+    .addCase(getFavorites.pending, (state) => {
+      state.loadings.loadingMovies = true;
+    })
+    .addCase(getFavorites.fulfilled, (state, action) => {
+      state.movies = action.payload;
+      state.loadings.loadingMovies = false;
+    })
+    .addCase(getFavorites.rejected, (state) => {
+      state.loadings.loadingMovies = false;
     });
 };

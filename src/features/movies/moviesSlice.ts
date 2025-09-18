@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction, } from '@reduxjs/toolkit';
 import type { Movie, MoviesState } from './types';
-import { addMovieExtra, editMovieExtra, fetchMovieExtra, fetchMoviesExtra } from './moviesExtraReducers';
+import { addMovieExtra, editMovieExtra, fetchMovieExtra, fetchMoviesExtra, getFavoritesExtra } from './moviesExtraReducers';
 
 const initialMovie = {
   imdbID: '',
@@ -43,6 +43,7 @@ const moviesSlice = createSlice({
     fetchMovieExtra(builder);
     editMovieExtra(builder);
     addMovieExtra(builder);
+    getFavoritesExtra(builder);
   }
 });
 
