@@ -19,8 +19,6 @@ export const MovieDetails = () => {
 
   const movie = useMovie(title);
 
-  console.log("MOVIE: ", movie);
-
   if (loadings.loadingMovie || movie.Poster === "") {
     return (
       <div>

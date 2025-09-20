@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction, } from '@reduxjs/toolkit';
-import type { Movie, MoviesState } from './types';
+import type { MoviesState } from './types';
 import { addMovieExtra, editMovieExtra, fetchMovieExtra, fetchMoviesExtra, getFavoritesExtra } from './moviesExtraReducers';
 
 const initialMovie = {
@@ -33,9 +33,6 @@ const moviesSlice = createSlice({
   reducers: {
     handleSearch: (state, action: PayloadAction<string>) => {
       state.searchTitle = action.payload;
-    },
-    showLocalMovie: (state, action: PayloadAction<Movie>) => {
-      state.movie = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -47,5 +44,5 @@ const moviesSlice = createSlice({
   }
 });
 
-export const { showLocalMovie, handleSearch } = moviesSlice.actions;
+export const { handleSearch } = moviesSlice.actions;
 export default moviesSlice.reducer;

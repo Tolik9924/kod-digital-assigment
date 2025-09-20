@@ -11,8 +11,7 @@ export const useMovie = (query: string) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await dispatch(fetchMovie(query)).unwrap();
-      console.log('RESULT: ', result);
+      await dispatch(fetchMovie(query)).unwrap();
     };
 
     if (query) {

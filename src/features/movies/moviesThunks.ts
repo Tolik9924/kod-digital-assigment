@@ -30,7 +30,6 @@ export const fetchMovie = createAsyncThunk(
   async (query: string, { rejectWithValue  }) => {
     try {
       const res = await movieService.getMovieInfo(query);
-      console.log('RES: ', res);
       return res;
     } catch (err) {
       return rejectWithValue(getErrorMessage(err));
