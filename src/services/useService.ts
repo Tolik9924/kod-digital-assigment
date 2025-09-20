@@ -1,3 +1,4 @@
+import { INITIAL_ADD_DATA } from "../components/movie-form-modal/constants";
 import api from "./api";
 import type { Movie } from "./types";
 
@@ -29,6 +30,9 @@ export const movieService = {
 
   getMovieInfo: async (imdbID: string) => {
     const res = await api.get(`/movie-info/${imdbID}`);
+    if (res.data.Response === 'False') {
+      return {Poster: 'N/A', ...res.data, ...INITIAL_ADD_DATA}
+    }
     return res.data;
   },
 };
