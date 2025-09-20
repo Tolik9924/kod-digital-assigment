@@ -10,8 +10,6 @@ export const useMovie = (query: string) => {
     (state: RootState) => state.movies
   );
 
-  console.log('QUERY: ', query);
-
   useEffect(() => {
     const fetchData = async () => {
       const result = await dispatch(fetchMovie(query));

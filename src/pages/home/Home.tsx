@@ -49,12 +49,12 @@ export const Home: React.FC = () => {
   const filteredMovies = movies;
 
   const renderingMovies = async () => {
-    if (searchTitle !== "" && !showFavorites) {
+    if (!showFavorites) {
       await dispatch(handleSearch(lastSearch));
       await dispatch(fetchMovies(lastSearch));
     }
 
-    if (searchTitle !== "" && showFavorites) {
+    if (showFavorites) {
       setLastSearch(searchTitle);
       await dispatch(getFavorites(searchTitle));
     }

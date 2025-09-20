@@ -138,9 +138,9 @@ export const Dropdown = ({
               >
                 <span
                   className={classes(styles.itemLink, {
-                    [styles.selectedLink]: selectedIds.some(
-                      (selected) => selected === item.name
-                    ),
+                    [styles.selectedLink]: isMultiple
+                      ? selectedIds?.some((selected) => selected === item.name)
+                      : selectedId === item.name,
                   })}
                 >
                   <h5 className={styles.nameHeader}>{item.name}</h5>

@@ -19,7 +19,7 @@ export const MovieDetails = () => {
 
   const movie = useMovie(title);
 
-  if (loadings.loadingMovie) {
+  if (loadings.loadingMovie || movie.Poster === "") {
     return (
       <div>
         <div className={styles.backButtonContainer}>
@@ -71,7 +71,7 @@ export const MovieDetails = () => {
               <span className={styles.itemTitle}>Genre:</span>{" "}
               <div className={styles.genres}>
                 {movie.Genre?.split(", ").map((genre) => (
-                  <Tag label={genre} variant="secondary" />
+                  <Tag key={genre} label={genre} variant="secondary" />
                 ))}
               </div>
             </div>
@@ -105,7 +105,7 @@ export const MovieDetails = () => {
             <span className={styles.addInfoTitle}>Actors:</span>{" "}
             <span className={styles.actorsTags}>
               {movie.Actors?.split(", ").map((actor) => (
-                <Tag label={actor} variant="secondary" />
+                <Tag key={actor} label={actor} variant="secondary" />
               ))}
             </span>
           </div>
@@ -113,7 +113,7 @@ export const MovieDetails = () => {
             <span className={styles.addInfoTitle}>Writer:</span>{" "}
             <span className={styles.actorsTags}>
               {movie.Writer?.split(", ").map((writer) => (
-                <Tag label={writer} variant="secondary" />
+                <Tag key={writer} label={writer} variant="secondary" />
               ))}
             </span>
           </div>
@@ -123,7 +123,7 @@ export const MovieDetails = () => {
           </div>
           <div className={styles.ratings}>
             {movie.Ratings?.map((rating) => (
-              <div className={styles.rating}>
+              <div key={rating.Value} className={styles.rating}>
                 <span className={styles.addInfoTitle}>{rating.Source}:</span>{" "}
                 <span className={styles.addInfoItem}>{rating.Value}</span>
               </div>

@@ -8,6 +8,11 @@ export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
   async (query: string, { rejectWithValue  }) => {
     try {
+
+      if (!query || query === "") {
+        return [];
+      }
+
       const res = await movieService.search(query);
 
       return (res || []).map((movie: Movie) => ({
@@ -25,7 +30,6 @@ export const fetchMovie = createAsyncThunk(
   async (query: string, { rejectWithValue  }) => {
     try {
       const res = await movieService.getMovieInfo(query);
-      console.log('RES: ', res);
       return res;
     } catch (err) {
       return rejectWithValue(getErrorMessage(err));
