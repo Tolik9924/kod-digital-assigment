@@ -80,6 +80,11 @@ export const getFavorites = createAsyncThunk(
   'movies/getFavorites',
   async (query: string, { rejectWithValue  }) => {
     try {
+
+      if (!query || query === "") {
+        return [];
+      }
+
       const res = await movieService.getFavorites(query);
       return res;
     }
