@@ -90,7 +90,7 @@ export const Home: React.FC = () => {
       }
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("Failed to delete the movie: ", error);
+      console.error("Failed to delete movie: ", error);
     }
   };
 
