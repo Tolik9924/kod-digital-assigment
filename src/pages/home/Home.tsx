@@ -22,7 +22,7 @@ import {
 } from "../../features/movies/moviesThunks";
 
 import styles from "./home.module.scss";
-import { UsernameModal } from "../../components/username-modal/UsernameModal";
+//import { UsernameModal } from "../../components/username-modal/UsernameModal";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,7 +33,7 @@ export const Home: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [showUsername, setShowUsername] = useState(true);
+  //const [showUsername, setShowUsername] = useState(false);
   const [lastSearch, setLastSearch] = useState(searchTitle);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -211,9 +211,9 @@ export const Home: React.FC = () => {
           onCancel={() => setShowModal(false)}
         />
       </Modal>
-      <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
+      {/* <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
         <UsernameModal />
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

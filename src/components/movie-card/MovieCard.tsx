@@ -9,6 +9,8 @@ import noPhoto from "../../assets/no-photo-available.png";
 import { classes } from "../../common_utils/classes/classes";
 
 import styles from "./movieCard.module.scss";
+import { Modal } from "../modal/Modal";
+import { UsernameModal } from "../username-modal/UsernameModal";
 
 interface Props {
   movie: Movie;
@@ -26,6 +28,7 @@ export const MovieCard: React.FC<Props> = ({
   const navigate = useNavigate();
   const [errorImg, setErrorImg] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
+  const [showUsername, setShowUsername] = useState(false);
 
   const goToDetails = () => {
     navigate(`/movie/${encodeURIComponent(movie.imdbID)}`);
@@ -33,6 +36,7 @@ export const MovieCard: React.FC<Props> = ({
 
   const handleFavorite = async () => {
     try {
+      setShowUsername(false);
       setLoadingFavorite(true);
       await onToggleFavorite();
     } finally {
@@ -70,7 +74,7 @@ export const MovieCard: React.FC<Props> = ({
               {movie.Title}
             </Link>
             <Button
-              onClick={handleFavorite}
+              onClick={() => setShowUsername(true)}
               size="xs"
               variant="primary"
               disabled={loadingFavorite}
@@ -101,6 +105,9 @@ export const MovieCard: React.FC<Props> = ({
           </Button>
         </div>
       </div>
+      <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
+        <UsernameModal sendData={handleFavorite} />
+      </Modal>
     </div>
   );
 };

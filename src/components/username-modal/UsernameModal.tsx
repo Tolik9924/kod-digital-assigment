@@ -3,7 +3,11 @@ import { Input } from '../../ui-components/input/Input';
 import styles from './usernameModal.module.scss';
 import { Button } from '../../ui-components/button/Button';
 
-export const UsernameModal = () => {
+export const UsernameModal = ({
+    sendData
+}: {
+    sendData: () => void;
+}) => {
     const [username, setUsername] = useState('');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -11,8 +15,10 @@ export const UsernameModal = () => {
         setUsername(value);
     };
 
-    const sendUsername = () => {
-        console.log('USERNAME: ', username);
+    const sendUsername = async () => {
+        setUsername('');
+        await localStorage.setItem('username', username);
+        await sendData();
     };
 
     return (

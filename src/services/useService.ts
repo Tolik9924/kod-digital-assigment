@@ -29,7 +29,8 @@ export const movieService = {
   },
 
   getMovieInfo: async (imdbID: string) => {
-    const res = await api.get(`/movie-info/${imdbID}`);
+    const username = await localStorage.getItem("username");
+    const res = await api.get(`/movie-info/${imdbID}`, {'username': username});
     if (res.data.Response === 'False') {
       return {Poster: 'N/A', ...res.data, ...INITIAL_ADD_DATA}
     }
