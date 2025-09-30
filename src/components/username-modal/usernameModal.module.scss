@@ -1,0 +1,16 @@
+.container {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.title {
+    margin: 0.5em;
+}
+
+.sendContainer {
+    width: 100%;
+}
