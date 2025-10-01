@@ -6,17 +6,17 @@ import { Button } from "../../ui-components/button/Button";
 import { Loading } from "../../ui-components/loading/Loading";
 import { StarIcon } from "../../assets/StarIcon";
 import noPhoto from "../../assets/no-photo-available.png";
+import { Modal } from "../modal/Modal";
+import { UsernameModal } from "../username-modal/UsernameModal";
 import { classes } from "../../common_utils/classes/classes";
 
 import styles from "./movieCard.module.scss";
-import { Modal } from "../modal/Modal";
-import { UsernameModal } from "../username-modal/UsernameModal";
 
 interface Props {
   movie: Movie;
   onEdit: () => void;
   onDelete: () => void;
-  onToggleFavorite: () => void;
+  onToggleFavorite: (imdbID: string, movie: Movie) => Promise<Movie>;
 }
 
 export const MovieCard: React.FC<Props> = ({
@@ -29,6 +29,7 @@ export const MovieCard: React.FC<Props> = ({
   const [errorImg, setErrorImg] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [showUsername, setShowUsername] = useState(false);
+  const [favorite, setFavorite] = useState(movie.isFavorite);
 
   const goToDetails = () => {
     navigate(`/movie/${encodeURIComponent(movie.imdbID)}`);
@@ -38,7 +39,10 @@ export const MovieCard: React.FC<Props> = ({
     try {
       setShowUsername(false);
       setLoadingFavorite(true);
-      await onToggleFavorite();
+      const updateFavorite = !favorite;
+      setFavorite(!favorite);
+      const toggled = {...movie, isFavorite: updateFavorite}
+      await onToggleFavorite(movie.imdbID, toggled);
     } finally {
       setLoadingFavorite(false);
     }
@@ -84,7 +88,7 @@ export const MovieCard: React.FC<Props> = ({
                   width="12"
                   height="12"
                   stroke="#fff"
-                  fill={movie.isFavorite ? "#fff" : "none"}
+                  fill={favorite ? "#fff" : "none"}
                 />
               ) : (
                 <Loading size="xs" variant="spinner" color="white" />

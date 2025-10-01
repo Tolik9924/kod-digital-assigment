@@ -48,8 +48,6 @@ export const Home: React.FC = () => {
     renderingMovies();
   }, [showFavorites]);
 
-  const filteredMovies = movies;
-
   const renderingMovies = async () => {
     if (!showFavorites) {
       await dispatch(handleSearch(lastSearch));
@@ -129,15 +127,19 @@ export const Home: React.FC = () => {
         Director: movie.Director,
         Genre: movie.Genre,
         Runtime: movie.Runtime,
-        isFavorite: !data.isFavorite,
+        isFavorite: data.isFavorite,
       };
 
-      const editData = await dispatch(
+      const editData: Movie = await dispatch(
         editMovie({ imdbID, data: result })
       ).unwrap();
 
+      console.log('EDIT DATA: ', editData);
+
       return editData;
     }
+
+    return data;
   };
 
   return (
@@ -179,20 +181,20 @@ export const Home: React.FC = () => {
           </div>
         </Loading>
       )}
-      {filteredMovies.length > 0 && (
+      {movies.length > 0 && (
         <div className={styles.cardsContainer}>
-          {filteredMovies.map((m, index) => (
+          {movies.map((m, index) => (
             <MovieCard
               key={index}
               movie={m}
               onEdit={() => onEdit(m)}
               onDelete={() => deleteMovieCard(m.Title, m.imdbID)}
-              onToggleFavorite={() => handleFavorite(m.imdbID, m)}
+              onToggleFavorite={handleFavorite}
             />
           ))}
         </div>
       )}
-      {filteredMovies.length === 0 && (
+      {movies.length === 0 && !loadings.loadingMovies && (
         <div className={styles.noData}>
           <span className={styles.noDataText}>
             {searchTitle === ""

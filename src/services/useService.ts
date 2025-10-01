@@ -4,7 +4,9 @@ import type { Movie } from "./types";
 
 export const movieService = {
   search: async (query: string): Promise<Movie[]> => {
-    const res = await api.get(`/search?title=${query}`);
+    const username = await localStorage.getItem("username");
+    console.log('USERNAME QUERY: ', username);
+    const res = await api.get(`/search?title=${query}&username=${username}`);
     return res.data;
   },
 
@@ -14,8 +16,13 @@ export const movieService = {
   },
 
   edit: async ({imdbID, data}: {imdbID: string, data: Partial<Movie>}): Promise<Movie> => {
-    const res = await api.patch(`/${imdbID}`, data);
-    return res.data;
+    const username = await localStorage.getItem("username");
+    const editData = {
+      username,
+      movie: data,
+    };
+    const res = await api.patch(`/${imdbID}`, editData);
+    return res.data[0];
   },
 
   delete: async (imdbID: string): Promise<string> => {
@@ -30,7 +37,7 @@ export const movieService = {
 
   getMovieInfo: async (imdbID: string) => {
     const username = await localStorage.getItem("username");
-    const res = await api.get(`/movie-info/${imdbID}`);
+    const res = await api.get(`/movie-info/${imdbID}??username=${username}`);
     if (res.data.Response === 'False') {
       return {Poster: 'N/A', ...res.data, ...INITIAL_ADD_DATA}
     }

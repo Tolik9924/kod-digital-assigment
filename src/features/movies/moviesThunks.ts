@@ -13,6 +13,8 @@ export const fetchMovies = createAsyncThunk(
         return [];
       }
 
+      console.log('QUERY: ', query);
+
       const res = await movieService.search(query);
 
       return (res || []).map((movie: Movie) => ({
@@ -41,7 +43,7 @@ export const editMovie = createAsyncThunk<Movie, {imdbID: string, data: Movie}>(
   'movies/editMovie',
   async ({imdbID, data}, { rejectWithValue  }) => {
     try {
-      const editData = await movieService.edit({imdbID, data});
+      const editData  = await movieService.edit({imdbID, data});
       return editData;
     }
     catch (err) {

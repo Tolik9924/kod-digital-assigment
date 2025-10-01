@@ -3,7 +3,7 @@ type Rating = {
   Value: string;
 }
 
-export interface Movie {
+export type Movie = {
   imdbID: string;
   Poster: string;
   Title: string;
