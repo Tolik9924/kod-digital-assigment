@@ -7,6 +7,7 @@ export const movieService = {
     const username = await localStorage.getItem("username");
     console.log('USERNAME QUERY: ', username);
     const res = await api.get(`/search?title=${query}&username=${username}`);
+    console.log('GET MOVIES: ', res.data);
     return res.data;
   },
 

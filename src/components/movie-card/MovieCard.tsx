@@ -88,7 +88,7 @@ export const MovieCard: React.FC<Props> = ({
                   width="12"
                   height="12"
                   stroke="#fff"
-                  fill={favorite ? "#fff" : "none"}
+                  fill={movie.isFavorite ? "#fff" : "none"}
                 />
               ) : (
                 <Loading size="xs" variant="spinner" color="white" />

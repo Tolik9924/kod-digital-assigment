@@ -23,7 +23,8 @@ export const UsernameModal = ({
     };
 
     const sendUsername = async () => {
-        const oldUsername = localStorage.getItem('username');
+        const oldUsername = await localStorage.getItem('username');
+        console.log('OLD USERNAME: ', oldUsername);
         setUsername('');
         await localStorage.setItem('username', username);
         await sendData();
