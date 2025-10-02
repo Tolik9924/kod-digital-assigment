@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "../ui-components/button/Button";
 import { Modal } from "./modal/Modal";
 import { UsernameModal } from "./username-modal/UsernameModal";
+import { ACTION } from "./username-modal/constants";
 
 interface Props {
   showFavorites: boolean;
@@ -37,7 +38,11 @@ export const ToggleFavorites: React.FC<Props> = ({
         {showFavorites ? "Show All" : "Favorites"}
       </Button>
       <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
-        <UsernameModal sendData={sendData} />
+        <UsernameModal
+          cardTitle="All Favorites"
+          action={ACTION.show}
+          sendData={sendData}
+        />
       </Modal>
     </>
   );

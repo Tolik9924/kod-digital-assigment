@@ -11,6 +11,7 @@ import { UsernameModal } from "../username-modal/UsernameModal";
 import { classes } from "../../common_utils/classes/classes";
 
 import styles from "./movieCard.module.scss";
+import { ACTION } from "../username-modal/constants";
 
 interface Props {
   movie: Movie;
@@ -41,7 +42,7 @@ export const MovieCard: React.FC<Props> = ({
       setLoadingFavorite(true);
       const updateFavorite = !favorite;
       setFavorite(!favorite);
-      const toggled = {...movie, isFavorite: updateFavorite}
+      const toggled = { ...movie, isFavorite: updateFavorite };
       await onToggleFavorite(movie.imdbID, toggled);
     } finally {
       setLoadingFavorite(false);
@@ -110,7 +111,11 @@ export const MovieCard: React.FC<Props> = ({
         </div>
       </div>
       <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
-        <UsernameModal sendData={handleFavorite} />
+        <UsernameModal
+          cardTitle={movie.Title}
+          action={ACTION.toggleFavorite}
+          sendData={handleFavorite}
+        />
       </Modal>
     </div>
   );

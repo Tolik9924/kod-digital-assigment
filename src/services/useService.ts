@@ -31,7 +31,8 @@ export const movieService = {
   },
 
   delete: async (imdbID: string): Promise<string> => {
-    const data = await api.delete(`/${imdbID}`);
+    const username = localStorage.getItem("username");
+    const data = await api.delete(`/${imdbID}?username=${username}`);
     return data.data;
   },
 

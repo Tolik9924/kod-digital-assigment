@@ -22,6 +22,8 @@ import {
 } from "../../features/movies/moviesThunks";
 
 import styles from "./home.module.scss";
+import { UsernameModal } from "../../components/username-modal/UsernameModal";
+import { ACTION } from "../../components/username-modal/constants";
 //import { UsernameModal } from "../../components/username-modal/UsernameModal";
 
 export const Home: React.FC = () => {
@@ -202,7 +204,12 @@ export const Home: React.FC = () => {
         </div>
       )}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
-        <DeleteModal title={deleteCard.title} handleDelete={onDelete} />
+        {/* <DeleteModal title={deleteCard.title} handleDelete={onDelete} /> */}
+        <UsernameModal
+          cardTitle={deleteCard.title}
+          action={ACTION.delete}
+          sendData={onDelete}
+        />
       </Modal>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <MovieFormModal
