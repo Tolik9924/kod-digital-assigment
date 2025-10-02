@@ -1,7 +1,10 @@
 import { useState, type ChangeEvent } from 'react';
+import { fetchMovies } from '../../features/movies/moviesThunks';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../../app/store';
 import { Input } from '../../ui-components/input/Input';
-import styles from './usernameModal.module.scss';
 import { Button } from '../../ui-components/button/Button';
+import styles from './usernameModal.module.scss';
 
 export const UsernameModal = ({
     sendData
@@ -9,6 +12,10 @@ export const UsernameModal = ({
     sendData: () => void;
 }) => {
     const [username, setUsername] = useState('');
+    const { searchTitle } = useSelector(
+    (state: RootState) => state.movies
+  );
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -16,9 +23,13 @@ export const UsernameModal = ({
     };
 
     const sendUsername = async () => {
+        const oldUsername = localStorage.getItem('username');
         setUsername('');
         await localStorage.setItem('username', username);
         await sendData();
+        if (oldUsername !== username) {
+            await dispatch(fetchMovies(searchTitle));
+        }
     };
 
     return (
