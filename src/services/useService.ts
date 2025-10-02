@@ -32,7 +32,8 @@ export const movieService = {
   },
 
   getFavorites: async (query: string) => {
-    const res = await api.get(`/favorites?title=${query}`);
+    const username = await localStorage.getItem("username");
+    const res = await api.get(`/favorites?title=${query}&username=${username}`);
     return res.data;
   },
 

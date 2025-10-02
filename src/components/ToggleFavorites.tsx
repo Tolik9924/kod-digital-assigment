@@ -14,24 +14,25 @@ export const ToggleFavorites: React.FC<Props> = ({
 }) => {
   const [showUsername, setShowUsername] = useState(false);
   const handleShowFavorites = () => {
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem("username");
     if (!username) {
       setShowUsername(true);
     } else {
-      setShowFavorites(!showFavorites)
+      setShowFavorites(!showFavorites);
     }
-  }
-  return(
+  };
+  return (
     <>
       <Button
-      onClick={() => handleShowFavorites()}
-      size="m"
-      variant="secondary"
-    >
-      {showFavorites ? "Show All" : "Favorites"}
-    </Button>
-    <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
+        onClick={() => handleShowFavorites()}
+        size="m"
+        variant="secondary"
+      >
+        {showFavorites ? "Show All" : "Favorites"}
+      </Button>
+      <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
         <UsernameModal sendData={() => setShowFavorites(!showFavorites)} />
       </Modal>
     </>
-)};
+  );
+};
