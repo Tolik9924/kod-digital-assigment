@@ -134,8 +134,6 @@ export const Home: React.FC = () => {
         editMovie({ imdbID, data: result })
       ).unwrap();
 
-      console.log('EDIT DATA: ', editData);
-
       return editData;
     }
 

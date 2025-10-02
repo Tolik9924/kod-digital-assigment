@@ -21,6 +21,12 @@ export const ToggleFavorites: React.FC<Props> = ({
       setShowFavorites(!showFavorites);
     }
   };
+
+  const sendData = () => {
+    setShowFavorites(!showFavorites);
+    setShowUsername(false);
+  };
+
   return (
     <>
       <Button
@@ -31,7 +37,7 @@ export const ToggleFavorites: React.FC<Props> = ({
         {showFavorites ? "Show All" : "Favorites"}
       </Button>
       <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
-        <UsernameModal sendData={() => setShowFavorites(!showFavorites)} />
+        <UsernameModal sendData={sendData} />
       </Modal>
     </>
   );
