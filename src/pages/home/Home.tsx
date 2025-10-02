@@ -9,7 +9,6 @@ import { MovieCard } from "../../components/movie-card/MovieCard";
 import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
 import { Modal } from "../../components/modal/Modal";
-import { DeleteModal } from "../../components/delete-modal/DeleteModal";
 import { handleSearch } from "../../features/movies/moviesSlice";
 import type { Movie } from "../../features/movies/types";
 import {
