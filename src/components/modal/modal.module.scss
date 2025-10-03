@@ -1,5 +1,6 @@
 .modalOverlay {
   position: fixed;
+  overflow: auto;
   top: 0;
   left: 0;
   width: 100%;
@@ -12,6 +13,8 @@
 }
 
 .modalContent {
+  margin-top: 140px;
+  margin-bottom: 50px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -21,9 +24,9 @@
 }
 
 .modalCloseButton {
- display: flex;
- justify-content: right;
- margin-bottom: 10px;
- width: auto;
- stroke: #fff;
+  display: flex;
+  justify-content: right;
+  margin-bottom: 10px;
+  width: auto;
+  stroke: #fff;
 }
