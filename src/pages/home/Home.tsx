@@ -24,6 +24,7 @@ import styles from "./home.module.scss";
 import { UsernameModal } from "../../components/username-modal/UsernameModal";
 import { ACTION } from "../../components/username-modal/constants";
 import { classes } from "../../common_utils/classes/classes";
+import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
 //import { UsernameModal } from "../../components/username-modal/UsernameModal";
 
 export const Home: React.FC = () => {
@@ -46,17 +47,7 @@ export const Home: React.FC = () => {
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    if (showModal) {
-      const scrollBarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollBarWidth}px`;
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-    }
-  }, [showModal]);
+  useLockBodyScroll(showModal);
 
   useEffect(() => {
     renderingMovies();

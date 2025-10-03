@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function useLockBodyScroll(isLocked: boolean) {
+export const useLockBodyScroll = (isLocked: boolean) => {
   useEffect(() => {
     if (isLocked) {
       const scrollBarWidth =
@@ -12,10 +12,9 @@ export function useLockBodyScroll(isLocked: boolean) {
       document.body.style.paddingRight = "";
     }
 
-    // cleanup на випадок, якщо компонент зникне
     return () => {
       document.body.style.overflow = "";
       document.body.style.paddingRight = "";
     };
   }, [isLocked]);
-}
+};
