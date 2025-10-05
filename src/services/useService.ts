@@ -5,7 +5,9 @@ import type { Movie } from "./types";
 export const movieService = {
   search: async (query: string): Promise<Movie[]> => {
     const username = await localStorage.getItem("username");
-    const res = await api.get(`/search?title=${query}&username=${username}`);
+    const res = username
+      ? await api.get(`/search?title=${query}&username=${username}`)
+      : await api.get(`/search?title=${query}`);
     return res.data;
   },
 
