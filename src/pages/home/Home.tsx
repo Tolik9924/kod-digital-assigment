@@ -65,18 +65,21 @@ export const Home: React.FC = () => {
     }
   };
 
-  const onSave = async (m: Movie, saveOrEdit: string): Promise<Movie> => {
+  const onSave = async (
+    movieData: { username: string; movie: Movie },
+    saveOrEdit: string
+  ): Promise<{ username: string; movie: Movie }> => {
     try {
       if (saveOrEdit === "edit") {
         const data = await dispatch(
-          editMovie({ imdbID: m.imdbID, data: m })
+          editMovie({ imdbID: movieData.movie.imdbID, data: movieData })
         ).unwrap();
         //setShowModal(false);
         return data;
       }
 
       if (saveOrEdit === "save") {
-        const data = await dispatch(addMovie(m)).unwrap();
+        const data = await dispatch(addMovie(movieData)).unwrap();
         return data;
       }
 
@@ -125,8 +128,9 @@ export const Home: React.FC = () => {
 
   const handleFavorite = async (imdbID: string, data: Movie) => {
     const movie = await dispatch(fetchMovie(imdbID)).unwrap();
+    const username = localStorage.getItem("username") || "Guest";
     if (movie) {
-      const result: Movie = {
+      const movieData: Movie = {
         ...data,
         Poster: movie.Poster,
         Director: movie.Director,
@@ -135,14 +139,19 @@ export const Home: React.FC = () => {
         isFavorite: data.isFavorite,
       };
 
-      const editData: Movie = await dispatch(
+      const result = {
+        username: username,
+        movie: movieData,
+      };
+
+      const editData: { username: string; movie: Movie } = await dispatch(
         editMovie({ imdbID, data: result })
       ).unwrap();
 
       return editData;
     }
 
-    return data;
+    return { username: username, movie: data };
   };
 
   return (

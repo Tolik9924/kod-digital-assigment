@@ -37,8 +37,8 @@ export const fetchMovie = createAsyncThunk(
 );
 
 export const editMovie = createAsyncThunk<
-  Movie,
-  { imdbID: string; data: Movie }
+  { username: string; movie: Movie },
+  { imdbID: string; data: { username: string; movie: Movie } }
 >("movies/editMovie", async ({ imdbID, data }, { rejectWithValue }) => {
   try {
     const editData = await movieService.edit({ imdbID, data });
@@ -60,17 +60,17 @@ export const deleteMovie = createAsyncThunk<string, string>(
   }
 );
 
-export const addMovie = createAsyncThunk<Movie, Movie>(
-  "movies/addMovie",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await movieService.create(data);
-      return res;
-    } catch (err) {
-      return rejectWithValue(getErrorMessage(err));
-    }
+export const addMovie = createAsyncThunk<
+  { username: string; movie: Movie },
+  { username: string; movie: Movie }
+>("movies/addMovie", async (data, { rejectWithValue }) => {
+  try {
+    const res = await movieService.create(data);
+    return res;
+  } catch (err) {
+    return rejectWithValue(getErrorMessage(err));
   }
-);
+});
 
 export const getFavorites = createAsyncThunk(
   "movies/getFavorites",

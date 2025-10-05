@@ -22,7 +22,10 @@ const MovieFormModal = ({
   onCancel,
 }: {
   movieData?: Movie;
-  onSave: (movie: Movie, saveOrEdit: string) => Promise<Movie>;
+  onSave: (
+    movieData: { username: string; movie: Movie },
+    saveOrEdit: string
+  ) => Promise<{ username: string; movie: Movie }>;
   onCancel: () => void;
 }) => {
   const movie = useMovie(movieData?.imdbID ?? "");
@@ -31,9 +34,11 @@ const MovieFormModal = ({
     (state: RootState) => state.movies
   );
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const username = localStorage.getItem("username") || "";
 
   const movieFormData: Values = {
     ...movie,
+    Username: username,
     Title: movie.Title,
     Runtime: Number(movie.Runtime && movie.Runtime.split(" ")[0]),
     Year: movie.Year,
@@ -47,10 +52,13 @@ const MovieFormModal = ({
 
   const submit = async (data: Values) => {
     try {
+      console.log("DATA: ", data);
       const saveOrEdit = movieData ? "edit" : "save";
       const format = formatTitle(data.Title);
 
-      const result = {
+      localStorage.setItem("username", data.Username);
+
+      const movieSubmited = {
         ...data,
         Title: format,
         imdbID: movieData
@@ -63,6 +71,11 @@ const MovieFormModal = ({
         Type: movieData ? movieData.Type : "N/A",
         Runtime: `${data.Runtime} min`,
         ...INITIAL_ADD_DATA,
+      };
+
+      const result = {
+        username: data.Username,
+        movie: movieSubmited,
       };
 
       const submittedData = await onSave(result, saveOrEdit);
@@ -100,6 +113,26 @@ const MovieFormModal = ({
             Let's {movieData ? "Edit" : "Create"} Movie
           </h2>
           <form className={styles.form} onSubmit={handleSubmit(submit)}>
+            <Controller
+              name="Username"
+              control={control}
+              rules={{
+                required: "Username is required.",
+              }}
+              render={({ field, fieldState }) => (
+                <div className={styles.field}>
+                  <label className={styles.label}>Username</label>
+                  <Input
+                    label="username"
+                    value={field.value ?? ""}
+                    handleChange={(e) => field.onChange(e.target.value)}
+                  />
+                  <p className={classes(styles.error, styles.showError)}>
+                    {fieldState.error?.message || ""}
+                  </p>
+                </div>
+              )}
+            />
             <Controller
               name="Title"
               control={control}

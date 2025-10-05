@@ -17,7 +17,10 @@ interface Props {
   movie: Movie;
   onEdit: () => void;
   onDelete: () => void;
-  onToggleFavorite: (imdbID: string, movie: Movie) => Promise<Movie>;
+  onToggleFavorite: (
+    imdbID: string,
+    movie: Movie
+  ) => Promise<{ username: string; movie: Movie }>;
 }
 
 export const MovieCard: React.FC<Props> = ({

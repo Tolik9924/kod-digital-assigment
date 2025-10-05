@@ -5,13 +5,17 @@ import type { Movie } from "./types";
 export const movieService = {
   search: async (query: string): Promise<Movie[]> => {
     const username = await localStorage.getItem("username");
+    console.log("USERNAME: ", username);
     const res = username
       ? await api.get(`/search?title=${query}&username=${username}`)
       : await api.get(`/search?title=${query}`);
     return res.data;
   },
 
-  create: async (data: Movie): Promise<Movie> => {
+  create: async (data: {
+    username: string;
+    movie: Movie;
+  }): Promise<{ username: string; movie: Movie }> => {
     const res = await api.post("/", data);
     return res.data;
   },
@@ -21,8 +25,8 @@ export const movieService = {
     data,
   }: {
     imdbID: string;
-    data: Partial<Movie>;
-  }): Promise<Movie> => {
+    data: { username: string; movie: Partial<Movie> };
+  }): Promise<{ username: string; movie: Movie }> => {
     const username = await localStorage.getItem("username");
     const editData = {
       username,
