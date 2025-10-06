@@ -9,10 +9,10 @@ import noPhoto from "../../assets/no-photo-available.png";
 import { Modal } from "../modal/Modal";
 import { UsernameModal } from "../username-modal/UsernameModal";
 import { classes } from "../../common_utils/classes/classes";
-
-import styles from "./movieCard.module.scss";
 import { ACTION } from "../username-modal/constants";
 import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
+
+import styles from "./movieCard.module.scss";
 
 interface Props {
   movie: Movie;

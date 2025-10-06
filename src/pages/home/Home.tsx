@@ -19,12 +19,12 @@ import {
   fetchMovies,
   getFavorites,
 } from "../../features/movies/moviesThunks";
-
-import styles from "./home.module.scss";
 import { UsernameModal } from "../../components/username-modal/UsernameModal";
 import { ACTION } from "../../components/username-modal/constants";
 import { classes } from "../../common_utils/classes/classes";
 import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
+
+import styles from "./home.module.scss";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,8 +48,6 @@ export const Home: React.FC = () => {
   const hideBodyScroll = showModal || showDeleteModal;
 
   useLockBodyScroll(hideBodyScroll);
-
-  console.log("USERNAME: ", localStorage.getItem("username"));
 
   useEffect(() => {
     renderingMovies();
