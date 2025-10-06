@@ -37,17 +37,19 @@ export const UsernameModal = ({
 
   return (
     <div className={styles.container}>
-      <h3>
-        {action}: {cardTitle}
+      <h3 className={styles.cardTitle}>
+        {action}: {cardTitle}?
       </h3>
-      <h3 className={styles.title}>Enter Username</h3>
-      <Input
-        label="username"
-        value={username}
-        handleChange={handleChange}
-        size="m"
-        fullWidth
-      />
+      <div className={styles.enterUsername}>
+        <span className={styles.enterUsernameTitle}>Enter Username</span>
+        <Input
+          label="username"
+          value={username}
+          handleChange={handleChange}
+          size="m"
+          fullWidth
+        />
+      </div>
       <div className={styles.sendContainer}>
         <Button
           onClick={sendUsername}

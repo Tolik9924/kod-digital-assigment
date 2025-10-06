@@ -12,6 +12,7 @@ import { classes } from "../../common_utils/classes/classes";
 
 import styles from "./movieCard.module.scss";
 import { ACTION } from "../username-modal/constants";
+import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
 
 interface Props {
   movie: Movie;
@@ -34,6 +35,8 @@ export const MovieCard: React.FC<Props> = ({
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [showUsername, setShowUsername] = useState(false);
   const [favorite, setFavorite] = useState(movie.isFavorite);
+
+  useLockBodyScroll(showUsername);
 
   const goToDetails = () => {
     navigate(`/movie/${encodeURIComponent(movie.imdbID)}`);

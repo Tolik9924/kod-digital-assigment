@@ -52,7 +52,6 @@ const MovieFormModal = ({
 
   const submit = async (data: Values) => {
     try {
-      console.log("DATA: ", data);
       const saveOrEdit = movieData ? "edit" : "save";
       const format = formatTitle(data.Title);
 

@@ -25,7 +25,6 @@ import { UsernameModal } from "../../components/username-modal/UsernameModal";
 import { ACTION } from "../../components/username-modal/constants";
 import { classes } from "../../common_utils/classes/classes";
 import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
-//import { UsernameModal } from "../../components/username-modal/UsernameModal";
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,7 +35,6 @@ export const Home: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useState(false);
-  //const [showUsername, setShowUsername] = useState(false);
   const [lastSearch, setLastSearch] = useState(searchTitle);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -47,7 +45,11 @@ export const Home: React.FC = () => {
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useLockBodyScroll(showModal);
+  const hideBodyScroll = showModal || showDeleteModal;
+
+  useLockBodyScroll(hideBodyScroll);
+
+  console.log("USERNAME: ", localStorage.getItem("username"));
 
   useEffect(() => {
     renderingMovies();
@@ -127,7 +129,6 @@ export const Home: React.FC = () => {
   };
 
   const handleFavorite = async (imdbID: string, data: Movie) => {
-    console.log();
     const movie = await dispatch(fetchMovie(imdbID)).unwrap();
     const username = localStorage.getItem("username") || "Guest";
     if (movie) {
@@ -221,7 +222,6 @@ export const Home: React.FC = () => {
         </div>
       )}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
-        {/* <DeleteModal title={deleteCard.title} handleDelete={onDelete} /> */}
         <UsernameModal
           cardTitle={deleteCard.title}
           action={ACTION.delete}
@@ -235,9 +235,6 @@ export const Home: React.FC = () => {
           onCancel={() => setShowModal(false)}
         />
       </Modal>
-      {/* <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
-        <UsernameModal />
-      </Modal> */}
     </div>
   );
 };

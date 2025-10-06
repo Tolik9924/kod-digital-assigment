@@ -65,6 +65,7 @@ export const addMovie = createAsyncThunk<
   { username: string; movie: Movie }
 >("movies/addMovie", async (data, { rejectWithValue }) => {
   try {
+    console.log("CREATE DATA: ", data);
     const res = await movieService.create(data);
     return res;
   } catch (err) {
