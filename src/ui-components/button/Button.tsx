@@ -32,7 +32,7 @@ export const Button = forwardRef<Ref, Props>(function Button(props, ref) {
     children,
     size = "m",
     variant = "primary",
-    fullWidth = true,
+    fullWidth = false,
     disabled = false,
     onClick,
     ...rest

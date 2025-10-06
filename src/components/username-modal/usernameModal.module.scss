@@ -1,0 +1,35 @@
+.container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--main-text-color);
+}
+
+.enterUsername {
+  display: flex;
+  flex-direction: column;
+  //gap: 10px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+
+.enterUsernameTitle {
+  margin: 0;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.sendContainer {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 300px;
+  }
+}

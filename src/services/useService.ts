@@ -4,34 +4,47 @@ import type { Movie } from "./types";
 
 export const movieService = {
   search: async (query: string): Promise<Movie[]> => {
-    const res = await api.get(`/search?title=${query}`);
+    const username = await localStorage.getItem("username");
+    const res = await api.get(`/search?title=${query}&username=${username}`);
     return res.data;
   },
 
-  create: async (data: Movie): Promise<Movie> => {
+  create: async (data: {
+    username: string;
+    movie: Movie;
+  }): Promise<{ username: string; movie: Movie }> => {
     const res = await api.post("/", data);
     return res.data;
   },
 
-  edit: async ({imdbID, data}: {imdbID: string, data: Partial<Movie>}): Promise<Movie> => {
+  edit: async ({
+    imdbID,
+    data,
+  }: {
+    imdbID: string;
+    data: { username: string; movie: Partial<Movie> };
+  }): Promise<{ username: string; movie: Movie }> => {
     const res = await api.patch(`/${imdbID}`, data);
-    return res.data;
+    return res.data[0];
   },
 
   delete: async (imdbID: string): Promise<string> => {
-    const data = await api.delete(`/${imdbID}`);
+    const username = localStorage.getItem("username");
+    const data = await api.delete(`/${imdbID}?username=${username}`);
     return data.data;
   },
 
   getFavorites: async (query: string) => {
-    const res = await api.get(`/favorites?title=${query}`);
+    const username = await localStorage.getItem("username");
+    const res = await api.get(`/favorites?title=${query}&username=${username}`);
     return res.data;
   },
 
   getMovieInfo: async (imdbID: string) => {
-    const res = await api.get(`/movie-info/${imdbID}`);
-    if (res.data.Response === 'False') {
-      return {Poster: 'N/A', ...res.data, ...INITIAL_ADD_DATA}
+    const username = await localStorage.getItem("username");
+    const res = await api.get(`/movie-info/${imdbID}?username=${username}`);
+    if (res.data.Response === "False") {
+      return { Poster: "N/A", ...res.data, ...INITIAL_ADD_DATA };
     }
     return res.data;
   },

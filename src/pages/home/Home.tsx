@@ -9,7 +9,6 @@ import { MovieCard } from "../../components/movie-card/MovieCard";
 import MovieFormModal from "../../components/movie-form-modal/MovieFormModal";
 import { ToggleFavorites } from "../../components/ToggleFavorites";
 import { Modal } from "../../components/modal/Modal";
-import { DeleteModal } from "../../components/delete-modal/DeleteModal";
 import { handleSearch } from "../../features/movies/moviesSlice";
 import type { Movie } from "../../features/movies/types";
 import {
@@ -20,6 +19,10 @@ import {
   fetchMovies,
   getFavorites,
 } from "../../features/movies/moviesThunks";
+import { UsernameModal } from "../../components/username-modal/UsernameModal";
+import { ACTION } from "../../components/username-modal/constants";
+import { classes } from "../../common_utils/classes/classes";
+import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
 
 import styles from "./home.module.scss";
 
@@ -42,11 +45,13 @@ export const Home: React.FC = () => {
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const hideBodyScroll = showModal || showDeleteModal;
+
+  useLockBodyScroll(hideBodyScroll);
+
   useEffect(() => {
     renderingMovies();
   }, [showFavorites]);
-
-  const filteredMovies = movies;
 
   const renderingMovies = async () => {
     if (!showFavorites) {
@@ -60,18 +65,21 @@ export const Home: React.FC = () => {
     }
   };
 
-  const onSave = async (m: Movie, saveOrEdit: string): Promise<Movie> => {
+  const onSave = async (
+    movieData: { username: string; movie: Movie },
+    saveOrEdit: string
+  ): Promise<{ username: string; movie: Movie }> => {
     try {
       if (saveOrEdit === "edit") {
         const data = await dispatch(
-          editMovie({ imdbID: m.imdbID, data: m })
+          editMovie({ imdbID: movieData.movie.imdbID, data: movieData })
         ).unwrap();
         //setShowModal(false);
         return data;
       }
 
       if (saveOrEdit === "save") {
-        const data = await dispatch(addMovie(m)).unwrap();
+        const data = await dispatch(addMovie(movieData)).unwrap();
         return data;
       }
 
@@ -120,26 +128,38 @@ export const Home: React.FC = () => {
 
   const handleFavorite = async (imdbID: string, data: Movie) => {
     const movie = await dispatch(fetchMovie(imdbID)).unwrap();
+    const username = localStorage.getItem("username") || "Guest";
     if (movie) {
-      const result: Movie = {
+      const movieData: Movie = {
         ...data,
         Poster: movie.Poster,
         Director: movie.Director,
         Genre: movie.Genre,
         Runtime: movie.Runtime,
-        isFavorite: !data.isFavorite,
+        isFavorite: data.isFavorite,
       };
 
-      const editData = await dispatch(
+      const result = {
+        username: username,
+        movie: movieData,
+      };
+
+      const editData: { username: string; movie: Movie } = await dispatch(
         editMovie({ imdbID, data: result })
       ).unwrap();
 
       return editData;
     }
+
+    return { username: username, movie: data };
   };
 
   return (
-    <div className={styles.home}>
+    <div
+      className={classes(styles.home, {
+        [styles.locked]: showModal,
+      })}
+    >
       <Header
         title="Cinema"
         content={
@@ -177,20 +197,20 @@ export const Home: React.FC = () => {
           </div>
         </Loading>
       )}
-      {filteredMovies.length > 0 && (
+      {movies.length > 0 && (
         <div className={styles.cardsContainer}>
-          {filteredMovies.map((m, index) => (
+          {movies.map((m, index) => (
             <MovieCard
               key={index}
               movie={m}
               onEdit={() => onEdit(m)}
               onDelete={() => deleteMovieCard(m.Title, m.imdbID)}
-              onToggleFavorite={() => handleFavorite(m.imdbID, m)}
+              onToggleFavorite={handleFavorite}
             />
           ))}
         </div>
       )}
-      {filteredMovies.length === 0 && (
+      {movies.length === 0 && !loadings.loadingMovies && (
         <div className={styles.noData}>
           <span className={styles.noDataText}>
             {searchTitle === ""
@@ -200,7 +220,11 @@ export const Home: React.FC = () => {
         </div>
       )}
       <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
-        <DeleteModal title={deleteCard.title} handleDelete={onDelete} />
+        <UsernameModal
+          cardTitle={deleteCard.title}
+          action={ACTION.delete}
+          sendData={onDelete}
+        />
       </Modal>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <MovieFormModal

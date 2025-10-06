@@ -6,7 +6,11 @@ import { Button } from "../../ui-components/button/Button";
 import { Loading } from "../../ui-components/loading/Loading";
 import { StarIcon } from "../../assets/StarIcon";
 import noPhoto from "../../assets/no-photo-available.png";
+import { Modal } from "../modal/Modal";
+import { UsernameModal } from "../username-modal/UsernameModal";
 import { classes } from "../../common_utils/classes/classes";
+import { ACTION } from "../username-modal/constants";
+import { useLockBodyScroll } from "../../shared/hooks/useLockBodyScroll";
 
 import styles from "./movieCard.module.scss";
 
@@ -14,7 +18,10 @@ interface Props {
   movie: Movie;
   onEdit: () => void;
   onDelete: () => void;
-  onToggleFavorite: () => void;
+  onToggleFavorite: (
+    imdbID: string,
+    movie: Movie
+  ) => Promise<{ username: string; movie: Movie }>;
 }
 
 export const MovieCard: React.FC<Props> = ({
@@ -26,6 +33,10 @@ export const MovieCard: React.FC<Props> = ({
   const navigate = useNavigate();
   const [errorImg, setErrorImg] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
+  const [showUsername, setShowUsername] = useState(false);
+  const [favorite, setFavorite] = useState(movie.isFavorite);
+
+  useLockBodyScroll(showUsername);
 
   const goToDetails = () => {
     navigate(`/movie/${encodeURIComponent(movie.imdbID)}`);
@@ -33,8 +44,12 @@ export const MovieCard: React.FC<Props> = ({
 
   const handleFavorite = async () => {
     try {
+      setShowUsername(false);
       setLoadingFavorite(true);
-      await onToggleFavorite();
+      const updateFavorite = !favorite;
+      setFavorite(!favorite);
+      const toggled = { ...movie, isFavorite: updateFavorite };
+      await onToggleFavorite(movie.imdbID, toggled);
     } finally {
       setLoadingFavorite(false);
     }
@@ -70,7 +85,7 @@ export const MovieCard: React.FC<Props> = ({
               {movie.Title}
             </Link>
             <Button
-              onClick={handleFavorite}
+              onClick={() => setShowUsername(true)}
               size="xs"
               variant="primary"
               disabled={loadingFavorite}
@@ -101,6 +116,13 @@ export const MovieCard: React.FC<Props> = ({
           </Button>
         </div>
       </div>
+      <Modal isOpen={showUsername} onClose={() => setShowUsername(false)}>
+        <UsernameModal
+          cardTitle={movie.Title}
+          action={ACTION.toggleFavorite}
+          sendData={handleFavorite}
+        />
+      </Modal>
     </div>
   );
 };
