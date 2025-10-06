@@ -13,14 +13,17 @@
 }
 
 .modalContent {
-  margin-top: 140px;
-  margin-bottom: 50px;
+  //margin-top: 200px;
+  // margin-bottom: 5%;
   background-color: white;
   padding: 20px;
+  box-sizing: border-box;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: auto;
-  height: auto;
+  //height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modalCloseButton {

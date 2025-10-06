@@ -127,6 +127,7 @@ export const Home: React.FC = () => {
   };
 
   const handleFavorite = async (imdbID: string, data: Movie) => {
+    console.log();
     const movie = await dispatch(fetchMovie(imdbID)).unwrap();
     const username = localStorage.getItem("username") || "Guest";
     if (movie) {

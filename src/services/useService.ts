@@ -6,9 +6,7 @@ export const movieService = {
   search: async (query: string): Promise<Movie[]> => {
     const username = await localStorage.getItem("username");
     console.log("USERNAME: ", username);
-    const res = username
-      ? await api.get(`/search?title=${query}&username=${username}`)
-      : await api.get(`/search?title=${query}`);
+    const res = await api.get(`/search?title=${query}&username=${username}`);
     return res.data;
   },
 
@@ -27,12 +25,9 @@ export const movieService = {
     imdbID: string;
     data: { username: string; movie: Partial<Movie> };
   }): Promise<{ username: string; movie: Movie }> => {
-    const username = await localStorage.getItem("username");
-    const editData = {
-      username,
-      movie: data,
-    };
-    const res = await api.patch(`/${imdbID}`, editData);
+    //const username = await localStorage.getItem("username");
+    console.log("EDIT DATA: ", data);
+    const res = await api.patch(`/${imdbID}`, data);
     return res.data[0];
   },
 
