@@ -68,13 +68,12 @@ export const Home: React.FC = () => {
   const onSave = async (
     movieData: { username: string; movie: Movie },
     saveOrEdit: string
-  ): Promise<{ username: string; movie: Movie }> => {
+  ): Promise<Movie> => {
     try {
       if (saveOrEdit === "edit") {
         const data = await dispatch(
           editMovie({ imdbID: movieData.movie.imdbID, data: movieData })
         ).unwrap();
-        //setShowModal(false);
         return data;
       }
 
@@ -144,14 +143,14 @@ export const Home: React.FC = () => {
         movie: movieData,
       };
 
-      const editData: { username: string; movie: Movie } = await dispatch(
+      const editData: Movie = await dispatch(
         editMovie({ imdbID, data: result })
       ).unwrap();
 
       return editData;
     }
 
-    return { username: username, movie: data };
+    return data;
   };
 
   return (

@@ -9,10 +9,7 @@ export const movieService = {
     return res.data;
   },
 
-  create: async (data: {
-    username: string;
-    movie: Movie;
-  }): Promise<{ username: string; movie: Movie }> => {
+  create: async (data: { username: string; movie: Movie }): Promise<Movie> => {
     const res = await api.post("/", data);
     return res.data;
   },
@@ -23,7 +20,7 @@ export const movieService = {
   }: {
     imdbID: string;
     data: { username: string; movie: Partial<Movie> };
-  }): Promise<{ username: string; movie: Movie }> => {
+  }): Promise<Movie> => {
     const res = await api.patch(`/${imdbID}`, data);
     return res.data[0];
   },

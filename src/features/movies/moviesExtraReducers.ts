@@ -1,8 +1,17 @@
 import type { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { fetchMovies, fetchMovie, editMovie, deleteMovie, addMovie, getFavorites } from "./moviesThunks";
+import {
+  fetchMovies,
+  fetchMovie,
+  editMovie,
+  deleteMovie,
+  addMovie,
+  getFavorites,
+} from "./moviesThunks";
 import type { MoviesState } from "./types";
 
-export const fetchMoviesExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+export const fetchMoviesExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
   builder
     .addCase(fetchMovies.pending, (state) => {
       state.loadings.loadingMovies = true;
@@ -16,7 +25,9 @@ export const fetchMoviesExtra = (builder: ActionReducerMapBuilder<MoviesState>) 
     });
 };
 
-export const fetchMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+export const fetchMovieExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
   builder
     .addCase(fetchMovie.pending, (state) => {
       state.loadings.loadingMovie = true;
@@ -30,14 +41,19 @@ export const fetchMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) =
     });
 };
 
-export const editMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+export const editMovieExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
   builder
     .addCase(editMovie.pending, (state) => {
       state.loadings.loadingAdding = true;
     })
     .addCase(editMovie.fulfilled, (state, action) => {
       const updatedMovie = action.payload;
-      const index = state.movies.findIndex(m => m.imdbID === updatedMovie.imdbID);
+      console.log("EDIT MOVIE PAYLOAD: ", updatedMovie);
+      const index = state.movies.findIndex(
+        (m) => m.imdbID === updatedMovie.imdbID
+      );
       if (index !== -1) {
         state.movies[index] = updatedMovie;
         state.loadings.loadingAdding = false;
@@ -48,7 +64,9 @@ export const editMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) =>
     });
 };
 
-export const deleteMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+export const deleteMovieExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
   builder
     .addCase(deleteMovie.pending, (state) => {
       state.loadings.loadingMovies = true;
@@ -62,7 +80,9 @@ export const deleteMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) 
     });
 };
 
-export const addMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+export const addMovieExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
   builder
     .addCase(addMovie.pending, (state) => {
       state.loadings.loadingAdding = true;
@@ -76,7 +96,9 @@ export const addMovieExtra = (builder: ActionReducerMapBuilder<MoviesState>) => 
     });
 };
 
-export const getFavoritesExtra = (builder: ActionReducerMapBuilder<MoviesState>) => {
+export const getFavoritesExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
   builder
     .addCase(getFavorites.pending, (state) => {
       state.loadings.loadingMovies = true;

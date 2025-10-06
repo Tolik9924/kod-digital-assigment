@@ -25,7 +25,7 @@ const MovieFormModal = ({
   onSave: (
     movieData: { username: string; movie: Movie },
     saveOrEdit: string
-  ) => Promise<{ username: string; movie: Movie }>;
+  ) => Promise<Movie>;
   onCancel: () => void;
 }) => {
   const movie = useMovie(movieData?.imdbID ?? "");

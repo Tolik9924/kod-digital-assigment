@@ -1,21 +1,27 @@
-import { createSlice, type PayloadAction, } from '@reduxjs/toolkit';
-import type { MoviesState } from './types';
-import { addMovieExtra, editMovieExtra, fetchMovieExtra, fetchMoviesExtra, getFavoritesExtra } from './moviesExtraReducers';
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { MoviesState } from "./types";
+import {
+  addMovieExtra,
+  editMovieExtra,
+  fetchMovieExtra,
+  fetchMoviesExtra,
+  getFavoritesExtra,
+} from "./moviesExtraReducers";
 
 const initialMovie = {
-  imdbID: '',
-  Poster: '',
-  Title: '',
-  Year: '',
-  Runtime: '',
-  Genre: '',
-  Director: '',
-  Type: '',
+  imdbID: "",
+  Poster: "",
+  Title: "",
+  Year: "",
+  Runtime: "",
+  Genre: "",
+  Director: "",
+  Type: "",
   isFavorite: false,
 };
 
 const initialState: MoviesState = {
-  searchTitle: 'batman',
+  searchTitle: "",
   movie: initialMovie,
   movies: [],
   loadings: {
@@ -24,16 +30,16 @@ const initialState: MoviesState = {
     loading: false,
     loadingAdding: false,
   },
-  deleteMovie: '',
+  deleteMovie: "",
 };
 
 const moviesSlice = createSlice({
-  name: 'movies',
+  name: "movies",
   initialState,
   reducers: {
     handleSearch: (state, action: PayloadAction<string>) => {
       state.searchTitle = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     fetchMoviesExtra(builder);
@@ -41,7 +47,7 @@ const moviesSlice = createSlice({
     editMovieExtra(builder);
     addMovieExtra(builder);
     getFavoritesExtra(builder);
-  }
+  },
 });
 
 export const { handleSearch } = moviesSlice.actions;

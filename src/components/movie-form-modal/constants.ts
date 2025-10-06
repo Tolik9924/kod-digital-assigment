@@ -1,6 +1,7 @@
 import type { Values } from "./types";
 
 export const INITIAL_VALUES: Values = {
+  Username: "",
   Title: "",
   Year: "",
   Runtime: 1,
