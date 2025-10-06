@@ -55,7 +55,11 @@ export const UsernameModal = ({
           onClick={sendUsername}
           fullWidth
           size="s"
-          variant={action === ACTION.delete ? "error" : "primary"}
+          variant={
+            (username.trim().length === 0 && "on-dark") ||
+            (action === ACTION.delete ? "error" : "primary")
+          }
+          disabled={username.trim().length === 0}
         >
           {action.toLocaleUpperCase()}
         </Button>
