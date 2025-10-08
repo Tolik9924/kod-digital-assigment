@@ -6,6 +6,7 @@ import {
   deleteMovie,
   addMovie,
   getFavorites,
+  editMovieFavorite,
 } from "./moviesThunks";
 import type { MoviesState } from "./types";
 
@@ -50,7 +51,6 @@ export const editMovieExtra = (
     })
     .addCase(editMovie.fulfilled, (state, action) => {
       const updatedMovie = action.payload;
-      console.log("EDIT MOVIE PAYLOAD: ", updatedMovie);
       const index = state.movies.findIndex(
         (m) => m.imdbID === updatedMovie.imdbID
       );
@@ -60,6 +60,28 @@ export const editMovieExtra = (
       }
     })
     .addCase(editMovie.rejected, (state) => {
+      state.loadings.loadingAdding = false;
+    });
+};
+
+export const editMovieFavoriteExtra = (
+  builder: ActionReducerMapBuilder<MoviesState>
+) => {
+  builder
+    .addCase(editMovieFavorite.pending, (state) => {
+      state.loadings.loadingAdding = true;
+    })
+    .addCase(editMovieFavorite.fulfilled, (state, action) => {
+      const updatedMovie = action.payload;
+      const index = state.movies.findIndex(
+        (m) => m.imdbID === updatedMovie.imdbID
+      );
+      if (index !== -1) {
+        state.movies[index] = updatedMovie;
+        state.loadings.loadingAdding = false;
+      }
+    })
+    .addCase(editMovieFavorite.rejected, (state) => {
       state.loadings.loadingAdding = false;
     });
 };

@@ -49,6 +49,19 @@ export const editMovie = createAsyncThunk<
   }
 });
 
+export const editMovieFavorite = createAsyncThunk<
+  Movie,
+  { imdbID: string; data: { username: string; movie: Movie } },
+  { rejectValue: string }
+>("movies/editMovieFavorite", async ({ imdbID, data }, { rejectWithValue }) => {
+  try {
+    const editData = await movieService.editFavorite({ imdbID, data });
+    return editData;
+  } catch (err) {
+    return rejectWithValue(getErrorMessage(err));
+  }
+});
+
 export const deleteMovie = createAsyncThunk<string, string>(
   "movies/deleteMovie",
   async (imdbID, { rejectWithValue }) => {

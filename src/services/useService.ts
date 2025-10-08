@@ -27,6 +27,17 @@ export const movieService = {
     return res.data[0];
   },
 
+  editFavorite: async ({
+    imdbID,
+    data,
+  }: {
+    imdbID: string;
+    data: { username: string; movie: Partial<Movie> };
+  }): Promise<Movie> => {
+    const res = await api.patch(`/favorite/${imdbID}`, data);
+    return res.data[0];
+  },
+
   delete: async (imdbID: string): Promise<string> => {
     const username = localStorage.getItem("username");
     const data = await api.delete(`/${imdbID}?username=${username}`);

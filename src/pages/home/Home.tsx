@@ -15,6 +15,7 @@ import {
   addMovie,
   deleteMovie,
   editMovie,
+  editMovieFavorite,
   fetchMovie,
   fetchMovies,
   getFavorites,
@@ -144,7 +145,7 @@ export const Home: React.FC = () => {
       };
 
       const editData: Movie = await dispatch(
-        editMovie({ imdbID, data: result })
+        editMovieFavorite({ imdbID, data: result })
       ).unwrap();
 
       return editData;

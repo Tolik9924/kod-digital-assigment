@@ -3,6 +3,7 @@ import type { MoviesState } from "./types";
 import {
   addMovieExtra,
   editMovieExtra,
+  editMovieFavoriteExtra,
   fetchMovieExtra,
   fetchMoviesExtra,
   getFavoritesExtra,
@@ -45,6 +46,7 @@ const moviesSlice = createSlice({
     fetchMoviesExtra(builder);
     fetchMovieExtra(builder);
     editMovieExtra(builder);
+    editMovieFavoriteExtra(builder);
     addMovieExtra(builder);
     getFavoritesExtra(builder);
   },
