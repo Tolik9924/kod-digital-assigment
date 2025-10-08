@@ -31,7 +31,6 @@ export const MovieCard: React.FC<Props> = ({
   const [errorImg, setErrorImg] = useState(false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const [showUsername, setShowUsername] = useState(false);
-  const [favorite, setFavorite] = useState(movie.isFavorite);
 
   useLockBodyScroll(showUsername);
 
@@ -43,9 +42,7 @@ export const MovieCard: React.FC<Props> = ({
     try {
       setShowUsername(false);
       setLoadingFavorite(true);
-      const updateFavorite = !favorite;
-      setFavorite(!favorite);
-      const toggled = { ...movie, isFavorite: updateFavorite };
+      const toggled = { ...movie, isFavorite: movie.isFavorite ? false : true };
       await onToggleFavorite(movie.imdbID, toggled);
     } finally {
       setLoadingFavorite(false);
