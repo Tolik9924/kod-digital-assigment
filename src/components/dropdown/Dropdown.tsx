@@ -86,6 +86,7 @@ export const Dropdown = ({
         [styles.fullWidth]: fullWidth,
       })}
       ref={dropdownRef}
+      data-testid="genre-item"
     >
       <button
         className={classes(styles.button, {

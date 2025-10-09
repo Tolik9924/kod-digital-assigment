@@ -122,7 +122,9 @@ const MovieFormModal = ({
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>
-                  <label className={styles.label}>Username</label>
+                  <label htmlFor="username" className={styles.label}>
+                    Username
+                  </label>
                   <Input
                     label="username"
                     value={field.value ?? ""}
@@ -153,9 +155,11 @@ const MovieFormModal = ({
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>
-                  <label className={styles.label}>Title</label>
+                  <label htmlFor="title" className={styles.label}>
+                    Title
+                  </label>
                   <Input
-                    label="Star Wars"
+                    label="title"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
@@ -193,10 +197,12 @@ const MovieFormModal = ({
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>
-                  <label className={styles.label}>Year</label>
+                  <label htmlFor="year" className={styles.label}>
+                    Year
+                  </label>
                   <Input
                     type="text"
-                    label="1990 or 1990 - 2000"
+                    label="year"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
@@ -222,10 +228,12 @@ const MovieFormModal = ({
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>
-                  <label className={styles.label}>Runtime</label>
+                  <label htmlFor="runtime" className={styles.label}>
+                    Runtime
+                  </label>
                   <Input
                     type="number"
-                    label="120"
+                    label="runtime"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
@@ -244,7 +252,9 @@ const MovieFormModal = ({
               render={({ field, fieldState }) => {
                 return (
                   <div className={styles.field}>
-                    <label className={styles.label}>Genre</label>
+                    <label htmlFor="genre" className={styles.label}>
+                      Genre
+                    </label>
                     <Dropdown
                       id="Genre"
                       isMultiple={true}
@@ -254,6 +264,7 @@ const MovieFormModal = ({
                         field.onChange(selectIds);
                       }}
                       fullWidth
+                      data-testid="genre-item"
                     />
                     <p className={classes(styles.error, styles.showError)}>
                       {fieldState.error?.message || ""}
@@ -287,11 +298,13 @@ const MovieFormModal = ({
               }}
               render={({ field, fieldState }) => (
                 <div className={styles.field}>
-                  <label className={styles.label}>Director</label>
+                  <label htmlFor="director" className={styles.label}>
+                    Director
+                  </label>
                   <Input
                     type="text"
                     value={field.value ?? ""}
-                    label="George Lucas"
+                    label="director"
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
                   <p className={classes(styles.error, styles.showError)}>
