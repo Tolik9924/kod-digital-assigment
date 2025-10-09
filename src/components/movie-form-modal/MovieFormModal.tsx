@@ -50,6 +50,8 @@ const MovieFormModal = ({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
+  console.log("MOVIE: ", movie);
+
   const submit = async (data: Values) => {
     try {
       const saveOrEdit = movieData ? "edit" : "save";
