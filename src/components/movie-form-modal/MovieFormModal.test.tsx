@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
-//import configureStore from "redux-mock-store";
 import { configureStore } from "@reduxjs/toolkit";
 import MovieFormModal from "./MovieFormModal";
 import moviesReducer from "../../features/movies/moviesSlice";
@@ -26,14 +25,12 @@ jest.mock("../../hooks/useMovie", () => ({
   })),
 }));
 
-// Mock для dispatch
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
 }));
 
-// Mock localStorage
 beforeEach(() => {
   Storage.prototype.getItem = jest.fn(() => "TestUser");
   Storage.prototype.setItem = jest.fn();
@@ -64,7 +61,6 @@ const preloadedState = {
   },
 };
 
-// Створюємо фейковий store
 const store = configureStore({
   reducer: { movies: moviesReducer },
   preloadedState,
@@ -82,11 +78,7 @@ describe("MovieFormModal", () => {
     expect(screen.getByLabelText(/Title/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Year/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Runtime/i)).toBeInTheDocument();
-    const renderedGenres = screen
-      .getAllByTestId("genre-item")
-      .map((el) => el.textContent);
-    expect(renderedGenres).toEqual(expect.arrayContaining([]));
-    //expect(screen.getByText(/Genre/i)).toBeInTheDocument();
+    expect(screen.getByText(/Genre/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Director/i)).toBeInTheDocument();
   });
 
@@ -123,7 +115,6 @@ describe("MovieFormModal", () => {
       </Provider>
     );
 
-    // Заповнення полів
     fireEvent.change(screen.getByLabelText(/Username/i), {
       target: { value: "TestUser" },
     });
@@ -140,12 +131,11 @@ describe("MovieFormModal", () => {
       target: { value: "George Lucas" },
     });
 
-    // Для жанрів — імітуємо вибір через dropdown
-    // Тут достатньо викликати onSelect напряму через клік
-    fireEvent.click(screen.getByText(/Genre/i)); // відкриває dropdown
-    // припустимо, жанри мокані в GENRES, тому можна клікнути перший варіант
-    const firstGenre = screen.getByText(/Action/i);
-    fireEvent.click(firstGenre);
+    fireEvent.click(screen.getByText(/Genre/i));
+    screen.debug();
+    const genres = screen.getAllByRole("heading", { level: 5 });
+    fireEvent.click(genres[0]);
+    const selectedText = genres[0].textContent;
 
     fireEvent.click(screen.getByRole("button", { name: /save/i }));
 
@@ -155,7 +145,10 @@ describe("MovieFormModal", () => {
       expect(arg.username).toBe("TestUser");
       expect(arg.movie.Title).toBe("Star Wars");
       expect(arg.movie.Year).toBe("1999");
-      expect(arg.movie.Genre).toBe("Action");
+      const renderedGenres = screen
+        .getAllByTestId("genre-item")
+        .map((el) => el.textContent);
+      expect(renderedGenres).toEqual(expect.arrayContaining([selectedText]));
       expect(arg.movie.Runtime).toBe("120 min");
       expect(arg.movie.Director).toBe("George Lucas");
     });

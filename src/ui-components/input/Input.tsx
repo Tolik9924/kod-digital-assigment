@@ -30,7 +30,7 @@ export type Props = {
 export const Input = ({
   elementType: ElementType = "input",
   label = "string",
-  id = label || "id",
+  id = "id",
   isDisabled = false,
   size = "m",
   fullWidth = false,
@@ -41,6 +41,7 @@ export const Input = ({
   type = "text",
   ...rest
 }: Props & MarginProps) => {
+  console.log("INPUT ID: ", id);
   return (
     <div
       className={classes(styles.inputContainer, margin(rest), {

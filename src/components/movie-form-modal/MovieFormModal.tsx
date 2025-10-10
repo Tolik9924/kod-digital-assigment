@@ -50,8 +50,6 @@ const MovieFormModal = ({
     values: movieData ? movieFormData : INITIAL_VALUES,
   });
 
-  console.log("MOVIE: ", movie);
-
   const submit = async (data: Values) => {
     try {
       const saveOrEdit = movieData ? "edit" : "save";
@@ -126,6 +124,7 @@ const MovieFormModal = ({
                     Username
                   </label>
                   <Input
+                    id="username"
                     label="username"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
@@ -159,7 +158,8 @@ const MovieFormModal = ({
                     Title
                   </label>
                   <Input
-                    label="title"
+                    id="title"
+                    label="Star Wars"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
@@ -202,7 +202,8 @@ const MovieFormModal = ({
                   </label>
                   <Input
                     type="text"
-                    label="year"
+                    label="1990 or 1990-1995"
+                    id="year"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
@@ -233,7 +234,8 @@ const MovieFormModal = ({
                   </label>
                   <Input
                     type="number"
-                    label="runtime"
+                    label="120"
+                    id="runtime"
                     value={field.value ?? ""}
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
@@ -252,7 +254,7 @@ const MovieFormModal = ({
               render={({ field, fieldState }) => {
                 return (
                   <div className={styles.field}>
-                    <label htmlFor="genre" className={styles.label}>
+                    <label htmlFor="Genre" className={styles.label}>
                       Genre
                     </label>
                     <Dropdown
@@ -261,6 +263,7 @@ const MovieFormModal = ({
                       options={GENRES}
                       selectedIds={field.value}
                       onSelect={(selectIds: string | string[]) => {
+                        console.log("SELECT IDS: ", selectIds);
                         field.onChange(selectIds);
                       }}
                       fullWidth
@@ -304,7 +307,8 @@ const MovieFormModal = ({
                   <Input
                     type="text"
                     value={field.value ?? ""}
-                    label="director"
+                    id="director"
+                    label="George Lucas"
                     handleChange={(e) => field.onChange(e.target.value)}
                   />
                   <p className={classes(styles.error, styles.showError)}>

@@ -86,7 +86,6 @@ export const Dropdown = ({
         [styles.fullWidth]: fullWidth,
       })}
       ref={dropdownRef}
-      data-testid="genre-item"
     >
       <button
         className={classes(styles.button, {
@@ -144,7 +143,9 @@ export const Dropdown = ({
                       : selectedId === item.name,
                   })}
                 >
-                  <h5 className={styles.nameHeader}>{item.name}</h5>
+                  <h5 data-testid="genre-item" className={styles.nameHeader}>
+                    {item.name}
+                  </h5>
                 </span>
               </li>
             ))}
